@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start --port 80",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "react-query": "^3.39.3",
     "react-query-auth": "^2.2.0",
     "react-select": "^5.7.2",
+    "sweetalert2": "^11.7.3",
     "yup": "^1.1.1"
   },
   "devDependencies": {
