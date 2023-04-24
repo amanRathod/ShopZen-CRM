@@ -1,20 +1,20 @@
-import React from "react";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
+import { AppProps } from "next/app";
 import { AxiosResponse } from "axios";
 
-export type TableEntity = {
-  id: string;
-  createdAt?: string;
-  updatedAt?: string;
+export type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export type NextPageWithLayout<T = {}> = NextPage<T> & {
+  getLayout?: (page: ReactElement) => ReactNode;
 };
 
 export interface Component<T = {}>
   extends React.FC<
     {
       className?: string;
+      children?: ReactNode;
     } & T
   > {}
-
-export type Response = {
-  error?: string;
-  message?: string;
-} & AxiosResponse;
