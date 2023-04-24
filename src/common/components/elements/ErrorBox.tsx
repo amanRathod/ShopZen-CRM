@@ -1,6 +1,6 @@
 import React from "react";
-// import { PrimaryButton } from "@elements/button";
-// import type { ButtonProps } from "@elements/button";
+import { PrimaryButton } from "@elements/button";
+import type { ButtonProps } from "@elements/button";
 import { P, H3 } from "@elements/Text";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   text?: string;
   prefix?: string;
   image?: boolean;
-//   redirectButton?: ButtonProps;
+  redirectButton?: ButtonProps;
 };
 
 const GIF_NOT_FOUND = "not-found.gif";
@@ -16,10 +16,10 @@ const GIF_NOT_FOUND = "not-found.gif";
 const ErrorBox: React.FC<Props> = ({
   title,
   text,
-//   redirectButton = {
-//     text: "Go Home",
-//     href: "/",
-//   },
+  redirectButton = {
+    text: "Go Home",
+    href: "/",
+  },
   prefix = "Oops!",
   image = true,
 }) => {
@@ -48,7 +48,7 @@ const ErrorBox: React.FC<Props> = ({
           <P className="mb-8 text-center text-gray-500 md:text-lg">{text}</P>
         )}
 
-        {/* <PrimaryButton {...redirectButton} /> */}
+        <PrimaryButton {...redirectButton} />
       </div>
     </div>
   );

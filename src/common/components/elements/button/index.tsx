@@ -7,7 +7,7 @@ import React from 'react';
 import type { Props as LinkedItemProps } from '@elements/LinkedItem';
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   hoverClassName?: string;
@@ -21,7 +21,6 @@ type Props = {
   loading?: boolean;
   loadingText?: string;
   text?: string;
-  // imgSrc?: string;
 };
 
 const Button: React.FC<Props> = ({
@@ -39,13 +38,12 @@ const Button: React.FC<Props> = ({
   loading = false,
   loadingText = '',
   text = children,
-  // imgSrc = "",
 }) => {
   const clickable = !disabled && !loading;
   return (
     <ConditionalWrapper
       condition={!!href}
-      wrapper={(children: any) => (
+      wrapper={(children) => (
         <LinkedItem {...{ href: href!, target }}>{children}</LinkedItem>
       )}
     >
@@ -60,13 +58,6 @@ const Button: React.FC<Props> = ({
         )}
         disabled={!clickable}
       >
-        {/* {imgSrc && (
-          <>
-            <Image src={imgSrc} width={"24px"} height={"24px"} alt="" />
-            <div className="w-2"></div>
-          </>
-        )} */}
-
         {loading && <InlineLoader className="mr-2 text-white!" />}
 
         {Icon && <Icon className={clsx('w-5 h-5', text && 'mr-2')} />}

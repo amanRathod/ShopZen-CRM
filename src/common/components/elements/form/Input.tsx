@@ -3,7 +3,6 @@ import React, { forwardRef, PropsWithoutRef } from "react";
 import { useField, useFormikContext } from "formik";
 import ErrorText from "@elements/form//ErrorText";
 
-// eslint-disable-next-line no-undef
 interface Props extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   type?: "text" | "password" | "email" | "number" | "url";
   name: string;
@@ -37,7 +36,6 @@ const Input = forwardRef<HTMLInputElement, Props>(
             disabled={isSubmitting}
             {...inputProps}
             ref={ref}
-            // TODO: Remove this when it is implemented in BE.
             onBlur={({ target }) => setFieldValue(name, target.value.trim())}
             className={clsx(
               "block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none sm:text-sm",

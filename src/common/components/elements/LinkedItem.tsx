@@ -19,8 +19,8 @@ const LinkedItem: React.FC<Props> = ({
   onClick,
 }) => {
   return (
-    <Link href={href} shallow={shallow}>
-      <a {...{ className, target, onClick }}>{children}</a>
+    <Link href={href} shallow={shallow} {...{ className, target, onClick }}>
+      {children}
     </Link>
   );
 };
