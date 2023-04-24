@@ -16,7 +16,7 @@ const Sidebar: React.FC<Props> = ({ className }) => {
           <div className="flex-shrink-0 p-4">
             <img
               className="w-auto h-8"
-              src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+              src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682324777/ShopZen/logo-transparent-svg_hfrjof.svg"
               alt="CRM Logo"
             />
           </div>

@@ -1,7 +1,7 @@
-import Layout from "@components/Layout";
+import PortalPage from "@/common/layouts/page/PortalPage";
 
 const Home = () => {
-  return <Layout title="Home Page">Home page</Layout>;
+  return <PortalPage title="Home Page" />;
 }
 
 export default Home;

@@ -5,7 +5,7 @@ class MyDocument extends Document {
     return (
       <Html className="h-full bg-secondary-500">
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/shopZen-logo1.png" />
         </Head>
         <body className="h-full">
           <Main />
