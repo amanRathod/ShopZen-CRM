@@ -5,7 +5,7 @@ export type Props = {
   href: string;
   target?: "_self" | "_blank";
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   shallow?: boolean;
   onClick?: () => void;
 };

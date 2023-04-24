@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   condition: boolean;
   wrapper: (children: any) => any;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const ConditionalWrapper: React.FC<Props> = ({

@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   as?: "p" | "span" | "div" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "label";
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   title?: string;
   onClick?: () => void;
