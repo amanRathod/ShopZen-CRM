@@ -1,15 +1,18 @@
 import { ReactElement } from "react";
 import { NextPageWithLayout } from "@appTypes/.";
 import PortalPage from "@layouts/page/PortalPage";
+import { NextPage } from "next";
 
 const asPortalPage =
   <T extends object>(title?: string) =>
-  (Component: NextPageWithLayout<T>): NextPageWithLayout<T> => {
-    Component.getLayout = function getLayout(page: ReactElement) {
-      return <PortalPage title={title}>{page}</PortalPage>;
-    };
+  (Component: NextPage<T>): NextPage<T> => {
+    const WrappedComponent = (props: T) => (
+      <PortalPage title={title}>
+        <Component {...props} />
+      </PortalPage>
+    );
 
-    return Component;
+    return WrappedComponent;
   };
 
 export default asPortalPage;

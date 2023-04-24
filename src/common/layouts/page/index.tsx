@@ -2,7 +2,8 @@ import React from "react";
 import Head from "next/head";
 import { Brand } from "@constants/.";
 import ConditionalWrapper from "@components/ConditionalWrapper";
-// import Navbar from "@components/Navbar";
+import Navbar from "@components/NavBar";
+import { P } from "@elements/Text";
 
 export type Props = {
   title?: string;
@@ -17,7 +18,6 @@ export type Props = {
 const Page: React.FC<Props> = ({
   title = Brand.name,
   titlePrefix = "",
-  titleSuffix = "",
   description = Brand.description,
   navbar = true,
   container = true,
@@ -27,13 +27,13 @@ const Page: React.FC<Props> = ({
     <>
       <Head>
         <title>
-          {titlePrefix} {title} {titleSuffix}
+          {titlePrefix} {title}
         </title>
         <meta name="description" content={description} />
         <link rel="icon" href="/shopZen-logo1.png" />
       </Head>
 
-      {/* {navbar && <Navbar />} */}
+      {navbar && <Navbar />}
 
       <ConditionalWrapper
         condition={container}

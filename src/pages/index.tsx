@@ -1,7 +1,8 @@
-import PortalPage from "@/common/layouts/page/PortalPage";
+import asPortalPage from "@hoc/asPortalPage";
+import { NextPage } from "next";
 
-const Home = () => {
-  return <PortalPage title="Home Page" />;
-}
+const Dashboard: NextPage = () => {
+  return <>Hello this is your Dashboard</>;
+};
 
-export default Home;
+export default asPortalPage("Home Page")(Dashboard);

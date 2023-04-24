@@ -14,7 +14,7 @@ const PortalPage: React.FC<Props> = ({ title, children, ...rest }) => {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   return (
-    <Page titlePrefix={`${title} -`} {...rest} navbar={false} container={false}>
+    <Page titlePrefix={`${title} -`} {...rest} navbar={true} container={false}>
       <main className="flex w-full">
         {/* <MobileSidebar {...{ sidebarOpen, setSidebarOpen }} /> */}
 
