@@ -16,7 +16,7 @@ const Sidebar: React.FC<Props> = ({ className }) => {
           <div className="flex-shrink-0 p-4">
             <img
               className="w-auto h-8 scale-150 translate-x-4"
-              src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682324777/ShopZen/logo-transparent-svg_hfrjof.svg"
+              src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682423840/ShopZen/logo-transparent-svg_y8ascp.svg"
               alt="CRM Logo"
             />
           </div>

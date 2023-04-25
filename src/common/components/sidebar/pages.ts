@@ -1,4 +1,4 @@
-import { HomeIcon } from "@heroicons/react/outline";
+import { FilterIcon, HomeIcon } from "@heroicons/react/outline";
 
  type SubPage = {
    key: string;
@@ -22,6 +22,7 @@ import { HomeIcon } from "@heroicons/react/outline";
     key: "category",
     name: "Category",
     href: "/category",
+    Icon: FilterIcon,
    },
     {
       key: "contact",
