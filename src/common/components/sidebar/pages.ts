@@ -13,9 +13,19 @@ import { HomeIcon } from "@heroicons/react/outline";
 
  export const pages: Page[] = [
    {
-     key: "dashboard",
-     name: "Dashboard",
+     key: "home",
+     name: "Home",
      href: "/",
      Icon: HomeIcon,
    },
+   {
+    key: "category",
+    name: "Category",
+    href: "/category",
+   },
+    {
+      key: "contact",
+      name: "Contact",
+      href: "/contact",
+    }
  ];

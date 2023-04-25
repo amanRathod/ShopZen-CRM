@@ -19,7 +19,7 @@ const PortalPage: React.FC<Props> = ({ title, children, ...rest }) => {
               <H3 className="text-2xl font-semibold text-gray-900">{title}</H3>
             </div>
 
-            <Divider className="mt-2 mb-4 -mx-10" />
+            <Divider className="mt-2 mb-4 -mx-10 bg-primary-200" />
 
             <div className="min-h-full mx-auto max-w-7xl">{children}</div>
           </main>

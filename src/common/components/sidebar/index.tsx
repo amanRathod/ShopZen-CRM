@@ -11,17 +11,17 @@ type Props = {
 const Sidebar: React.FC<Props> = ({ className }) => {
   return (
     <>
-      <div className={clsx("flex w-64 flex-col fixed inset-y-0 border backdrop-brightness-200 backdrop-blur-3xl", className)}>
+      <div className={clsx("flex w-64 flex-col fixed inset-y-0 border border-primary-500 backdrop-brightness-200 backdrop-blur-3xl", className)}>
         <div className="flex flex-col flex-1 min-h-0 bg-primary-50">
           <div className="flex-shrink-0 p-4">
             <img
-              className="w-auto h-8"
+              className="w-auto h-8 scale-150 translate-x-4"
               src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682324777/ShopZen/logo-transparent-svg_hfrjof.svg"
               alt="CRM Logo"
             />
           </div>
 
-          <Divider className="!bg-primary-400" />
+          <Divider />
 
           <div className="flex-1">
             {pages.map((page) => (
@@ -30,7 +30,7 @@ const Sidebar: React.FC<Props> = ({ className }) => {
             ))}
           </div>
 
-          <Divider className="!bg-primary-400" />
+          <Divider />
         </div>
       </div>
     </>

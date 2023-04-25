@@ -14,7 +14,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'flex h-16 items-center px-4 bg-primary-50 justify-between md:justify-end shadow-md',
+        'flex h-16 items-center px-4 bg-primary-50 justify-between md:justify-end shadow shadow-gray-300',
         className
       )}
     >
