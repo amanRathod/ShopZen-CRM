@@ -11,8 +11,8 @@ type Props = {
 const Sidebar: React.FC<Props> = ({ className }) => {
   return (
     <>
-      <div className={clsx("flex w-64 flex-col fixed inset-y-0", className)}>
-        <div className="flex flex-col flex-1 min-h-0 bg-primary-500">
+      <div className={clsx("flex w-64 flex-col fixed inset-y-0 border backdrop-brightness-200 backdrop-blur-3xl", className)}>
+        <div className="flex flex-col flex-1 min-h-0 bg-primary-50">
           <div className="flex-shrink-0 p-4">
             <img
               className="w-auto h-8"
