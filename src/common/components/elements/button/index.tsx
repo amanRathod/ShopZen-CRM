@@ -78,10 +78,10 @@ export const PrimaryButton: typeof Button = ({
   return (
     <Button
       className={clsx(
-        'bg-primary-500 shadow-primary-500/30 text-white',
+        'bg-secondary-100 shadow-secondary-300/30 text-secondary-600 font-semibold',
         className
       )}
-      hoverClassName={clsx('hover:shadow-primary-600/30', hoverClassName)}
+      hoverClassName={clsx('hover:shadow-secondary-600/30', hoverClassName)}
       {...rest}
     />
   );
