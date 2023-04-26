@@ -1,6 +1,6 @@
-import React from "react";
-import Page from "@layouts/page";
-import { H2 } from "@elements/Text";
+import React from 'react';
+import Page from '@layouts/page';
+import { H2 } from '@elements/Text';
 
 type Props = {
   pageTitle: string;
@@ -16,10 +16,10 @@ const AuthPage: React.FC<Props> = ({ pageTitle, title, text, children }) => {
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <img
             className="w-auto h-12 mx-auto"
-            src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682324777/ShopZen/logo-transparent-svg_hfrjof.svg"
+            src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682423840/ShopZen/logo-transparent-svg_y8ascp.svg"
             alt="Workflow"
           />
-          <H2 className="mt-6 text-3xl font-extrabold text-center text-gray-900">
+          <H2 className="mt-6 text-3xl font-extrabold text-center text-primary-900">
             {title}
           </H2>
           {text && (

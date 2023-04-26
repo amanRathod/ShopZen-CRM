@@ -70,7 +70,7 @@ const data = {
          sku: 'P6',
          image: 'https://res.cloudinary.com/di9zvktdc/image/upload/v1682430261/ShopZen/shirt1_zpngab.jpg',
          category: 'Category 6',
-         stock: 60,
+         stock: 0,
          active: true
       }
    ],

@@ -6,7 +6,12 @@ import asPortalPage from '@hoc/asPortalPage';
 import data from '@/utils/data';
 import { PrimaryButton } from '@/common/components/elements/button';
 import { useState } from 'react';
-import { CheckCircleIcon, CheckIcon, StarIcon } from '@heroicons/react/outline';
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  StarIcon,
+  XCircleIcon,
+} from '@heroicons/react/outline';
 import { P } from '@/common/components/elements/Text';
 
 const Product: NextPage = () => {
@@ -51,7 +56,7 @@ const Product: NextPage = () => {
     }
   };
 
-  const { name, description, unitPrice, image } = product;
+  const { name, description, unitPrice, image, stock } = product;
 
   return (
     <div className="mx-auto py-9 px-4 md:py-5 md:px-2">
@@ -93,8 +98,12 @@ const Product: NextPage = () => {
             $ {unitPrice}
           </p>
           <P className="flex flex-row items-center mt-2">
-            <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
-            In Stock 
+            {stock > 0 ? (
+              <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
+            ) : (
+              <XCircleIcon className="text-red-500 h-4 w-4 mr-1 mt-1" />
+            )}
+            In Stock
           </P>
 
           <div className="lg:mt-11 mt-10">
@@ -138,8 +147,12 @@ const Product: NextPage = () => {
             </div>
 
             <hr className=" bg-gray-200 w-full mt-4" />
-
-            <PrimaryButton className="focus:outline-none focus:ring-2 hover:bg-black hover:shadow-gray-800/30 focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-gray-800 w-full py-5 lg:mt-12 mt-6">
+            <PrimaryButton
+              className={
+                `focus:outline-none focus:ring-2 hover:bg-black hover:shadow-gray-800/30 focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-primary-800 w-full py-5 lg:mt-12 mt-6` +
+                (stock > 0 ? '' : ' cursor-not-allowed')
+              }
+            >
               Add To Cart
             </PrimaryButton>
           </div>
