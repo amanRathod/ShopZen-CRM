@@ -19,7 +19,7 @@ import { showWarningAlert } from '@/utils/alert';
 import Divider from '@/common/components/elements/Divider';
 
 const Product: NextPage = () => {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state, dispatch }: any = useContext(StoreContext);
   const [count, setCount] = useState(1);
 
   const router = useRouter();

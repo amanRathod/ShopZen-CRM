@@ -13,7 +13,7 @@ import Router from 'next/router';
 import { useContext } from 'react';
 
 const Cart = () => {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state, dispatch }:any = useContext(StoreContext);
   const { cart } = state;
 
   return (

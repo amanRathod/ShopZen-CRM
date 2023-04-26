@@ -60,9 +60,9 @@ const reducer = (state: State, action: Action) => {
    }
 };
 
-const StoreProvider = ({ children }) => {
+const StoreProvider = ({ children }: any) => {
    const [state, dispatch] = useReducer(reducer, initialState);
-   const value = { state, dispatch };
+   const value:any = { state, dispatch };
 
    return (
       <StoreContext.Provider value={value}>

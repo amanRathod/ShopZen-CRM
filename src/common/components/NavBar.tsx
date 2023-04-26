@@ -17,13 +17,13 @@ type Props = {
 };
 
 const Navbar: React.FC<Props> = ({ className }) => {
-  const { state, dispatch } = useContext(StoreContext);
+  const { state }: any = useContext(StoreContext);
   const { cart } = state;
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+    setCartItemsCount(cart.cartItems.reduce((a:any, c:any) => a + c.quantity, 0));
   }, [cart.cartItems]);
 
   return (
