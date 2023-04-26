@@ -1,7 +1,7 @@
 const data = {
    products: [
       {
-         id: 1,
+         id: "1",
          name: 'Product 1',
          description: "Product 1 description",
          unitPrice: 100,
@@ -14,7 +14,7 @@ const data = {
       },
       // given more products of similar structure here ...
       {
-         id: 2,
+         id: "2",
          name: 'Product 2',
          description: "Product 2 description",
          unitPrice: 200,
@@ -26,7 +26,7 @@ const data = {
          active: true
       },
       {
-         id: 3,
+         id: "3",
          name: 'Product 3',
          description: "Product 3 description",
          unitPrice: 300,
@@ -38,7 +38,7 @@ const data = {
          active: true
       },
       {
-         id: 4,
+         id: "4",
          name: 'Product 4',
          description: "Product 4 description",
          unitPrice: 400,
@@ -50,7 +50,7 @@ const data = {
          active: true
       },
       {
-         id: 5,
+         id: "5",
          name: 'Product 5',
          description: "Product 5 description",
          unitPrice: 500,
@@ -62,7 +62,7 @@ const data = {
          active: true
       },
       {
-         id: 6,
+         id: "6",
          name: 'Product 6',
          description: "Product 6 description",
          unitPrice: 600,

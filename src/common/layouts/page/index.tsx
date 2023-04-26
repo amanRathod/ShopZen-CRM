@@ -30,7 +30,7 @@ const Page: React.FC<Props> = ({
           {titlePrefix} {title}
         </title>
         <meta name="description" content={description} />
-        <link rel="icon" href="/shopZen-logo1.png" />
+        <link rel="icon" href="https://res.cloudinary.com/di9zvktdc/image/upload/v1682476848/ShopZen/shopZen-miniLogo.png" />
       </Head>
 
       {navbar && <Navbar />}

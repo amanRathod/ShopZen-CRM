@@ -11,7 +11,7 @@ type Props = {
   redirectButton?: ButtonProps;
 };
 
-const GIF_NOT_FOUND = "not-found.gif";
+const GIF_NOT_FOUND = "https://res.cloudinary.com/di9zvktdc/image/upload/v1682475923/ShopZen/not-found_f6idtq.gif";
 
 const ErrorBox: React.FC<Props> = ({
   title,
