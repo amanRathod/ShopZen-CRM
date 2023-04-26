@@ -5,7 +5,7 @@ import ErrorBox from '@elements/ErrorBox';
 import asPortalPage from '@hoc/asPortalPage';
 import data from '@/utils/data';
 import { PrimaryButton } from '@/common/components/elements/button';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   CheckCircleIcon,
   CheckIcon,
@@ -13,9 +13,15 @@ import {
   XCircleIcon,
 } from '@heroicons/react/outline';
 import { P } from '@/common/components/elements/Text';
+import { StoreContext } from '@/utils/store';
+import { Product } from '@/common/types/product';
+import { showWarningAlert } from '@/utils/alert';
+import Divider from '@/common/components/elements/Divider';
 
 const Product: NextPage = () => {
+  const { state, dispatch } = useContext(StoreContext);
   const [count, setCount] = useState(1);
+
   const router = useRouter();
   console.log('router checking', router);
 
@@ -54,6 +60,28 @@ const Product: NextPage = () => {
     if (count > 1) {
       setCount(count - 1);
     }
+  };
+
+  const addToCart = () => {
+    const existItem = state.cart.cartItems.find(
+      (item: Product) => item.id === product.id
+    );
+    const quantity = existItem ? existItem.quantity + count : count;
+
+    if (quantity > product.stock) {
+      showWarningAlert(
+        'Sorry, this product is out of stock!',
+        'Please try again later!'
+      );
+      return;
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    // router.push('/cart');
+  };
+
+  const removeFromCart = () => {
+    dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
   };
 
   const { name, description, unitPrice, image, stock } = product;
@@ -135,23 +163,21 @@ const Product: NextPage = () => {
               </div>
             </div>
 
-            <hr className=" bg-gray-200 w-full my-2" />
+            <Divider className="mt-4" />
 
             <div className=" flex flex-row justify-between items-center mt-4">
-              <p className="font-medium text-base leading-4 text-gray-600">
-                Item left in stock
-              </p>
-              <p className="font-medium text-base leading-4 text-gray-600">
-                13
-              </p>
+              <P className="text-gray-600">Item left in stock</P>
+              <P className="text-gray-600">13</P>
             </div>
 
-            <hr className=" bg-gray-200 w-full mt-4" />
+            <Divider className="mt-4" />
+
             <PrimaryButton
               className={
                 `focus:outline-none focus:ring-2 hover:bg-black hover:shadow-gray-800/30 focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-primary-800 w-full py-5 lg:mt-12 mt-6` +
                 (stock > 0 ? '' : ' cursor-not-allowed')
               }
+              onClick={addToCart}
             >
               Add To Cart
             </PrimaryButton>
