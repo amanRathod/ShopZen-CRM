@@ -23,7 +23,6 @@ const Product: NextPage = () => {
   const [count, setCount] = useState(1);
 
   const router = useRouter();
-  console.log('router checking', router);
 
   const id = router.query.id ? router.query.id : undefined;
   // if (!id) router.replace('/');

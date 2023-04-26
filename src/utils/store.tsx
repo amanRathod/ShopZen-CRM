@@ -1,3 +1,4 @@
+import { Product } from '@/common/types/product';
 import {createContext, useReducer} from 'react';
 
 const initialState = {
@@ -40,7 +41,7 @@ const reducer = (state: State, action: Action) => {
             ...state,
             cart: {
                cartItems: state.cart.cartItems.filter(
-                  (x: any) => x.product !== payload
+                  (item: Product) => item.id !== payload.id
                ),
             },
          };
