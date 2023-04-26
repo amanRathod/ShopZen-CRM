@@ -31,7 +31,7 @@ const forgotPasswordSchema = y.object().shape({
              href="/login"
              className="font-medium text-info-500 hover:text-info-400"
            >
-             Know your password? Login
+             Know your password? <span className='text-info-700 hover:underline'>Login</span>
            </LinkedItem>
          </div>
        </Form>

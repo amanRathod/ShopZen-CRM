@@ -70,6 +70,15 @@ const Register = () => {
           autoComplete="current-password"
         />
       </Form>
+
+      <div className='mt-2'>
+        <LinkedItem
+          href="/login"
+          className="font-medium text-info-500 hover:text-info-400"
+        >
+          Already have an account? <span className='text-info-700 hover:underline'>Sign In</span>
+        </LinkedItem>
+      </div>
     </AuthPage>
   );
 };

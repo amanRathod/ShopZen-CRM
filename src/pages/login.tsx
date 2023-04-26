@@ -40,12 +40,20 @@ const Login = () => {
         <div className="text-sm text-right">
           <LinkedItem
             href="/forgot-password"
-            className="font-medium text-info-500 hover:text-info-400"
+            className="font-medium text-info-500 hover:text-info-400 hover:underline"
           >
             Forgot your password?
           </LinkedItem>
         </div>
       </Form>
+      <div className='mt-2'>
+        <LinkedItem
+          href="/register"
+          className="font-medium text-info-500 hover:text-info-400"
+        >
+          Don't have an account? <span className='text-info-700 hover:underline'>Sign Up</span>
+        </LinkedItem>
+      </div>
     </AuthPage>
   );
 };
