@@ -21,12 +21,38 @@ import { FilterIcon, HomeIcon } from "@heroicons/react/outline";
    {
     key: "category",
     name: "Category",
-    href: "/category",
     Icon: FilterIcon,
+    items: [
+      {
+        key: "t-shirt",
+        name: "T-Shirt",
+        href: "/category/t-shirt",
+      },
+      {
+        key: "shirt",
+        name: "Shirt",
+        href: "/category/shirt",
+      },
+      {
+        key: "pants",
+        name: "Pants",
+        href: "/category/pants",
+      },
+      {
+        key: "shoes",
+        name: "Shoes",
+        href: "/category/shoes",
+      },
+      {
+        key: "accessories",
+        name: "Accessories",
+        href: "/category/accessories",
+      },
+    ],
    },
     {
-      key: "contact",
-      name: "Contact",
-      href: "/contact",
+      key: "about",
+      name: "About",
+      href: "/about",
     }
  ];
