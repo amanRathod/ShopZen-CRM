@@ -1,11 +1,16 @@
-import '@/styles/globals.css';
-import type { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import '@styles/globals.css';
 import StoreProvider from '@/utils/store';
+import { AppPropsWithLayout } from '@appTypes/.';
 
-export default function App({ Component, pageProps }: AppProps) {
+const queryClient = new QueryClient();
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
-    <StoreProvider>
-      <Component {...pageProps} />
-    </StoreProvider>
+    <QueryClientProvider client={queryClient}>
+      <StoreProvider>
+        <Component {...pageProps} />
+      </StoreProvider>
+    </QueryClientProvider>
   );
 }

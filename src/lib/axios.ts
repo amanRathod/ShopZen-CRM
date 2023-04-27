@@ -15,7 +15,7 @@ axios.interceptors.response.use(
   }
 );
 
-axios.interceptors.request.use((config: AxiosRequestConfig) => {
+axios.interceptors.request.use((config) => {
   const token = storage.getToken();
 
   if (token) {
