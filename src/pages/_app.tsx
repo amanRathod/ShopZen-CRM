@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import '@styles/globals.css';
-import StoreProvider from '@/utils/store';
+import StoreProvider from '@utils/store';
 import { AppPropsWithLayout } from '@appTypes/.';
 
 const queryClient = new QueryClient();

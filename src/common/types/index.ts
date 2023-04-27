@@ -10,6 +10,12 @@ export type NextPageWithLayout<T = {}> = NextPage<T> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
+export type TableEntity = {
+  id: string;
+  dateCreated?: string;
+  lastUpdated?: string;
+};
+
 export interface Component<T = {}>
   extends React.FC<
     {

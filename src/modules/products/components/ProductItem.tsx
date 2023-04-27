@@ -1,10 +1,10 @@
 import Card from '@elements/Card';
 import { Product } from '@appTypes/product';
 import Image from 'next/image';
-import { H5 } from '@/common/components/elements/Text';
-import { PrimaryButton } from '@/common/components/elements/button';
+import { H5 } from '@elements/Text';
+import { PrimaryButton } from '@elements/button';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
-import LinkedItem from '@/common/components/elements/LinkedItem';
+import LinkedItem from '@elements/LinkedItem';
 
 type Props = {} & Product;
 
@@ -13,7 +13,7 @@ const ProductItem: React.FC<Props> = ({
   image,
   name,
   description,
-  unitPrice,
+  price,
 }) => {
   return (
     <Card className="max-w-sm w-full p-0 sm:p-0 md:p-0 bg-white border border-gray-200 hover:bg-primary-300">
@@ -34,7 +34,7 @@ const ProductItem: React.FC<Props> = ({
           </H5>
         </LinkedItem>
         <div className="flex items-center justify-between mt-2.5">
-          <span className="text-3xl font-bold text-gray-900">${unitPrice}</span>
+          <span className="text-3xl font-bold text-gray-900">${price}</span>
           <PrimaryButton
             Icon={ShoppingCartIcon}
             className="hover:bg-secondary-300"

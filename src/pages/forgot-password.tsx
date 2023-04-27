@@ -1,6 +1,6 @@
 import * as y from "yup";
-import LinkedItem from "@/common/components/elements/LinkedItem";
-import AuthPage from "@/common/layouts/page/AuthPage";
+import LinkedItem from "@elements/LinkedItem";
+import AuthPage from "@layouts/page/AuthPage";
 import Form from '@components/form';
 import Input from '@elements/form/Input';
 

@@ -1,8 +1,8 @@
 import asPortalPage from '@hoc/asPortalPage';
 import { NextPage } from 'next';
 import data from '@utils/data';
-import { Product } from '@/common/types/product';
-import ProductItem from '@/modules/products/components/ProductItem';
+import ProductItem from '@modules/products/components/ProductItem';
+import { Product } from '@appTypes/product';
 
 const Home: NextPage = () => {
   return (

@@ -1,9 +1,9 @@
-import LinkedItem from '@/common/components/elements/LinkedItem';
-import { P } from '@/common/components/elements/Text';
-import asPortalPage from '@/common/hoc/asPortalPage';
-import { Product } from '@/common/types/product';
-import { showSuccessAlert } from '@/utils/alert';
-import { StoreContext } from '@/utils/store';
+import LinkedItem from '@elements/LinkedItem';
+import { P } from '@elements/Text';
+import asPortalPage from '@hoc/asPortalPage';
+import { Product } from '@appTypes/product';
+import { showSuccessAlert } from '@utils/alert';
+import { StoreContext } from '@utils/store';
 import {
   ArrowLeftIcon,
   ArrowNarrowLeftIcon,
@@ -70,7 +70,7 @@ const Cart = () => {
                       </P>
                     </div>
                     <P className="leading-none text-gray-800">
-                      ${item.unitPrice}
+                      ${item.price}
                     </P>
                   </div>
                 </div>

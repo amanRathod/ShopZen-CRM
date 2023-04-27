@@ -1,4 +1,4 @@
-import { showErrorAlert } from "@/utils/alert";
+import { showErrorAlert } from "@utils/alert";
 import axios from "@lib/axios";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import {

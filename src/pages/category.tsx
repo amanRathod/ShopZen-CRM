@@ -1,4 +1,4 @@
-import asPortalPage from "@/common/hoc/asPortalPage";
+import asPortalPage from "@hoc/asPortalPage";
 import { NextPage } from "next";
 
 

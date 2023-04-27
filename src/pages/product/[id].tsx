@@ -3,8 +3,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import ErrorBox from '@elements/ErrorBox';
 import asPortalPage from '@hoc/asPortalPage';
-import data from '@/utils/data';
-import { PrimaryButton } from '@/common/components/elements/button';
+import data from '@utils/data';
+import { PrimaryButton } from '@elements/button';
 import { useContext, useState } from 'react';
 import {
   CheckCircleIcon,
@@ -12,11 +12,11 @@ import {
   StarIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import { P } from '@/common/components/elements/Text';
-import { StoreContext } from '@/utils/store';
-import { Product } from '@/common/types/product';
-import { showWarningAlert } from '@/utils/alert';
-import Divider from '@/common/components/elements/Divider';
+import { P } from '@elements/Text';
+import { StoreContext } from '@utils/store';
+import { Product } from '@appTypes/product';
+import { showWarningAlert } from '@utils/alert';
+import Divider from '@elements/Divider';
 
 const Product: NextPage = () => {
   const { state, dispatch }: any = useContext(StoreContext);
@@ -83,7 +83,7 @@ const Product: NextPage = () => {
     dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
   };
 
-  const { name, description, unitPrice, image, stock } = product;
+  const { name, description, price, image, stock } = product;
 
   return (
     <div className="mx-auto py-9 px-4 md:py-5 md:px-2">
@@ -122,7 +122,7 @@ const Product: NextPage = () => {
             distribution of letters.
           </p>
           <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">
-            $ {unitPrice}
+            $ {price}
           </p>
           <P className="flex flex-row items-center mt-2">
             {stock > 0 ? (

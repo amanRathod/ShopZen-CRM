@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
 import { PrimaryButton } from './elements/button';
-import { StoreContext } from '@/utils/store';
+import { StoreContext } from '@utils/store';
 
 type Props = {
   className?: string;

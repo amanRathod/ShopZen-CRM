@@ -8,13 +8,13 @@ export const endpoint = {
   },
   
   user: {
-    get: (id: string) => `/user/${id}`,
-    block: (id: string) => `/user/block/${id}`,
-    profile: "/user/profile",
-    add: "/user",
-    getAll: "/user",
-    update: (id: string) => `/user/${id}`,
-    filter: (values: {}) => `/staff/?${new URLSearchParams(values)}`,
+    get: (id: string) => `api/v1/customer/${id}`,
+    block: (id: string) => `api/v1/customer/block/${id}`,
+    profile: "api/v1/customer/profile",
+    add: "api/v1/customer",
+    getAll: "api/v1/customer",
+    update: (id: string) => `api/v1/customer${id}`,
+    filter: (values: {}) => `api/v1/customer/?${new URLSearchParams(values)}`,
   },
 
   product: {

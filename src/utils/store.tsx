@@ -1,4 +1,4 @@
-import { Product } from '@/common/types/product';
+import { Product } from '@appTypes/product';
 import {createContext, useReducer} from 'react';
 
 const initialState = {
