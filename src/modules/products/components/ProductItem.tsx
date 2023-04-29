@@ -16,7 +16,7 @@ const ProductItem: React.FC<Props> = ({
   price,
 }) => {
   return (
-    <Card className="max-w-sm w-full p-0 sm:p-0 md:p-0 bg-white border border-gray-200 hover:bg-primary-300">
+    <Card className="max-w-sm w-full p-0 sm:p-0 md:p-0 bg-white border border-gray-200 hover:bg-primary-300 overflow-hidden">
       <LinkedItem href={`/product/${id}`}>
         <Image
           src={image}
@@ -30,7 +30,7 @@ const ProductItem: React.FC<Props> = ({
       <div className="p-5">
         <LinkedItem href={`/product/${id}`}>
           <H5 className="tracking-tight text-gray-900 cursor-pointer">
-            {description}
+            {name}
           </H5>
         </LinkedItem>
         <div className="flex items-center justify-between mt-2.5">

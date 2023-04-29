@@ -17,6 +17,9 @@ import { StoreContext } from '@utils/store';
 import { Product } from '@appTypes/product';
 import { showWarningAlert } from '@utils/alert';
 import Divider from '@elements/Divider';
+import { endpoint } from '@utils/constants/endpoints';
+import { useQuery } from '@lib/react-query';
+import InlineLoader from '@elements/loader/InlineLoader';
 
 const Product: NextPage = () => {
   const { state, dispatch }: any = useContext(StoreContext);
@@ -24,21 +27,21 @@ const Product: NextPage = () => {
 
   const router = useRouter();
 
-  const id = router.query.id ? router.query.id : undefined;
+  const id = router.query.id ? `${router.query.id}` : undefined;
   // if (!id) router.replace('/');
 
-  // const { data, isLoading, refetch: refetchProduct } = useQuery<{ product: Product }>(
-  //   endpoint.product.get(id!),
-  //   '',
-  //   {},
-  //   false
-  // );
+  const { data, isLoading, refetch: refetchProduct } = useQuery< Product >(
+    endpoint.product.get(id!),
+    '',
+    {},
+    false
+  );
 
-  // if (isLoading) return <InlineLoader />;
+  if (isLoading) return <InlineLoader />;
+  const product = data;
+  console.log(data);
 
-  const product = data.products.find((product) => product.id === id);
-
-  if (!product || !id) {
+  if (!product) {
     return (
       <ErrorBox
         title="Product not found"

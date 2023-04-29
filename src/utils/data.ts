@@ -7,7 +7,7 @@ const data = {
          price: 100,
          stock: 4,
          sku: 'P1',
-         image: 'https://res.cloudinary.com/di9zvktdc/image/upload/v1682430261/ShopZen/shirt3_bir3yv.jpg',
+         image: 'https://res.cloudinary.com/di9zvktdc/image/upload/v1682689248/ShopZen/products/books/book-luv2code-1022_h4txfz.png',
          category: 'Category 1',
          active: true
       },

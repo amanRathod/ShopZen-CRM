@@ -14,6 +14,7 @@ export enum RequestType {
   Delete = "delete",
 }
 
+
 export const useQuery = <T>(
   url: string,
   queryKey: string = "",
