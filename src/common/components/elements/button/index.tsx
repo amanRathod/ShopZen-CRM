@@ -177,7 +177,7 @@ export const OutlineButton: typeof Button = ({
   return (
     <Button
       className={clsx(
-        'text-gray-500 bg-white border rounded-md shadow-sm border-secondary-500',
+        'text-gray-500 bg-white border rounded-md shadow-sm',
         className
       )}
       hoverClassName={clsx('hover:bg-gray-50', hoverClassName)}

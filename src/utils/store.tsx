@@ -1,6 +1,10 @@
 import { Product } from '@appTypes/product';
 import {createContext, useReducer} from 'react';
 
+export type CartItem = {
+   quantity: number;
+} & Product
+
 const initialState = {
    cart: { cartItems: [] },
 };

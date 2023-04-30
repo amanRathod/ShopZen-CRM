@@ -1,20 +1,87 @@
 import LinkedItem from '@elements/LinkedItem';
-import { P } from '@elements/Text';
+import { H1, H3, H4, P } from '@elements/Text';
 import asPortalPage from '@hoc/asPortalPage';
 import { Product } from '@appTypes/product';
-import { showSuccessAlert } from '@utils/alert';
-import { StoreContext } from '@utils/store';
+import { showInfoAlert, showSuccessAlert } from '@utils/alert';
+import { CartItem, StoreContext } from '@utils/store';
 import {
   ArrowLeftIcon,
   ArrowNarrowLeftIcon,
+  CheckCircleIcon,
   ShoppingCartIcon,
+  XCircleIcon,
 } from '@heroicons/react/outline';
 import Router from 'next/router';
 import { useContext } from 'react';
+import { TertiaryButton } from '@common/components/elements/button';
+import { formatMoney } from '@utils/formatter';
+import Image from 'next/image';
+import CounterInput from '@common/components/elements/form/CounterInput';
+
+type SummaryField = {
+  field: string;
+  value: any;
+};
+
+const SummaryInfoField = ({ field, value }: SummaryField) => {
+  return (
+    <div className="flex items-center justify-between pt-5">
+      <P className="text-gray-800">{field}</P>
+      <P className="text-gray-800">{value}</P>
+    </div>
+  );
+};
 
 const Cart = () => {
-  const { state, dispatch }:any = useContext(StoreContext);
+  const { state, dispatch }: any = useContext(StoreContext);
   const { cart } = state;
+  const { cartItems } = cart;
+
+  const totalPrice = cartItems.reduce(
+    (a: number, c: CartItem) => a + c.price * c.quantity,
+    0
+  );
+  const totalItems = cartItems.reduce(
+    (a: number, c: CartItem) => a + c.quantity,
+    0
+  );
+
+  const handleCheckout = () => {
+    showSuccessAlert('Checkout Successful', 'Thank you for shopping with us');
+    dispatch({ type: 'CLEAR_CART' });
+    Router.push('/');
+  };
+
+  const addToCart = (product: CartItem) => {
+    const existItem = state.cart.cartItems.find(
+      (item: CartItem) => item.id === product.id
+    );
+
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    if (quantity > product.stock) {
+      showInfoAlert(
+        'Sorry, this product is out of stock!',
+        'Please try again later!'
+      );
+      return;
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+  };
+
+  const removeFromCart = (product: CartItem) => {
+    const existItem = state.cart.cartItems.find(
+      (item: CartItem) => item.id === product.id
+    );
+
+    const quantity = existItem ? existItem.quantity - 1 : 0;
+    if (quantity === 0) {
+      dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
+      return;
+    } else {
+      dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    }
+  };
 
   return (
     <>
@@ -28,50 +95,51 @@ const Cart = () => {
               <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
               <P>Continue to Shopping</P>
             </LinkedItem>
-            {cart.cartItems.map((item: Product) => (
+            {cart.cartItems.map((item: CartItem) => (
               <div className="md:flex items-center mt-4 py-8 border-b border-gray-200">
                 <div className="h-full w-1/4">
-                  <img
+                  <Image
                     src={item.image}
-                    alt=""
-                    className="w-full h-full object-center object-cover"
+                    alt={item.name}
+                    className="rounded-t-lg cursor-pointer transition duration-300 ease-in-out hover:scale-110"
+                    width={600}
+                    height={600}
                   />
                 </div>
                 <div className="md:pl-3 md:w-3/4">
-                  <p className="text-xs leading-3 text-gray-800 md:pt-0 pt-4">
-                    {item.sku}
-                  </p>
                   <div className="flex items-center justify-between w-full pt-1">
                     <p className="text-base font-black leading-none text-gray-800">
                       {item.name}
                     </p>
-                    <select className="py-2 px-1 border border-gray-200 mr-6 focus:outline-none">
-                      <option>01</option>
-                      <option>02</option>
-                      <option>03</option>
-                    </select>
                   </div>
-                  <p className="text-xs leading-3 text-gray-600 pt-2">
-                    Height: 10 inches
-                  </p>
-                  <p className="text-xs leading-3 text-gray-600 py-4">
-                    Color: Black
-                  </p>
-                  <p className="w-96 text-xs leading-3 text-gray-600">
-                    Composition: 100% calf leather
+                  <P className="flex flex-row items-center mt-2">
+                    {item.stock > 0 ? (
+                      <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
+                    ) : (
+                      <XCircleIcon className="text-red-500 h-4 w-4 mr-1 mt-1" />
+                    )}
+                    In Stock
+                  </P>
+                  <p className=" w-96 text-xs leading-3 text-gray-800 py-4">
+                    Eligible for FREE Shipping
                   </p>
                   <div className="flex items-center justify-between pt-5 pr-6">
-                    <div className="flex itemms-center">
-                      <p className="text-xs leading-3 underline text-gray-800 cursor-pointer">
-                        Add to favorites
-                      </p>
-                      <P className="underline text-red-500 pl-5 cursor-pointer">
+                    <div className="flex items-center">
+                      <CounterInput
+                        count={item.quantity}
+                        onIncrement={() => addToCart(item)}
+                        onDecrement={() => removeFromCart(item)}
+                      />
+                      <P
+                        className="underline text-red-500 pl-5 cursor-pointer"
+                        onClick={() =>
+                          dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+                        }
+                      >
                         Remove
                       </P>
                     </div>
-                    <P className="leading-none text-gray-800">
-                      ${item.price}
-                    </P>
+                    <H4 className="text-gray-800">{formatMoney(item.price)}</H4>
                   </div>
                 </div>
               </div>
@@ -81,41 +149,31 @@ const Cart = () => {
           <div className="lg:w-96 md:w-8/12 w-full bg-gray-100 h-full">
             <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
               <div>
-                <p className="text-4xl font-black leading-9 text-gray-800">
-                  Summary
-                </p>
-                <div className="flex items-center justify-between pt-16">
-                  <p className="text-base leading-none text-gray-800">
-                    Subtotal
-                  </p>
-                  <p className="text-base leading-none text-gray-800">$9,000</p>
-                </div>
-                <div className="flex items-center justify-between pt-5">
-                  <p className="text-base leading-none text-gray-800">
-                    Shipping
-                  </p>
-                  <p className="text-base leading-none text-gray-800">$30</p>
-                </div>
-                <div className="flex items-center justify-between pt-5">
-                  <p className="text-base leading-none text-gray-800">Tax</p>
-                  <p className="text-base leading-none text-gray-800">$35</p>
+                <H1 className=" text-gray-800">Summary</H1>
+                <div className="pt-10">
+                  <SummaryInfoField
+                    field={`Subtotal (${totalItems} items)`}
+                    value={formatMoney(totalPrice)}
+                  />
+                  <SummaryInfoField field="Shipping" value={formatMoney(0)} />
+                  <SummaryInfoField field="Tax" value={formatMoney(50)} />
                 </div>
               </div>
               <div>
-                <div className="flex items-center pb-6 justify-between lg:pt-5 pt-20">
-                  <p className="text-2xl leading-normal text-gray-800">Total</p>
-                  <p className="text-2xl font-bold leading-normal text-right text-gray-800">
-                    $10,240
-                  </p>
+                <div className="flex items-center pb-6 justify-between pt-20">
+                  <H3 className="text-gray-800">Total</H3>
+                  <H3 className="text-gray-800">
+                    {formatMoney(totalPrice + 50)}
+                  </H3>
                 </div>
-                <button
+                <TertiaryButton
                   onClick={() =>
                     showSuccessAlert('Checkout', 'Come back soon!')
                   }
-                  className="text-base leading-none w-full py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white"
+                  className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800"
                 >
                   Checkout
-                </button>
+                </TertiaryButton>
               </div>
             </div>
           </div>
@@ -123,18 +181,16 @@ const Cart = () => {
       ) : (
         <div className="flex flex-col items-center justify-center">
           <ShoppingCartIcon className="w-60 h-60 text-gray-800" />
-          <p className="text-2xl font-bold leading-7 text-gray-800 pt-10">
-            Your cart is empty
-          </p>
-          <p className="text-base leading-6 text-gray-600 pt-5">
+          <H3 className="text-gray-800 pt-10">Your cart is empty</H3>
+          <P className="text-gray-600 pt-5">
             Looks like you haven't added anything to your cart yet.
-          </p>
-          <button
+          </P>
+          <TertiaryButton
             onClick={() => Router.push('/')}
-            className="text-base leading-none w-64 py-5 bg-gray-800 border-gray-800 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 text-white mt-10"
+            className="text-base leading-none w-64 py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 mt-10"
           >
             Continue Shopping
-          </button>
+          </TertiaryButton>
         </div>
       )}
     </>

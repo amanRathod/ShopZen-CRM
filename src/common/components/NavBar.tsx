@@ -10,7 +10,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
 import { PrimaryButton } from './elements/button';
-import { StoreContext } from '@utils/store';
+import { CartItem, StoreContext } from '@utils/store';
 
 type Props = {
   className?: string;
@@ -23,7 +23,9 @@ const Navbar: React.FC<Props> = ({ className }) => {
 
   const [cartItemsCount, setCartItemsCount] = useState(0);
   useEffect(() => {
-    setCartItemsCount(cart.cartItems.reduce((a:any, c:any) => a + c.quantity, 0));
+    setCartItemsCount(
+      cart.cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0)
+    );
   }, [cart.cartItems]);
 
   return (
@@ -68,9 +70,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
         >
           Cart
           {cartItemsCount > 0 && (
-            <span 
-              className='ml-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-secondary-600 text-white'
-              >
+            <span className="ml-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-secondary-600 text-white">
               {cartItemsCount}
             </span>
           )}

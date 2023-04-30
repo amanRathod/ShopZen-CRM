@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import ErrorBox from '@elements/ErrorBox';
 import asPortalPage from '@hoc/asPortalPage';
 import data from '@utils/data';
-import { PrimaryButton } from '@elements/button';
+import { PrimaryButton, TertiaryButton } from '@elements/button';
 import { useContext, useState } from 'react';
 import {
   CheckCircleIcon,
@@ -12,14 +12,16 @@ import {
   StarIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import { P } from '@elements/Text';
+import { H2, H3, P } from '@elements/Text';
 import { StoreContext } from '@utils/store';
 import { Product } from '@appTypes/product';
-import { showWarningAlert } from '@utils/alert';
+import { showInfoAlert, showWarningAlert } from '@utils/alert';
 import Divider from '@elements/Divider';
 import { endpoint } from '@utils/constants/endpoints';
 import { useQuery } from '@lib/react-query';
 import InlineLoader from '@elements/loader/InlineLoader';
+import { formatMoney } from '@utils/formatter';
+import CounterInput from '@common/components/elements/form/CounterInput';
 
 const Product: NextPage = () => {
   const { state, dispatch }: any = useContext(StoreContext);
@@ -30,7 +32,11 @@ const Product: NextPage = () => {
   const id = router.query.id ? `${router.query.id}` : undefined;
   // if (!id) router.replace('/');
 
-  const { data, isLoading, refetch: refetchProduct } = useQuery<{ product: Product }>(
+  const {
+    data,
+    isLoading,
+    refetch: refetchProduct,
+  } = useQuery<{ product: Product }>(
     endpoint.product.get(id!),
     id,
     {},
@@ -55,14 +61,19 @@ const Product: NextPage = () => {
     );
   }
 
-  const addCount = () => {
+  const onIncrement = () => {
     setCount(count + 1);
   };
 
-  const minusCount = () => {
+  const onDecrement = () => {
     if (count > 1) {
       setCount(count - 1);
     }
+  };
+
+  const handleCount = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    setCount(value);
   };
 
   const addToCart = () => {
@@ -72,7 +83,7 @@ const Product: NextPage = () => {
     const quantity = existItem ? existItem.quantity + count : count;
 
     if (quantity > product.stock) {
-      showWarningAlert(
+      showInfoAlert(
         'Sorry, this product is out of stock!',
         'Please try again later!'
       );
@@ -80,7 +91,6 @@ const Product: NextPage = () => {
     }
 
     dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
-    // router.push('/cart');
   };
 
   const removeFromCart = () => {
@@ -98,13 +108,11 @@ const Product: NextPage = () => {
             src={image}
             alt={name}
             width={640}
-            height={500}
+            height={640}
           />
         </div>
         <div className="w-full sm:w-96 md:w-8/12 lg:w-6/12 items-center">
-          <h2 className="font-semibold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800">
-            {name}
-          </h2>
+          <H2 className="lg:text-4xl text-gray-800">{name}</H2>
 
           <div className=" flex flex-row justify-between  mt-5">
             <div className=" flex flex-row space-x-1">
@@ -119,15 +127,8 @@ const Product: NextPage = () => {
             </P>
           </div>
 
-          <p className=" font-normal text-base leading-6 text-gray-600 mt-7">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using. Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters.
-          </p>
-          <p className=" font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 mt-6 ">
-            $ {price}
-          </p>
+          <P className=" text-gray-600 mt-7">{description}</P>
+          <H3 className=" lg:text-2xl leading-5 mt-6">{formatMoney(price)}</H3>
           <P className="flex flex-row items-center mt-2">
             {stock > 0 ? (
               <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
@@ -139,51 +140,32 @@ const Product: NextPage = () => {
 
           <div className="lg:mt-11 mt-10">
             <div className="flex flex-row justify-between">
-              <p className=" font-medium text-base leading-4 text-gray-600">
-                Select quantity
-              </p>
-              <div className="flex">
-                <span
-                  onClick={minusCount}
-                  className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer border border-gray-300 border-r-0 w-7 h-7 flex items-center justify-center pb-1"
-                >
-                  -
-                </span>
-                <input
-                  id="counter"
-                  aria-label="input"
-                  className="border border-gray-300 h-full text-center w-14 pb-1"
-                  type="text"
-                  value={count}
-                  onChange={(e) => e.target.value}
-                />
-                <span
-                  onClick={addCount}
-                  className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 cursor-pointer border border-gray-300 border-l-0 w-7 h-7 flex items-center justify-center pb-1 "
-                >
-                  +
-                </span>
-              </div>
+              <P className="leading-4 text-gray-600">Select quantity</P>
+              <CounterInput
+                count={count}
+                onIncrement={onIncrement}
+                onDecrement={onDecrement}
+              />
             </div>
 
             <Divider className="mt-4" />
 
             <div className=" flex flex-row justify-between items-center mt-4">
               <P className="text-gray-600">Item left in stock</P>
-              <P className="text-gray-600">13</P>
+              <P className="text-gray-600">{stock}</P>
             </div>
 
             <Divider className="mt-4" />
 
-            <PrimaryButton
+            <TertiaryButton
               className={
-                `focus:outline-none focus:ring-2 hover:bg-black hover:shadow-gray-800/30 focus:ring-offset-2 focus:ring-gray-800 font-medium text-base leading-4 text-white bg-primary-800 w-full py-5 lg:mt-12 mt-6` +
+                `focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 font-medium text-base leading-4 w-full py-5 lg:mt-12 mt-6` +
                 (stock > 0 ? '' : ' cursor-not-allowed')
               }
               onClick={addToCart}
             >
               Add To Cart
-            </PrimaryButton>
+            </TertiaryButton>
           </div>
         </div>
       </div>
