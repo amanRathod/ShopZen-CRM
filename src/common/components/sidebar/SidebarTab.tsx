@@ -85,10 +85,10 @@ const SidebarTab: React.FC<Props> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="py-1 mx-4 rounded-md bg-secondary-500">
+          <div className="py-1 ml-8 rounded-md bg-primary-100">
             {items.map((item: any) => (
               // eslint-disable-next-line react/jsx-key
-              <SidebarTab {...item} className="text-primary-800" />
+              <SidebarTab {...item} className="text-primary-700 text-sm text-normal" />
             ))}
           </div>
         </Transition>

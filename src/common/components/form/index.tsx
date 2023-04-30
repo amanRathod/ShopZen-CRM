@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import { Component } from "@appTypes/.";
 import { Formik, FormikProps, FormikConfig, FormikHelpers } from "formik";
-import { DangerButton, PrimaryButton } from "@elements/button";
+import { DangerButton, PrimaryButton, TertiaryButton } from "@elements/button";
 
 interface SubComponent {
   Row: Component;
@@ -65,14 +65,14 @@ const Form: React.FC<FormProps> & SubComponent = ({
           {(submitButton || resetButton) && (
             <div className={clsx("flex mt-3 gap-x-4", actionClassName)}>
               {submitButton && (
-                <PrimaryButton
+                <TertiaryButton
                   type="submit"
                   loading={isSubmitting}
                   Icon={submitButton.Icon}
                   disabled={!(isValid && dirty)}
                 >
                   {submitButton.title}
-                </PrimaryButton>
+                </TertiaryButton>
               )}
 
               {resetButton && (

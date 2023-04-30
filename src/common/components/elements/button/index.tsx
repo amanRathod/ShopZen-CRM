@@ -87,6 +87,23 @@ export const PrimaryButton: typeof Button = ({
   );
 };
 
+export const TertiaryButton: typeof Button = ({
+  className,
+  hoverClassName,
+  ...rest
+}) => {
+  return (
+    <Button
+      className={clsx(
+        'bg-tertiary-600 hover:bg-tertiary-700 shadow-tertiary-300/20 text-white font-semibold',
+        className
+      )}
+      hoverClassName={clsx('hover:shadow-tertiary-600/30', hoverClassName)}
+      {...rest}
+    />
+  );
+};
+
 export const SuccessButton: typeof Button = ({
   className,
   hoverClassName,

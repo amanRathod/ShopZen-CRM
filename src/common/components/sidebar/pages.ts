@@ -1,4 +1,5 @@
-import { BookOpenIcon, DeviceMobileIcon, FilterIcon, HomeIcon } from "@heroicons/react/outline";
+import { GiftIcon } from "@heroicons/react/outline";
+import { BookOpenIcon, DeviceMobileIcon, FilterIcon, HomeIcon, PresentationChartBarIcon, TruckIcon } from "@heroicons/react/outline";
 
 type SubPage = {
   id?: number;
@@ -35,27 +36,30 @@ export const pages: Page[] = [
       {
         id: 2,
         key: "electronics",
-        name: "ELECTRONICS",
+        name: "Electronics",
         href: "/category/electronics?search=2",
         Icon: DeviceMobileIcon
       },
       {
         id: 3,
         key: "clothing",
-        name: "CLOTHING",
+        name: "Clothing",
         href: "/category/clothing?search=3",
+        Icon: GiftIcon,
       },
       {
         id: 4,
         key: "active-wear",
-        name: "ACTIVEWEAR",
+        name: "Active Wear",
         href: "/category/active-wear?search=4",
+        Icon: PresentationChartBarIcon,
       },
       {
         id: 5,
         key: "grocery",
-        name: "GROCERY",
+        name: "Grocery",
         href: "/category/grocery?search=5",
+        Icon: TruckIcon,
         items: [
           {
             key: "fruits",
