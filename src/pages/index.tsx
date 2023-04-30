@@ -6,31 +6,44 @@ import { Product } from '@appTypes/product';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { endpoint } from '@utils/constants/endpoints';
-import Pagination from '@common/components/Pagination';
-
-const PAGE_SIZES = [10, 20, 30, 40, 50];
+import InlineLoader from '@common/components/elements/loader/InlineLoader';
+import Pagination, { OnPageChangeCallback } from '@components/pagination';
+import { PAGE_SIZES } from '@utils/constants';
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
 
-  const { isLoading, error, data, refetch } = useQuery(['products', currentPage], () =>
-    fetch(
-      process.env.SERVER_BASE_URL + endpoint.product.productPagination(currentPage, pageSize)
-    ).then((res) => res.json())
+  const { isLoading, error, data, refetch } = useQuery(
+    ['products', currentPage],
+    () =>
+      fetch(
+        process.env.SERVER_BASE_URL +
+          endpoint.product.productPagination(currentPage, pageSize)
+      ).then((res) => res.json())
   );
 
   useEffect(() => {
     refetch();
-  }, [currentPage, refetch]);
+  }, [currentPage, refetch, pageSize]);
 
-  // if (isLoading) {
-    // return <div>Loading...</div>;
-  // }
+  if (isLoading) {
+    return <InlineLoader />;
+  }
 
   const products = data?._embedded.products;
   const totalItems = data?.page.totalElements;
-  const totalPages = data?.page.totalPages;
+  const pageCount = Math.ceil(totalItems / pageSize);
+
+  const handlePageChange: OnPageChangeCallback = (selectedItem) => {
+    const newPage = selectedItem.selected;
+    setCurrentPage(newPage);
+  };
+
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPageSize = Number(e.target.value);
+    setPageSize(newPageSize);
+  };
 
   return (
     <>
@@ -44,11 +57,11 @@ const Home: NextPage = () => {
         ))}
       </div>
       <Pagination
-        className=""
         currentPage={currentPage}
-        totalPageCount={totalPages}
+        pageCount={pageCount}
         pageSize={pageSize}
-        onPageChange={page => setCurrentPage(page)}
+        handlePageChange={handlePageChange}
+        handlePageSizeChange={handlePageSizeChange}
       />
     </>
   );
