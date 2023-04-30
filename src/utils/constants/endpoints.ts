@@ -27,6 +27,8 @@ export const endpoint = {
     productByCategoryId: (id: number|string) => `/api/products/search/findByCategoryId?id=${id}`,
     productByName: (name: string) => `/api/products/search/findByNameContainingIgnoreCase?name=${name}`,
     productPagination: (page: number, size: number) => `/api/products?page=${page}&size=${size}`,
+    productByCategoryPagination: (id: number|string, page: number, size: number) => `/api/products/search/findByCategoryId?id=${id}&page=${page}&size=${size}`,
+    productByNamePagination: (name: string, page: number, size: number) => `/api/products/search/findByNameContainingIgnoreCase?name=${name}&page=${page}&size=${size}`,
   },
 
   order: {

@@ -3,7 +3,6 @@ import Head from "next/head";
 import { Brand } from "@constants/.";
 import ConditionalWrapper from "@components/ConditionalWrapper";
 import Navbar from "@components/NavBar";
-import { P } from "@elements/Text";
 
 export type Props = {
   title?: string;

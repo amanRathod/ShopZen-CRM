@@ -17,18 +17,20 @@ export enum RequestType {
 
 export const useQuery = <T>(
   url: string,
-  queryKey: string = "",
+  queryKey: string[] | string = "",
   config?: AxiosRequestConfig,
-  toShowAlert: boolean = true
+  toShowAlert: boolean = true,
+  restApi: boolean = false
 ) => {
   return rqUseQuery(
     queryKey,
     async () => {
-      const { data } = await axios.get<T>(url, config);
-      return data;
+      const data = await axios.get(url, config);
+      if (restApi) return data;
+      return data.data;
     },
     {
-      onError: ({error, message}) => {
+      onError: ({ error, message }) => {
         if (toShowAlert) showErrorAlert(error, message);
       },
     }

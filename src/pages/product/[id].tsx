@@ -30,16 +30,17 @@ const Product: NextPage = () => {
   const id = router.query.id ? `${router.query.id}` : undefined;
   // if (!id) router.replace('/');
 
-  const { data, isLoading, refetch: refetchProduct } = useQuery< Product >(
+  const { data, isLoading, refetch: refetchProduct } = useQuery<{ product: Product }>(
     endpoint.product.get(id!),
-    '',
+    id,
     {},
+    false,
     false
   );
 
   if (isLoading) return <InlineLoader />;
-  const product = data;
-  console.log(data);
+
+  const { product } = data;
 
   if (!product) {
     return (

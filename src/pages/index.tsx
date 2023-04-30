@@ -4,23 +4,22 @@ import data from '@utils/data';
 import ProductItem from '@modules/products/components/ProductItem';
 import { Product } from '@appTypes/product';
 import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
 import Pagination, { OnPageChangeCallback } from '@components/pagination';
 import { PAGE_SIZES } from '@utils/constants';
+import { useQuery } from '@lib/react-query';
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
 
   const { isLoading, error, data, refetch } = useQuery(
-    ['products', currentPage],
-    () =>
-      fetch(
-        process.env.SERVER_BASE_URL +
-          endpoint.product.productPagination(currentPage, pageSize)
-      ).then((res) => res.json())
+    endpoint.product.productPagination(currentPage, pageSize),
+    ['products', `${currentPage}`],
+    {}, 
+    false,
+    true
   );
 
   useEffect(() => {
