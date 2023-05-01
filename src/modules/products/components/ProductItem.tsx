@@ -5,6 +5,7 @@ import { H5 } from '@elements/Text';
 import { PrimaryButton } from '@elements/button';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import LinkedItem from '@elements/LinkedItem';
+import { formatMoney } from '@utils/formatter';
 
 type Props = {} & Product;
 
@@ -34,7 +35,7 @@ const ProductItem: React.FC<Props> = ({
           </H5>
         </LinkedItem>
         <div className="flex items-center justify-between mt-2.5">
-          <span className="text-3xl font-bold text-gray-900">${price}</span>
+          <span className="text-3xl font-bold text-gray-900">{formatMoney(price)}</span>
           <PrimaryButton
             Icon={ShoppingCartIcon}
             className="hover:bg-secondary-300"

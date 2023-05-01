@@ -107,11 +107,9 @@ const Cart = () => {
                   />
                 </div>
                 <div className="md:pl-3 md:w-3/4">
-                  <div className="flex items-center justify-between w-full pt-1">
-                    <p className="text-base font-black leading-none text-gray-800">
-                      {item.name}
-                    </p>
-                  </div>
+                  <H4 className=" text-gray-800">
+                    {item.name}
+                  </H4>
                   <P className="flex flex-row items-center mt-2">
                     {item.stock > 0 ? (
                       <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />

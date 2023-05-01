@@ -22,7 +22,7 @@ export interface FormProps<S = any> {
     helpers: FormikHelpers<S>
   ) => Promise<void | OnSubmitResult>;
   initialValues?: FormikProps<S>["initialValues"];
-  submitButton?: { title: string; Icon?: any };
+  submitButton?: { title: string; Icon?: any, className?: string };
   resetButton?: { title: string; Icon?: any };
   actionClassName?: string;
 }
@@ -70,6 +70,7 @@ const Form: React.FC<FormProps> & SubComponent = ({
                   loading={isSubmitting}
                   Icon={submitButton.Icon}
                   disabled={!(isValid && dirty)}
+                  className={submitButton.className}
                 >
                   {submitButton.title}
                 </TertiaryButton>

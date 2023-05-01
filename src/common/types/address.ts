@@ -1,6 +1,7 @@
 import { TableEntity } from ".";
 
 export type Address = {
+  fullName: string;
   street: string;
   zipCode: string;
   city: string;

@@ -1,4 +1,4 @@
-import { OutlineButton } from '../button';
+import { MinusSmIcon, PlusSmIcon } from '@heroicons/react/outline';
 
 type Props = {
   count: number;
@@ -9,26 +9,22 @@ type Props = {
 const CounterInput: React.FC<Props> = ({ count, onDecrement, onIncrement }) => {
   return (
     <div className="flex">
-      <OutlineButton
+      <MinusSmIcon
         onClick={onDecrement}
-        className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-600 cursor-pointer border border-gray-300 border-r-0 w-7 h-7 pb-1"
-      >
-        -
-      </OutlineButton>
+        className="w-7 h-7 text-gray-500 rounded-md cursor-pointer border border-gray-300 border-r-0"
+      />
       <input
         id="counter"
         aria-label="input"
-        className="border border-gray-300 h-full text-center w-14 pb-1 rounded-md"
+        className="border border-gray-300 h-full text-center w-12 pb-1 rounded-lg"
         type="text"
         value={count}
         onChange={(e) => e.target.value}
       />
-      <OutlineButton
+      <PlusSmIcon
         onClick={onIncrement}
-        className="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-600 cursor-pointer border border-gray-300 border-l-0 w-7 h-7 pb-1 "
-      >
-        +
-      </OutlineButton>
+        className="w-8 h-7 text-gray-500 rounded-md cursor-pointer border border-gray-300 border-l-0"
+      />
     </div>
   );
 };

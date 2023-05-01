@@ -5,7 +5,6 @@ import {
   ShoppingCartIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
-import Link from 'next/link';
 import React, { useContext, useEffect, useState } from 'react';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
