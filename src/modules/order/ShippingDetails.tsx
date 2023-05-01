@@ -43,7 +43,7 @@ const initialShippingAddress = {
 };
 
 const ShippingDetails: React.FC<Props> = ({
-  shippingAddress: initialShippingAddress,
+  shippingAddress = initialShippingAddress,
 }) => {
   const router = useRouter();
   return (
@@ -61,7 +61,7 @@ const ShippingDetails: React.FC<Props> = ({
           <Form
             className="mt-6"
             schema={shippingAddressSchema}
-            initialValues={initialShippingAddress}
+            initialValues={shippingAddress}
             onSubmit={async (shippingAddress, reset) => {
               shippingAddress.zipCode = shippingAddress.zipCode.toString();
               shippingAddress.mobile = shippingAddress.mobile.toString();

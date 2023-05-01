@@ -4,7 +4,7 @@ import { useField, useFormikContext } from "formik";
 import ErrorText from "@elements/form//ErrorText";
 
 interface Props extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
-  type?: "text" | "password" | "email" | "number" | "url";
+  type?: "text" | "password" | "email" | "number" | "url" | "radio" | "checkbox";
   name: string;
   label?: string;
   inputClassName?: string;
