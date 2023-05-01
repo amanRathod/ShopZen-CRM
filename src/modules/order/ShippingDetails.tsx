@@ -93,7 +93,7 @@ const ShippingDetails: React.FC<Props> = ({
               required
             />
 
-            <Form.Row className="xl:grid-cols-2">
+            <Form.Row>
               <Input name="city" label="City" placeholder="City" required />
 
               <Input
@@ -104,7 +104,7 @@ const ShippingDetails: React.FC<Props> = ({
               />
             </Form.Row>
 
-            <Form.Row className="xl:grid-cols-2">
+            <Form.Row>
               <ListInput options={States} name="state" label="State" required />
 
               <ListInput

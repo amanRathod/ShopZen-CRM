@@ -165,9 +165,7 @@ const Cart = () => {
                   </H3>
                 </div>
                 <TertiaryButton
-                  onClick={() =>
-                    showSuccessAlert('Checkout', 'Come back soon!')
-                  }
+                  onClick={() => Router.push('/checkout')}
                   className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800"
                 >
                   Checkout
