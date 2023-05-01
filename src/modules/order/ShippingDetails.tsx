@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { H2, P } from '@elements/Text';
 import { Address } from '@appTypes/address';
 import * as y from 'yup';
@@ -9,6 +9,10 @@ import { Countries, States } from '@utils/constants';
 import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import LinkedItem from '@common/components/elements/LinkedItem';
 import { useRouter } from 'next/router';
+import { useQuery } from '@lib/react-query';
+import { endpoint } from '@utils/constants/endpoints';
+import { Country } from '@appTypes/address';
+import { State } from '@appTypes/address';
 
 type Props = {
   shippingAddress?: Address;
@@ -46,6 +50,45 @@ const ShippingDetails: React.FC<Props> = ({
   shippingAddress = initialShippingAddress,
 }) => {
   const router = useRouter();
+  const [currentCountryCode, setCurrentCountryCode] = useState('IN');
+
+  const { data } = useQuery(
+    endpoint.country.getInSortedOrder,
+    'Countries',
+    {},
+    false,
+    true
+  );
+  let countries = data?._embedded?.countries;
+
+  countries = countries?.map((country: Country) => ({
+    label: country.name,
+    value: country.name,
+    code: country.code,
+  }));
+
+  const { data: statesData, refetch } = useQuery(
+    endpoint.state.getByCountryCodeInSortedOrder(currentCountryCode),
+    '',
+    {},
+    false,
+    true
+  );
+  let states = statesData?._embedded?.states;
+
+  states = states?.map((state: State) => ({
+    label: state.name,
+    value: state.name,
+  }));
+
+  const handleCountryChange = (country: any) => {
+    setCurrentCountryCode(country.code);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [currentCountryCode]);
+
   return (
     <div className="flex flex-col md:pl-10 pl-4 pr-10 md:pr-4 bg-white overflow-y-auto overflow-x-hidden h-screen">
       <div className="flex flex-col">
@@ -53,7 +96,7 @@ const ShippingDetails: React.FC<Props> = ({
           <H2>Shipping Details</H2>
           <LinkedItem
             className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
-            href="/"
+            href="/cart"
           >
             <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
             <P>Back to cart</P>
@@ -105,14 +148,15 @@ const ShippingDetails: React.FC<Props> = ({
             </Form.Row>
 
             <Form.Row>
-              <ListInput options={States} name="state" label="State" required />
-
               <ListInput
-                options={Countries}
+                options={countries}
                 name="country"
                 label="Country"
+                onChange={handleCountryChange}
                 required
               />
+
+              <ListInput options={states} name="state" label="State" required />
             </Form.Row>
           </Form>
         </div>

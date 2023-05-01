@@ -6,7 +6,7 @@ export type Address = {
   zipCode: string;
   city: string;
   state: State;
-  country: Country;
+  country: string;
 } & TableEntity;
 
 export type State = {

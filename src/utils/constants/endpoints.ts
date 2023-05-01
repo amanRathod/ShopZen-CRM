@@ -39,4 +39,18 @@ export const endpoint = {
     filter: (values: {}) => `/api/order/?${new URLSearchParams(values)}`,
     orderById: (id: string) => `/api/order/user/${id}`,
   },
+
+  country: {
+    getAll: "/api/countries",
+    get: (id: string) => `/api/countries/${id}`,
+    getInSortedOrder: "/api/countries/search/findAllByOrderByNameAsc",
+  },
+
+  state: {
+    getAll: "/api/states",
+    getByCountryCode: (code: string) => `/api/states/search/findByCountryCode?code=${code}`,
+    getByCountryName: (name: string) => `/api/states/search/findByCountryName?name=${name}`,
+    getByCountryCodeInSortedOrder: (code: string) => `/api/states/search/findByCountryCodeOrderByNameAsc?code=${code}`,
+    getInSortedOrder: "/api/states/search/findAllByOrderByNameAsc",
+  }
 }
