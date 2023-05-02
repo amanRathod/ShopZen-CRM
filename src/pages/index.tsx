@@ -24,7 +24,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, refetch, pageSize]);
+  }, [currentPage, pageSize]);
 
   if (isLoading) {
     return <InlineLoader />;
