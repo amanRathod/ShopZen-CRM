@@ -13,7 +13,7 @@ const ProductByCategory: NextPage = () => {
   const id = router.query?.search ? `${router.query.search}` : undefined;
 
   const { isLoading, error, data } = useQuery(
-    endpoint.product.productByCategoryId(id!),
+    endpoint.product.getByCategoryId(id!),
     `${name}`,
     {}, 
     false,

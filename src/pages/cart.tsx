@@ -1,21 +1,20 @@
+import Image from 'next/image';
+import Router from 'next/router';
+import dynamic from 'next/dynamic'
+import { useContext } from 'react';
 import LinkedItem from '@elements/LinkedItem';
 import { H1, H3, H4, P } from '@elements/Text';
 import asPortalPage from '@hoc/asPortalPage';
-import { Product } from '@appTypes/product';
 import { showInfoAlert, showSuccessAlert } from '@utils/alert';
 import { CartItem, StoreContext } from '@utils/store';
 import {
-  ArrowLeftIcon,
   ArrowNarrowLeftIcon,
   CheckCircleIcon,
   ShoppingCartIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
-import Router from 'next/router';
-import { useContext } from 'react';
 import { TertiaryButton } from '@common/components/elements/button';
 import { formatMoney } from '@utils/formatter';
-import Image from 'next/image';
 import CounterInput from '@common/components/elements/form/CounterInput';
 
 type SummaryField = {
@@ -193,4 +192,6 @@ const Cart = () => {
   );
 };
 
-export default asPortalPage('Cart')(Cart);
+export default dynamic(() => Promise.resolve(asPortalPage('Cart')(Cart)), {
+  ssr: false,
+});

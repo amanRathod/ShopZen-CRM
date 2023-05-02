@@ -5,7 +5,6 @@ import * as y from 'yup';
 import Form from '@components/form';
 import Input from '@elements/form/Input';
 import ListInput from '@elements/form/ListInput';
-import { Countries, States } from '@utils/constants';
 import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import LinkedItem from '@common/components/elements/LinkedItem';
 import { useRouter } from 'next/router';
@@ -13,6 +12,7 @@ import { useQuery } from '@lib/react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
+import Checkbox from '@common/components/elements/form/Checkbox';
 
 type Props = {
   shippingAddress?: Address;
@@ -158,6 +158,7 @@ const ShippingDetails: React.FC<Props> = ({
 
               <ListInput options={states} name="state" label="State" required />
             </Form.Row>
+            <Checkbox name="billingAddress" label="Billing address is the same as shipping address" />
           </Form>
         </div>
       </div>

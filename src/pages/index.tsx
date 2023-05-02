@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
 
   const { isLoading, error, data, refetch } = useQuery(
-    endpoint.product.productPagination(currentPage, pageSize),
+    endpoint.product.getProductPagination(currentPage, pageSize),
     ['products', `${currentPage}`],
     {}, 
     false,
