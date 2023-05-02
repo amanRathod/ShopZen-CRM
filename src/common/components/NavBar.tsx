@@ -6,26 +6,38 @@ import {
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
+import Form from '@components/form';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
-import { PrimaryButton } from './elements/button';
+import Button, { PrimaryButton } from './elements/button';
 import { CartItem, StoreContext } from '@utils/store';
+import Input from './elements/form/Input';
+import { useRouter } from 'next/router';
 
 type Props = {
   className?: string;
 };
 
 const Navbar: React.FC<Props> = ({ className }) => {
-  const { state }: any = useContext(StoreContext);
-  const { cart } = state;
+  const [cartItemsCount, setCartItemsCount] = useState(0);
+  const [query, setQuery] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
-  const [cartItemsCount, setCartItemsCount] = useState(0);
+  const router = useRouter();
+  const { state }: any = useContext(StoreContext);
+  const { cart } = state;
+
   useEffect(() => {
     setCartItemsCount(
       cart.cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0)
     );
   }, [cart.cartItems]);
+
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    const newQuery = query.trim().replace(/\s+/g, '+');
+    router.push(`/search?query=${newQuery}`);
+  };
 
   return (
     <div
@@ -46,19 +58,22 @@ const Navbar: React.FC<Props> = ({ className }) => {
         <MobileSidebar {...{ sidebarOpen, setSidebarOpen }} />
       </div>
 
-      <div className="max-w-md mx-auto hidden w-full justify-center sm:flex">
-        <div className="relative flex items-center h-12 border border-primary-400 rounded-lg focus-within:shadow-md focus:ring-0 bg-white overflow-hidden">
-          <div className="grid place-items-center w-12">
-            <SearchIcon className="w-6 h-6 text-gray-300" />
-          </div>
+      <form
+        className="max-w-md mx-auto w-full justify-center sm:flex"
+        onSubmit={submitHandler}
+      >
+        <div className="relative flex items-center h-10 border border-gray-200 rounded-lg focus-within:shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 bg-white ">
           <input
-            className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+            className="h-full w-full outline-none text-sm px-3 py-2 placeholder-gray-400 text-gray-700"
             type="text"
-            id="search"
-            placeholder="Search something.."
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search Products"
           />
+          <button className="py-2 px-4 hover:bg-primary-300">
+            <SearchIcon className="w-6 h-6 text-gray-300"></SearchIcon>
+          </button>
         </div>
-      </div>
+      </form>
 
       <div className="hidden items-center sm:flex grid gap-x-5">
         <PrimaryButton
