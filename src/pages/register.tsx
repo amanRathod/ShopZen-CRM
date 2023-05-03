@@ -28,7 +28,7 @@ const Register = () => {
           password: '',
           confirmPassword: '',
         }}
-        submitButton={{ title: 'Sign Up' }}
+        submitButton={{ title: 'Sign Up', className: 'w-full' }}
       >
         <Input
           name="firstName"
@@ -63,7 +63,7 @@ const Register = () => {
         />
 
         <Input
-          name="password"
+          name="confirmPassword"
           label="Confirm Password"
           type="password"
           required

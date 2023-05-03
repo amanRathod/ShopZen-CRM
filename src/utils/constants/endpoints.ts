@@ -6,7 +6,11 @@ export const endpoint = {
     forgotPassword: "/auth/forgot-password",
     resetPassword: "/auth/reset-password",
   },
-  
+
+  customer: {
+    profile: "/api/v1/customer/profile",
+  },
+
   user: {
     get: (id: string) => `api/v1/customer/${id}`,
     block: (id: string) => `api/v1/customer/block/${id}`,
@@ -39,6 +43,7 @@ export const endpoint = {
     update: (id: string) => `/api/order/${id}`,
     filter: (values: {}) => `/api/order/?${new URLSearchParams(values)}`,
     orderById: (id: string) => `/api/order/user/${id}`,
+    getByUserEmail: (email: string) => `/api/orders/search/findByCustomerEmailOrderByDateCreatedDesc?email=${email}`,
   },
 
   country: {

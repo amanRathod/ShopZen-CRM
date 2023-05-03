@@ -22,7 +22,7 @@ const forgotPasswordSchema = y.object().shape({
          initialValues={{
            email: "",
          }}
-         submitButton={{ title: "Send Reset Link" }}
+         submitButton={{ title: "Send Reset Link", className: "w-full" }}
        >
          <Input name="email" label="Email" type="email" required />
  

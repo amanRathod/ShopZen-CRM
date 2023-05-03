@@ -19,7 +19,7 @@ const Login = () => {
           email: '',
           password: '',
         }}
-        submitButton={{ title: "Sign In" }}
+        submitButton={{ title: "Sign In", className: 'w-full' }}
       >
         <Input
           name="email"

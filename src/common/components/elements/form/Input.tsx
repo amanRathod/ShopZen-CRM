@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { forwardRef, PropsWithoutRef } from "react";
 import { useField, useFormikContext } from "formik";
 import ErrorText from "@elements/form//ErrorText";
+import { EyeIcon } from "@heroicons/react/outline";
 
 interface Props extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   type?: "text" | "password" | "email" | "number" | "url" | "radio" | "checkbox";
@@ -15,8 +16,14 @@ const Input = forwardRef<HTMLInputElement, Props>(
     { name, id = name, label, className, inputClassName, ...inputProps },
     ref
   ) => {
-    const [input] = useField(name);
+    const [input, meta, helpers] = useField(name);
     const { isSubmitting, setFieldValue } = useFormikContext();
+
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      helpers.setValue(value.trim());
+      helpers.setTouched(true);
+    };
 
     return (
       <div className={className}>
@@ -36,12 +43,12 @@ const Input = forwardRef<HTMLInputElement, Props>(
             disabled={isSubmitting}
             {...inputProps}
             ref={ref}
-            onBlur={({ target }) => setFieldValue(name, target.value.trim())}
+            onBlur={handleBlur}
             className={clsx(
-              "block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none sm:text-sm",
+              "block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none outline-none sm:text-sm",
               !inputProps.disabled &&
                 !inputProps.readOnly &&
-                "focus:ring-primary-500 focus:border-primary-500",
+                "ring-tertiary-300 focus:ring",
               inputClassName
             )}
           />
