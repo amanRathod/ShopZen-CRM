@@ -41,12 +41,12 @@ const Product: NextPage = () => {
     id,
     {},
     false,
-    false
+    true
   );
 
   if (isLoading) return <InlineLoader />;
 
-  const { product } = data;
+  const product = data;
 
   if (!product) {
     return (

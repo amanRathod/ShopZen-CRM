@@ -4,6 +4,8 @@ import * as y from 'yup';
 import React from 'react';
 import Input from '@elements/form/Input';
 import LinkedItem from '@elements/LinkedItem';
+import { useAuth } from '@lib/auth';
+import { useRouter } from 'next/router';
 
 const registerSchema = y.object().shape({
   firstName: y.string().required('First Name is required'),
@@ -17,6 +19,9 @@ const registerSchema = y.object().shape({
 });
 
 const Register = () => {
+  const { register } = useAuth();
+  const router = useRouter();
+
   return (
     <AuthPage pageTitle="Login" title="Register your account">
       <Form
@@ -27,6 +32,12 @@ const Register = () => {
           email: '',
           password: '',
           confirmPassword: '',
+        }}
+        onSubmit={async (data) => {
+          delete data.confirmPassword;
+          const user = await register(data);
+
+          if (user) router.push('/');
         }}
         submitButton={{ title: 'Sign Up', className: 'w-full' }}
       >

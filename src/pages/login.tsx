@@ -1,9 +1,11 @@
 import Form from '@components/form';
 import AuthPage from '@layouts/page/AuthPage';
 import * as y from 'yup';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from '@elements/form/Input';
 import LinkedItem from '@elements/LinkedItem';
+import { useAuth } from '@lib/auth';
+import { useRouter } from 'next/router';
 
 const loginSchema = y.object().shape({
   email: y.string().email('Invalid email').required('Email is required'),
@@ -11,6 +13,13 @@ const loginSchema = y.object().shape({
 });
 
 const Login = () => {
+  const {login, user, refetchUser} = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) router.replace("/");
+  }, [user]);
+  
   return (
     <AuthPage pageTitle="Login" title="Sign in to your account">
       <Form
@@ -18,6 +27,10 @@ const Login = () => {
         initialValues={{
           email: '',
           password: '',
+        }}
+        onSubmit={async (data) => {
+          await login(data);
+          await refetchUser();
         }}
         submitButton={{ title: "Sign In", className: 'w-full' }}
       >
