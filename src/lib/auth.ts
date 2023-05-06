@@ -6,7 +6,6 @@ import { showSuccessToast } from "@utils/toast";
 import axios from "@lib/axios";
 import { initReactQueryAuth } from "react-query-auth";
 
-
 interface Error {
   statusCode: number;
   message: string[];
@@ -29,7 +28,7 @@ export const { AuthProvider, useAuth } = initReactQueryAuth<
 >({
   ...authConfig,
   // @ts-ignore: expects a JSX element providing FC
-  LoaderComponent: InlineLoader,
+  // LoaderComponent: InlineLoader,
 });
 
 async function loadUser(): Promise<User> {
@@ -38,13 +37,14 @@ async function loadUser(): Promise<User> {
   // @ts-ignore: allow null user
   if (!token) return null;
 
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
   const data = await axios
     .get(endpoint.customer.profile)
     .then(({ data }) => data)
     .catch(() => storage.clearToken());
 
-  const user = data.user;
-  return user;
+  return data.profile;
 }
 
 function handleUserResponse(response: any, statusCode: number) {
@@ -57,7 +57,7 @@ function handleUserResponse(response: any, statusCode: number) {
   }
 
   if (statusCode === 201) showSuccessToast("Registration successful!");
-  else  showSuccessToast("Login successful!");
+  else showSuccessToast("Login successful!");
 
   storage.setToken(accessToken);
   return user; // User is undefined

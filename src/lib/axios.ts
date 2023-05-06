@@ -1,6 +1,8 @@
 import Axios, { AxiosRequestConfig } from "axios";
 import { storage } from "@utils/storage";
 
+// Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
 const axios = Axios.create({
   baseURL: process.env.SERVER_BASE_URL,
   headers: {
@@ -17,10 +19,7 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use((config) => {
   const token = storage.getToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  token && (config.headers.Authorization = `Bearer ${token}`);
 
   return config;
 });

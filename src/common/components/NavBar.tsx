@@ -6,13 +6,13 @@ import {
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
-import Form from '@components/form';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
-import Button, { PrimaryButton } from './elements/button';
+import { PrimaryButton } from './elements/button';
 import { CartItem, StoreContext } from '@utils/store';
-import Input from './elements/form/Input';
 import { useRouter } from 'next/router';
+import { useAuth } from '@lib/auth';
+import { getDummyPicture } from '@utils';
 
 type Props = {
   className?: string;
@@ -23,6 +23,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
   const [query, setQuery] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
+  const { user } = useAuth();
   const router = useRouter();
   const { state }: any = useContext(StoreContext);
   const { cart } = state;
@@ -90,14 +91,29 @@ const Navbar: React.FC<Props> = ({ className }) => {
           )}
         </PrimaryButton>
 
-        <PrimaryButton
-          href="/login"
-          Icon={LoginIcon}
-          className=""
-          disabled={false}
-        >
-          Login
-        </PrimaryButton>
+        {user ? (
+          <LinkedItem
+            href="/profile"
+            className="overflow-hidden rounded-full border-2 border-gray-400 focus:outline-none focus:border-secondary-600"
+          >
+            <img
+              src={
+                user.image ||
+                getDummyPicture(`${user.firstName} ${user.lastName}`)
+              }
+              className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-gray-200"
+            />
+          </LinkedItem>
+        ) : (
+          <PrimaryButton
+            href="/login"
+            Icon={LoginIcon}
+            className=""
+            disabled={false}
+          >
+            Login
+          </PrimaryButton>
+        )}
       </div>
     </div>
   );

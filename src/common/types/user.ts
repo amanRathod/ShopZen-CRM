@@ -5,6 +5,7 @@ export type User = {
   firstName: string;
   lastName?: string;
   role: "ADMIN" | "CUSTOMER";
+  image?: string;
 } & TableEntity;
 
 export type LoginCredentials = {

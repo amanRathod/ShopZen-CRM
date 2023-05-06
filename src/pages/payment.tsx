@@ -11,6 +11,7 @@ import { Months, Years } from '@utils/constants';
 import { Payment } from '@common/types/payment';
 import { useRouter } from 'next/router';
 import { showSuccessAlert } from '@utils/alert';
+import { withAuth } from '@common/hoc/withAuth';
 
 type Props = {
   payment?: Payment;
@@ -149,4 +150,4 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   );
 };
 
-export default asPortalPage('Payment')(Payment);
+export default asPortalPage('Payment')(withAuth()(Payment));
