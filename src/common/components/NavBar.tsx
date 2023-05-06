@@ -3,6 +3,7 @@ import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
+  UserAddIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ import { CartItem, StoreContext } from '@utils/store';
 import { useRouter } from 'next/router';
 import { useAuth } from '@lib/auth';
 import { getDummyPicture } from '@utils';
+import { Menu } from '@headlessui/react';
 
 type Props = {
   className?: string;
@@ -23,7 +25,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
   const [query, setQuery] = useState<string>('');
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const { state }: any = useContext(StoreContext);
   const { cart } = state;
@@ -92,18 +94,44 @@ const Navbar: React.FC<Props> = ({ className }) => {
         </PrimaryButton>
 
         {user ? (
-          <LinkedItem
-            href="/profile"
-            className="overflow-hidden rounded-full border-2 border-gray-400 focus:outline-none focus:border-secondary-600"
-          >
-            <img
-              src={
-                user.image ||
-                getDummyPicture(`${user.firstName} ${user.lastName}`)
-              }
-              className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-gray-200"
-            />
-          </LinkedItem>
+          <Menu as="div" className="relative inline-block">
+            <Menu.Button className="overflow-hidden rounded-full border-2 border-gray-400 focus:outline-none focus:border-secondary-600">
+              <img
+                src={
+                  user.image ||
+                  getDummyPicture(`${user.firstName} ${user.lastName}`)
+                }
+                className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-gray-200"
+              />
+            </Menu.Button>
+            <Menu.Items className="absolute right-0 w-56 origin-top-right bg-primary-200 rounded shadow-lg ">
+              <Menu.Item >
+                <LinkedItem
+                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                  href="/profile"
+                >
+                  Profile
+                </LinkedItem>
+              </Menu.Item>
+              <Menu.Item>
+                <LinkedItem
+                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                  href="/orders"
+                >
+                  Orders
+                </LinkedItem>
+              </Menu.Item>
+              <Menu.Item>
+                <LinkedItem
+                  href="#"
+                  onClick={logout}
+                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                >
+                  Logout
+                </LinkedItem>
+              </Menu.Item>
+            </Menu.Items>
+          </Menu>
         ) : (
           <PrimaryButton
             href="/login"

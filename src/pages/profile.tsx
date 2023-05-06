@@ -1,22 +1,20 @@
-import { ActionButton, PrimaryButton } from '@common/components/elements/button';
+import { H2 } from '@common/components/elements/Text';
 import asPortalPage from '@common/hoc/asPortalPage';
 import { withAuth } from '@common/hoc/withAuth';
-import { LogoutIcon } from '@heroicons/react/outline';
 import { useAuth } from '@lib/auth';
 
 const Profile = () => {
-  const { logout } = useAuth();
+  const { user } = useAuth();
+  // TODO: Create Profile page
   return (
     <>
-      <div>Profile Page!</div>
-      <PrimaryButton
-        onClick={logout}
-        Icon={LogoutIcon}
-        className=""
-        disabled={false}
-      >
-        Logout
-      </PrimaryButton>
+      <H2>Hello {user?.firstName} {user?.lastName}!</H2>
+      <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-2">
+          <span className="font-bold">Email:</span>
+          <span>{user?.email}</span>
+        </div>
+      </div>
     </>
   );
 };
