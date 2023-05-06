@@ -1,10 +1,10 @@
 export const endpoint = {
   auth: {
-    register: "/auth/register",
-    login: "/auth/login",
-    logout: "/auth/logout",
-    forgotPassword: "/auth/forgot-password",
-    resetPassword: "/auth/reset-password",
+    register: "/api/v1/auth/register",
+    login: "/api/v1/auth/login",
+    logout: "/api/v1/auth/logout",
+    forgotPassword: "/api/v1/auth/forgot-password",
+    resetPassword: "/api/v1/auth/reset-password",
   },
 
   customer: {
@@ -22,7 +22,7 @@ export const endpoint = {
   },
 
   product: {
-    get: (id: string) => `/api/v1/products/${id}`,
+    get: (id: string) => `/api/products/${id}`,
     getAll: "/api/products",
     add: "/api/v1/products",
     update: (id: string) => `/api/v1/products/${id}`,

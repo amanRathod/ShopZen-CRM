@@ -1,4 +1,5 @@
 import asPortalPage from "@common/hoc/asPortalPage";
+import { withAuth } from "@common/hoc/withAuth";
 import { useQuery } from "@lib/react-query";
 import OrderSummary from "@modules/order/OrderSummary";
 import ShippingDetails from "@modules/order/ShippingDetails";
@@ -18,4 +19,4 @@ const Checkout: NextPage = () => {
   )
 }
 
-export default asPortalPage('Checkout')(Checkout);
+export default asPortalPage('Checkout')(withAuth()(Checkout));

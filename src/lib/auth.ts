@@ -1,11 +1,10 @@
-import { LoginCredentials, User } from "@appTypes/user";
+import { LoginCredentials, RegisterCredentials, User } from "@appTypes/user";
 import { showErrorAlert, showSuccessAlert } from "@utils/alert";
 import { endpoint } from "@utils/constants/endpoints";
 import { storage } from "@utils/storage";
 import { showSuccessToast } from "@utils/toast";
-import axios from "axios";
+import axios from "@lib/axios";
 import { initReactQueryAuth } from "react-query-auth";
-
 
 interface Error {
   statusCode: number;
@@ -29,7 +28,7 @@ export const { AuthProvider, useAuth } = initReactQueryAuth<
 >({
   ...authConfig,
   // @ts-ignore: expects a JSX element providing FC
-  LoaderComponent: InlineLoader,
+  // LoaderComponent: InlineLoader,
 });
 
 async function loadUser(): Promise<User> {
@@ -38,19 +37,27 @@ async function loadUser(): Promise<User> {
   // @ts-ignore: allow null user
   if (!token) return null;
 
+  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
   const data = await axios
     .get(endpoint.customer.profile)
     .then(({ data }) => data)
     .catch(() => storage.clearToken());
 
-  const user = data.staff;
-  return user;
+  return data.profile;
 }
 
-function handleUserResponse(response: any) {
-  const { accessToken, user } = response;
+function handleUserResponse(response: any, statusCode: number) {
+  const { accessToken, user } = response.auth;
 
-  showSuccessToast("Login successful!");
+  if (!accessToken || !user) {
+    storage.clearToken();
+    showErrorAlert("Login Unsuccessful", "Invalid response from server");
+    return;
+  }
+
+  if (statusCode === 201) showSuccessToast("Registration successful!");
+  else showSuccessToast("Login successful!");
 
   storage.setToken(accessToken);
   return user; // User is undefined
@@ -60,7 +67,7 @@ async function loginFn(credentials: LoginCredentials): Promise<User> {
   return await axios
     .post(endpoint.auth.login, credentials)
     .then(({ data }) => {
-      return handleUserResponse(data);
+      return handleUserResponse(data, 200);
     })
     .catch(({ error }) => {
       storage.clearToken();
@@ -68,11 +75,11 @@ async function loginFn(credentials: LoginCredentials): Promise<User> {
     });
 }
 
-async function registerFn(): Promise<User> {
+async function registerFn(credentials: RegisterCredentials): Promise<User> {
   return await axios
-    .post(endpoint.auth.register)
+    .post(endpoint.auth.register, credentials)
     .then(({ data }) => {
-      return handleUserResponse(data);
+      return handleUserResponse(data, 201);
     })
     .catch(({ error }) => {
       storage.clearToken();

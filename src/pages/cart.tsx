@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import dynamic from 'next/dynamic'
 import { useContext } from 'react';
 import LinkedItem from '@elements/LinkedItem';
@@ -16,6 +16,7 @@ import {
 import { TertiaryButton } from '@common/components/elements/button';
 import { formatMoney } from '@utils/formatter';
 import CounterInput from '@common/components/elements/form/CounterInput';
+import { useAuth } from '@lib/auth';
 
 type SummaryField = {
   field: string;
@@ -32,6 +33,8 @@ const SummaryInfoField = ({ field, value }: SummaryField) => {
 };
 
 const Cart = () => {
+  const { user } = useAuth();
+  const router = useRouter();
   const { state, dispatch }: any = useContext(StoreContext);
   const { cart } = state;
   const { cartItems } = cart;
@@ -46,9 +49,13 @@ const Cart = () => {
   );
 
   const handleCheckout = () => {
-    showSuccessAlert('Checkout Successful', 'Thank you for shopping with us');
-    dispatch({ type: 'CLEAR_CART' });
-    Router.push('/');
+    if (!user) {
+      showInfoAlert('Please login to continue!', 'You will be redirected to login page');
+      router.push('/login');
+      return;
+    }
+
+    router.push('/checkout');
   };
 
   const addToCart = (product: CartItem) => {
@@ -164,7 +171,7 @@ const Cart = () => {
                   </H3>
                 </div>
                 <TertiaryButton
-                  onClick={() => Router.push('/checkout')}
+                  onClick={handleCheckout}
                   className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800"
                 >
                   Checkout

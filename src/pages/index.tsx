@@ -1,6 +1,5 @@
 import asPortalPage from '@hoc/asPortalPage';
 import { NextPage } from 'next';
-import data from '@utils/data';
 import ProductItem from '@modules/products/components/ProductItem';
 import { Product } from '@appTypes/product';
 import { useEffect, useState } from 'react';
