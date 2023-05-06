@@ -5,6 +5,7 @@ import { useAuth } from '@lib/auth';
 
 const Profile = () => {
   const { user } = useAuth();
+  // TODO: Create Profile page
   return (
     <>
       <H2>Hello {user?.firstName} {user?.lastName}!</H2>
