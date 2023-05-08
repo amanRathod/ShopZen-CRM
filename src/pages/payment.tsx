@@ -7,12 +7,12 @@ import { H4 } from '@common/components/elements/Text';
 import Input from '@common/components/elements/form/Input';
 import { LockClosedIcon } from '@heroicons/react/outline';
 import ListInput from '@common/components/elements/form/ListInput';
-import { Months, Years } from '@utils/constants';
+import { GlobalState, Months, PaymentMethod, Years } from '@utils/constants';
 import { Payments } from '@common/types/payment';
 import { useRouter } from 'next/router';
 import { showSuccessAlert } from '@utils/alert';
 import { withAuth } from '@common/hoc/withAuth';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '@utils/store';
 
 type Props = {
@@ -38,16 +38,43 @@ const paymentSchema = y.object().shape({
 });
 
 const initialPayment = {
-  fullName: "",
-  cardNumber: "",
-  month: "",
-  year: "",
-  cvv: "",
+  fullName: '',
+  cardNumber: '',
+  month: '',
+  year: '',
+  cvv: '',
 };
 
 const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   const router = useRouter();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    PaymentMethod.CARD
+  );
+
   const { state, dispatch }: any = useContext(StoreContext);
+  const { cart } = state;
+  const { shippingAddress, paymentMethod } = cart;
+
+  const handlePayment = async () => {
+    dispatch({
+      type: GlobalState.SAVE_PAYMENT_METHOD,
+      payload: selectedPaymentMethod,
+    });
+
+    console.log(state.cart);
+
+    showSuccessAlert(
+      'Payment Successful',
+      'Your order has been placed successfully!'
+    );
+    // router.push('/');
+  };
+
+  useEffect(() => {
+    if (!shippingAddress) {
+      router.push('/cart');
+    }
+  }, [paymentMethod, shippingAddress]);
 
   return (
     <div className="min-w-screen  flex items-center justify-center mt-20">
@@ -68,7 +95,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
                 className="form-radio h-5 w-5 text-tertiary-600"
                 name="type"
                 id="type1"
-                checked
+                checked={selectedPaymentMethod == PaymentMethod.CARD}
+                onChange={() => setSelectedPaymentMethod(PaymentMethod.CARD)}
               />
               <img
                 src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938998/ShopZen/ShopZen_paymentlogo2_hki2qk-c_scale_h_65_w_273_dmj7ar.jpg"
@@ -83,6 +111,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
                 className="form-radio h-5 w-5 text-tertiary-600"
                 name="type"
                 id="type2"
+                checked={selectedPaymentMethod == PaymentMethod.STRIPE}
+                onChange={() => setSelectedPaymentMethod(PaymentMethod.STRIPE)}
               />
               <img
                 src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938494/ShopZen/2560px-Stripe_Logo__revised_2016.svg_vaubnt.png"
@@ -92,7 +122,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
           </div>
         </div>
 
-        <Form
+        {/* <Form
           schema={paymentSchema}
           initialValues={payment}
           onSubmit={async (payment) => {
@@ -153,7 +183,16 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             className="w-1/2"
             required
           />
-        </Form>
+        </Form> */}
+
+        <div className="flex justify-center">
+          <button
+            className="bg-tertiary-600 text-white px-4 py-2 rounded hover:bg-tertiary-500 focus:outline-none focus:bg-tertiary-500"
+            onClick={handlePayment}
+          >
+            PAY NOW
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
 import Checkbox from '@common/components/elements/form/Checkbox';
 import { StoreContext } from '@utils/store';
+import { GlobalState } from '@utils/constants';
 
 type Props = {
   shippingAddress?: Address;
@@ -112,12 +113,12 @@ const ShippingDetails: React.FC<Props> = ({
               shippingAddress.mobile = shippingAddress.mobile.toString();
 
               dispatch({
-                type: 'CART_SAVE_SHIPPING_ADDRESS',
+                type: GlobalState.SAVE_SHIPPING_ADDRESS,
                 payload: { ...shippingAddress },
               });
 
               dispatch({
-                type: 'CART_SAVE_BILLING_ADDRESS',
+                type: GlobalState.SAVE_BILLING_ADDRESS,
                 payload: { ...shippingAddress },
               });
 
