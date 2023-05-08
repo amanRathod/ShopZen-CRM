@@ -54,7 +54,7 @@ const SidebarTab: React.FC<Props> = ({
               hasItems ? () => setItemsVisible(!itemsVisible) : undefined
             }
             className={clsx(
-              "flex items-center p-3 pl-4 font-bold text-gray-500 hover:bg-primary-200 hover:text-secondary-600 flex-1 transition-all text-md cursor-pointer select-none",
+              "flex items-center p-3 pl-4 font-bold text-gray-500 hover:bg-gray-200 hover:text-secondary-600 flex-1 transition-all text-md cursor-pointer select-none",
               isCurrentRoute && "text-secondary-600",
               className
             )}
