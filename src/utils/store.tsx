@@ -15,7 +15,8 @@ const initialState = {
       return {
         cartItems: [],
         shippingAddress: {},
-        paymentMethod: '',
+        billingAddress: {},
+        paymentMethod: {},
       };
     }
   })(),
@@ -55,6 +56,7 @@ const reducer = (state: State, action: Action) => {
         cart: { ...state.cart, cartItems },
       };
     }
+
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
         (item: Product) => item.id !== payload.id
@@ -66,11 +68,27 @@ const reducer = (state: State, action: Action) => {
         cart: { ...state.cart, cartItems },
       };
     }
+
+    case 'CART_CLEAR_ITEMS': {
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: [] },
+      };
+    }
+
     case 'CART_SAVE_SHIPPING_ADDRESS':
       return {
         ...state,
         cart: { ...state.cart, shippingAddress: payload },
       };
+    
+    case 'CART_SAVE_BILLING_ADDRESS':
+      return {
+        ...state,
+        cart: { ...state.cart, billingAddress: payload },
+      };
+
     case 'CART_SAVE_PAYMENT_METHOD':
       return {
         ...state,

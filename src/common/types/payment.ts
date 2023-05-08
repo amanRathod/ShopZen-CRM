@@ -1,7 +1,7 @@
-export type Payment = {
-  name: string;
+export type Payments = {
+  fullName: string;
   cardNumber: string;
-  expiryMonth: string;
-  expiryYear: string;
+  month: string;
+  year: string;
   cvv: string;
 };

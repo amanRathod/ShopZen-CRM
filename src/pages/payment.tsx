@@ -8,13 +8,15 @@ import Input from '@common/components/elements/form/Input';
 import { LockClosedIcon } from '@heroicons/react/outline';
 import ListInput from '@common/components/elements/form/ListInput';
 import { Months, Years } from '@utils/constants';
-import { Payment } from '@common/types/payment';
+import { Payments } from '@common/types/payment';
 import { useRouter } from 'next/router';
 import { showSuccessAlert } from '@utils/alert';
 import { withAuth } from '@common/hoc/withAuth';
+import { useContext, useEffect } from 'react';
+import { StoreContext } from '@utils/store';
 
 type Props = {
-  payment?: Payment;
+  payment?: Payments;
 };
 
 const paymentSchema = y.object().shape({
@@ -36,15 +38,16 @@ const paymentSchema = y.object().shape({
 });
 
 const initialPayment = {
-  fullName: '',
-  cardNumber: '',
-  month: '',
-  year: '',
-  cvv: '',
+  fullName: "",
+  cardNumber: "",
+  month: "",
+  year: "",
+  cvv: "",
 };
 
 const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   const router = useRouter();
+  const { state, dispatch }: any = useContext(StoreContext);
 
   return (
     <div className="min-w-screen  flex items-center justify-center mt-20">
@@ -92,11 +95,17 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
         <Form
           schema={paymentSchema}
           initialValues={payment}
-          onSubmit={async (values) => {
-            showSuccessAlert(
-              'Payment successful!',
-              "You'll be redirected to the home page in a few seconds"
-            );
+          onSubmit={async (payment) => {
+            payment.cvc = `${payment.cvv}`,
+            payment.cardNumber = `${payment.cardNumber}`,
+
+            dispatch({
+              type: 'SAVE_PAYMENT_METHOD',
+              payload: {...payment},
+            })
+
+            console.log(state.cart);
+            
             router.push('/');
           }}
           submitButton={{

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { H2, P } from '@elements/Text';
 import { Address } from '@appTypes/address';
 import * as y from 'yup';
@@ -13,6 +13,7 @@ import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
 import Checkbox from '@common/components/elements/form/Checkbox';
+import { StoreContext } from '@utils/store';
 
 type Props = {
   shippingAddress?: Address;
@@ -50,6 +51,7 @@ const ShippingDetails: React.FC<Props> = ({
   shippingAddress = initialShippingAddress,
 }) => {
   const router = useRouter();
+  const { state, dispatch }: any = useContext(StoreContext);
   const [currentCountryCode, setCurrentCountryCode] = useState('IN');
 
   const { data } = useQuery(
@@ -109,6 +111,16 @@ const ShippingDetails: React.FC<Props> = ({
               shippingAddress.zipCode = shippingAddress.zipCode.toString();
               shippingAddress.mobile = shippingAddress.mobile.toString();
 
+              dispatch({
+                type: 'CART_SAVE_SHIPPING_ADDRESS',
+                payload: { ...shippingAddress },
+              });
+
+              dispatch({
+                type: 'CART_SAVE_BILLING_ADDRESS',
+                payload: { ...shippingAddress },
+              });
+
               await router.push('/payment');
               return;
             }}
@@ -158,7 +170,10 @@ const ShippingDetails: React.FC<Props> = ({
 
               <ListInput options={states} name="state" label="State" required />
             </Form.Row>
-            <Checkbox name="billingAddress" label="Billing address is the same as shipping address" />
+            <Checkbox
+              name="billingAddress"
+              label="Billing address is the same as shipping address"
+            />
           </Form>
         </div>
       </div>
