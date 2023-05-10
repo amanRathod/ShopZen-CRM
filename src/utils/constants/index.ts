@@ -30,3 +30,22 @@ export const Years = [
   { value: "2029", label: "2029" },
   { value: "2030", label: "2030" },
 ];
+
+export const PaymentMethod = {
+  COD: "Cash On Delivery",
+  CARD: "Card",
+  PAYPAL: "PayPal",
+  STRIPE: "Stripe",
+}
+
+export const GlobalState = {
+  CART_ADD_ITEM: "CART_ADD_ITEM",
+  CART_REMOVE_ITEM: "CART_REMOVE_ITEM",
+  CART_CLEAR_ITEMS: "CART_CLEAR_ITEMS",
+  SAVE_SHIPPING_ADDRESS: "SAVE_SHIPPING_ADDRESS",
+  SAVE_BILLING_ADDRESS: "SAVE_BILLING_ADDRESS",
+  SAVE_PAYMENT_METHOD: "SAVE_PAYMENT_METHOD",
+  SAVE_ORDER: "SAVE_ORDER",
+  CLEAR_ORDER: "CLEAR_ORDER",
+  CART_CLEAR_AFTER_PAYMENT: "CART_CLEAR_AFTER_PAYMENT",
+};

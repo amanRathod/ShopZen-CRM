@@ -22,6 +22,7 @@ import { useQuery } from '@lib/react-query';
 import InlineLoader from '@elements/loader/InlineLoader';
 import { formatMoney } from '@utils/formatter';
 import CounterInput from '@common/components/elements/form/CounterInput';
+import { GlobalState } from '@utils/constants';
 
 const Product: NextPage = () => {
   const { state, dispatch }: any = useContext(StoreContext);
@@ -90,11 +91,14 @@ const Product: NextPage = () => {
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    dispatch({
+      type: GlobalState.CART_ADD_ITEM,
+      payload: { ...product, quantity },
+    });
   };
 
   const removeFromCart = () => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
+    dispatch({ type: GlobalState.CART_REMOVE_ITEM, payload: product.id });
   };
 
   const { name, description, price, image, stock } = product;

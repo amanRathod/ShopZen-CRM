@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Router, { useRouter } from 'next/router';
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 import { useContext } from 'react';
 import LinkedItem from '@elements/LinkedItem';
 import { H1, H3, H4, P } from '@elements/Text';
@@ -17,6 +17,7 @@ import { TertiaryButton } from '@common/components/elements/button';
 import { formatMoney } from '@utils/formatter';
 import CounterInput from '@common/components/elements/form/CounterInput';
 import { useAuth } from '@lib/auth';
+import { GlobalState, PaymentMethod } from '@utils/constants';
 
 type SummaryField = {
   field: string;
@@ -43,17 +44,29 @@ const Cart = () => {
     (a: number, c: CartItem) => a + c.price * c.quantity,
     0
   );
-  const totalItems = cartItems.reduce(
+  const totalQuantity = cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity,
     0
   );
 
   const handleCheckout = () => {
     if (!user) {
-      showInfoAlert('Please login to continue!', 'You will be redirected to login page');
+      showInfoAlert(
+        'Please login to continue!',
+        'You will be redirected to login page'
+      );
       router.push('/login');
       return;
     }
+
+    dispatch({
+      type: GlobalState.SAVE_ORDER,
+      payload: {
+        totalPrice: totalPrice + 50,
+        totalQuantity,
+        paymentMethod: PaymentMethod.CARD, 
+      }
+    });
 
     router.push('/checkout');
   };
@@ -72,7 +85,10 @@ const Cart = () => {
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    dispatch({
+      type: GlobalState.CART_ADD_ITEM,
+      payload: { ...product, quantity },
+    });
   };
 
   const removeFromCart = (product: CartItem) => {
@@ -82,10 +98,13 @@ const Cart = () => {
 
     const quantity = existItem ? existItem.quantity - 1 : 0;
     if (quantity === 0) {
-      dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
+      dispatch({ type: GlobalState.CART_REMOVE_ITEM, payload: product.id });
       return;
     } else {
-      dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+      dispatch({
+        type: GlobalState.CART_ADD_ITEM,
+        payload: { ...product, quantity },
+      });
     }
   };
 
@@ -113,9 +132,7 @@ const Cart = () => {
                   />
                 </div>
                 <div className="md:pl-3 md:w-3/4">
-                  <H4 className=" text-gray-800">
-                    {item.name}
-                  </H4>
+                  <H4 className=" text-gray-800">{item.name}</H4>
                   <P className="flex flex-row items-center mt-2">
                     {item.stock > 0 ? (
                       <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
@@ -137,7 +154,10 @@ const Cart = () => {
                       <P
                         className="underline text-red-500 pl-5 cursor-pointer"
                         onClick={() =>
-                          dispatch({ type: 'CART_REMOVE_ITEM', payload: item })
+                          dispatch({
+                            type: GlobalState.CART_REMOVE_ITEM,
+                            payload: item,
+                          })
                         }
                       >
                         Remove
@@ -156,7 +176,7 @@ const Cart = () => {
                 <H1 className=" text-gray-800">Summary</H1>
                 <div className="pt-10">
                   <SummaryInfoField
-                    field={`Subtotal (${totalItems} items)`}
+                    field={`Subtotal (${totalQuantity} items)`}
                     value={formatMoney(totalPrice)}
                   />
                   <SummaryInfoField field="Shipping" value={formatMoney(0)} />

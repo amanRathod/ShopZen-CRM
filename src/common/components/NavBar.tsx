@@ -34,7 +34,8 @@ const Navbar: React.FC<Props> = ({ className }) => {
     setCartItemsCount(
       cart.cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0)
     );
-  }, [cart.cartItems]);
+    
+  }, [cart.cartItems, user]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();

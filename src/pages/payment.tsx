@@ -7,14 +7,21 @@ import { H4 } from '@common/components/elements/Text';
 import Input from '@common/components/elements/form/Input';
 import { LockClosedIcon } from '@heroicons/react/outline';
 import ListInput from '@common/components/elements/form/ListInput';
-import { Months, Years } from '@utils/constants';
-import { Payment } from '@common/types/payment';
+import { GlobalState, Months, PaymentMethod, Years } from '@utils/constants';
+import { Payments } from '@common/types/payment';
 import { useRouter } from 'next/router';
 import { showSuccessAlert } from '@utils/alert';
 import { withAuth } from '@common/hoc/withAuth';
+import { useContext, useEffect, useState } from 'react';
+import { StoreContext } from '@utils/store';
+import axios from 'axios';
+import { RequestType, useMutation } from '@lib/react-query';
+import { endpoint } from '@utils/constants/endpoints';
+import InlineLoader from '@common/components/elements/loader/InlineLoader';
+import { Response } from '@common/types';
 
 type Props = {
-  payment?: Payment;
+  payment?: Payments;
 };
 
 const paymentSchema = y.object().shape({
@@ -45,6 +52,54 @@ const initialPayment = {
 
 const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   const router = useRouter();
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
+    PaymentMethod.CARD
+  );
+
+  const { state, dispatch }: any = useContext(StoreContext);
+  const { cart } = state;
+  const { shippingAddress, paymentMethod } = cart;
+
+  const { mutateAsync, isLoading } = useMutation(endpoint.order.add, RequestType.Post, "order");
+
+  if (isLoading) return <InlineLoader />;
+
+  const handlePayment = async () => {
+    state.cart.orderItems = state.cart.cartItems;
+    delete state.cart.cartItems;
+
+    const token = localStorage.getItem('token');
+    // const data = await mutateAsync(state.cart);
+
+    const data = await axios.post('http://localhost:8080/api/checkout/purchase', state.cart, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+        }
+        });
+
+    dispatch({
+      type: GlobalState.CART_CLEAR_AFTER_PAYMENT,
+    });
+
+    showSuccessAlert(
+      'Payment Successful',
+      'Your order has been placed successfully!'
+    );
+
+    router.push('/');
+  };
+
+  useEffect(() => {
+    if (!shippingAddress) {
+      router.push('/cart');
+    }
+
+    dispatch({
+      type: GlobalState.SAVE_PAYMENT_METHOD,
+      payload: selectedPaymentMethod,
+    });
+
+  }, [paymentMethod, shippingAddress, selectedPaymentMethod]);
 
   return (
     <div className="min-w-screen  flex items-center justify-center mt-20">
@@ -65,7 +120,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
                 className="form-radio h-5 w-5 text-tertiary-600"
                 name="type"
                 id="type1"
-                checked
+                checked={selectedPaymentMethod == PaymentMethod.CARD}
+                onChange={() => setSelectedPaymentMethod(PaymentMethod.CARD)}
               />
               <img
                 src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938998/ShopZen/ShopZen_paymentlogo2_hki2qk-c_scale_h_65_w_273_dmj7ar.jpg"
@@ -80,6 +136,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
                 className="form-radio h-5 w-5 text-tertiary-600"
                 name="type"
                 id="type2"
+                checked={selectedPaymentMethod == PaymentMethod.STRIPE}
+                onChange={() => setSelectedPaymentMethod(PaymentMethod.STRIPE)}
               />
               <img
                 src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938494/ShopZen/2560px-Stripe_Logo__revised_2016.svg_vaubnt.png"
@@ -88,15 +146,21 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             </label>
           </div>
         </div>
-
-        <Form
+      {/* TODO: ADD Payment Form*/}
+        {/* <Form
           schema={paymentSchema}
           initialValues={payment}
-          onSubmit={async (values) => {
-            showSuccessAlert(
-              'Payment successful!',
-              "You'll be redirected to the home page in a few seconds"
-            );
+          onSubmit={async (payment) => {
+            payment.cvc = `${payment.cvv}`,
+            payment.cardNumber = `${payment.cardNumber}`,
+
+            dispatch({
+              type: 'SAVE_PAYMENT_METHOD',
+              payload: {...payment},
+            })
+
+            console.log(state.cart);
+            
             router.push('/');
           }}
           submitButton={{
@@ -144,7 +208,16 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             className="w-1/2"
             required
           />
-        </Form>
+        </Form> */}
+
+        <div className="flex justify-center">
+          <button
+            className="bg-tertiary-600 text-white px-4 py-2 rounded hover:bg-tertiary-500 focus:outline-none focus:bg-tertiary-500"
+            onClick={handlePayment}
+          >
+            PAY NOW
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { Product } from '@appTypes/product';
 import { createContext, useReducer } from 'react';
+import { GlobalState, PaymentMethod } from './constants';
 
 export type CartItem = {
   quantity: number;
@@ -15,7 +16,8 @@ const initialState = {
       return {
         cartItems: [],
         shippingAddress: {},
-        paymentMethod: '',
+        billingAddress: {},
+        order: {},
       };
     }
   })(),
@@ -37,7 +39,7 @@ type State = {
 const reducer = (state: State, action: Action) => {
   const { type, payload } = action;
   switch (type) {
-    case 'CART_ADD_ITEM': {
+    case GlobalState.CART_ADD_ITEM: {
       const newItem = payload;
       const existItem = state.cart.cartItems.find(
         (item) => item.id === newItem.id
@@ -55,7 +57,8 @@ const reducer = (state: State, action: Action) => {
         cart: { ...state.cart, cartItems },
       };
     }
-    case 'CART_REMOVE_ITEM': {
+
+    case GlobalState.CART_REMOVE_ITEM: {
       const cartItems = state.cart.cartItems.filter(
         (item: Product) => item.id !== payload.id
       );
@@ -66,16 +69,53 @@ const reducer = (state: State, action: Action) => {
         cart: { ...state.cart, cartItems },
       };
     }
-    case 'CART_SAVE_SHIPPING_ADDRESS':
+
+    case GlobalState.CART_CLEAR_ITEMS: {
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      return {
+        ...state,
+        cart: { ...state.cart, cartItems: [] },
+      };
+    }
+
+    case GlobalState.CART_CLEAR_AFTER_PAYMENT: {
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: [],
+          shippingAddress: {},
+          billingAddress: {},
+          order: {}
+        },
+      };
+    }
+
+    case GlobalState.SAVE_SHIPPING_ADDRESS:
       return {
         ...state,
         cart: { ...state.cart, shippingAddress: payload },
       };
-    case 'CART_SAVE_PAYMENT_METHOD':
+
+    case GlobalState.SAVE_BILLING_ADDRESS:
+      return {
+        ...state,
+        cart: { ...state.cart, billingAddress: payload },
+      };
+
+    case GlobalState.SAVE_PAYMENT_METHOD:
       return {
         ...state,
         cart: { ...state.cart, paymentMethod: payload },
       };
+
+    case GlobalState.SAVE_ORDER:
+      return {
+        ...state,
+        cart: { ...state.cart, order: payload },
+      };
+      
     default:
       return state;
   }
