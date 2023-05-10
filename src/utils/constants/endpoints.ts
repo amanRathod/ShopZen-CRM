@@ -38,8 +38,8 @@ export const endpoint = {
 
   order: {
     get: (id: string) => `/api/order/${id}`,
-    add: "/api/order",
     getAll: "/api/order",
+    add: "/api/checkout/purchase",
     update: (id: string) => `/api/order/${id}`,
     filter: (values: {}) => `/api/order/?${new URLSearchParams(values)}`,
     orderById: (id: string) => `/api/order/user/${id}`,

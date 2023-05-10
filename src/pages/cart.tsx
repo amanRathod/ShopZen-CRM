@@ -17,7 +17,7 @@ import { TertiaryButton } from '@common/components/elements/button';
 import { formatMoney } from '@utils/formatter';
 import CounterInput from '@common/components/elements/form/CounterInput';
 import { useAuth } from '@lib/auth';
-import { GlobalState } from '@utils/constants';
+import { GlobalState, PaymentMethod } from '@utils/constants';
 
 type SummaryField = {
   field: string;
@@ -44,7 +44,7 @@ const Cart = () => {
     (a: number, c: CartItem) => a + c.price * c.quantity,
     0
   );
-  const totalItems = cartItems.reduce(
+  const totalQuantity = cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity,
     0
   );
@@ -58,6 +58,15 @@ const Cart = () => {
       router.push('/login');
       return;
     }
+
+    dispatch({
+      type: GlobalState.SAVE_ORDER,
+      payload: {
+        totalPrice: totalPrice + 50,
+        totalQuantity,
+        paymentMethod: PaymentMethod.CARD, 
+      }
+    });
 
     router.push('/checkout');
   };
@@ -167,7 +176,7 @@ const Cart = () => {
                 <H1 className=" text-gray-800">Summary</H1>
                 <div className="pt-10">
                   <SummaryInfoField
-                    field={`Subtotal (${totalItems} items)`}
+                    field={`Subtotal (${totalQuantity} items)`}
                     value={formatMoney(totalPrice)}
                   />
                   <SummaryInfoField field="Shipping" value={formatMoney(0)} />

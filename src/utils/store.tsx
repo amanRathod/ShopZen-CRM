@@ -17,7 +17,7 @@ const initialState = {
         cartItems: [],
         shippingAddress: {},
         billingAddress: {},
-        paymentMethod: PaymentMethod.CARD,
+        order: {},
       };
     }
   })(),
@@ -78,6 +78,20 @@ const reducer = (state: State, action: Action) => {
       };
     }
 
+    case GlobalState.CART_CLEAR_AFTER_PAYMENT: {
+      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: [],
+          shippingAddress: {},
+          billingAddress: {},
+          order: {}
+        },
+      };
+    }
+
     case GlobalState.SAVE_SHIPPING_ADDRESS:
       return {
         ...state,
@@ -95,6 +109,13 @@ const reducer = (state: State, action: Action) => {
         ...state,
         cart: { ...state.cart, paymentMethod: payload },
       };
+
+    case GlobalState.SAVE_ORDER:
+      return {
+        ...state,
+        cart: { ...state.cart, order: payload },
+      };
+      
     default:
       return state;
   }

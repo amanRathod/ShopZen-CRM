@@ -28,7 +28,7 @@ const OrderSummary = () => {
     (a: number, c: CartItem) => a + c.price * c.quantity,
     0
   );
-  const totalItems = cartItems.reduce(
+  const totalQuantity = cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity,
     0
   );
@@ -64,7 +64,7 @@ const OrderSummary = () => {
             </div>
           ))}
 
-          <OrderInfoField field="Total Items" value={totalItems} />
+          <OrderInfoField field="Total Items" value={totalQuantity} />
           <OrderInfoField
             field="Total Charges"
             value={formatMoney(totalPrice)}

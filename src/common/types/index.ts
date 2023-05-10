@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import { ReactElement, ReactNode } from "react";
 import { AppProps } from "next/app";
+import { AxiosResponse } from "axios";
 
 export type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -23,3 +24,8 @@ export interface Component<T = {}>
       children?: ReactNode;
     } & T
   > {}
+
+  export type Response = {
+    error?: string;
+    message?: string;
+  } & AxiosResponse;
