@@ -21,7 +21,7 @@ import { GlobalState, PaymentMethod } from '@utils/constants';
 
 type SummaryField = {
   field: string;
-  value: any;
+  value: string;
 };
 
 const SummaryInfoField = ({ field, value }: SummaryField) => {

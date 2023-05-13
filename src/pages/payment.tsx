@@ -1,12 +1,8 @@
 import { NextPage } from 'next';
 import * as y from 'yup';
-import Form from '@components/form';
 import asPortalPage from '@hoc/asPortalPage';
 import { CreditCardIcon } from '@heroicons/react/solid';
 import { H4 } from '@common/components/elements/Text';
-import Input from '@common/components/elements/form/Input';
-import { LockClosedIcon } from '@heroicons/react/outline';
-import ListInput from '@common/components/elements/form/ListInput';
 import { GlobalState, Months, PaymentMethod, Years } from '@utils/constants';
 import { Payments } from '@common/types/payment';
 import { useRouter } from 'next/router';
@@ -18,7 +14,6 @@ import axios from 'axios';
 import { RequestType, useMutation } from '@lib/react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
-import { Response } from '@common/types';
 
 type Props = {
   payment?: Payments;
