@@ -6,5 +6,9 @@ export const formatMoney = (value: number) => {
  };
  
  export const formatDate = (date: string) => {
-   return new Date(date).toLocaleString();
+   return new Date(date).toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
  };
