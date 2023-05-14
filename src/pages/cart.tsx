@@ -50,7 +50,7 @@ const Cart = () => {
     dispatch({
       type: GlobalState.SAVE_ORDER,
       payload: {
-        totalPrice: totalPrice + 50,
+        totalPrice: totalPrice,
         totalQuantity,
         paymentMethod: PaymentMethod.CARD,
       },
@@ -75,7 +75,7 @@ const Cart = () => {
 
     dispatch({
       type: GlobalState.CART_ADD_ITEM,
-      payload: { ...product, quantity },
+      payload: { ...product, quantity, productId: product.id },
     });
   };
 
@@ -91,7 +91,7 @@ const Cart = () => {
     } else {
       dispatch({
         type: GlobalState.CART_ADD_ITEM,
-        payload: { ...product, quantity },
+        payload: { ...product, quantity, productId: product.id },
       });
     }
   };
@@ -177,7 +177,7 @@ const Cart = () => {
                 <div className="flex items-center pb-6 justify-between pt-20">
                   <H3 className="text-gray-800">Total</H3>
                   <H3 className="text-gray-800">
-                    {formatMoney(totalPrice + 50)}
+                    {formatMoney(totalPrice)}
                   </H3>
                 </div>
                 <TertiaryButton

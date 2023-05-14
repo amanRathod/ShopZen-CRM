@@ -6,7 +6,7 @@ import ProductList from '@modules/products/components/ProductList';
 import { useQuery } from '@lib/react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
-import { Order } from '@common/types/order';
+import { Order, OrderItem } from '@common/types/order';
 import { formatDate, formatMoney } from '@utils/formatter';
 import { OrderInfoField } from '@common/components/elements/List';
 
@@ -20,7 +20,7 @@ const OrderHistory: NextPage = () => {
   );
 
   if (isLoading) return <InlineLoader />;
-  if (!data) return <div>No order history</div>;
+  if (!data.orders) return <div>No order history</div>;
 
   const { orders } = data;
 
@@ -63,13 +63,11 @@ const OrderHistory: NextPage = () => {
             </div>
           </div>
           <Divider />
-          
-          {order?.orderItems?.map((item: any) => (
+
+          {order?.orderItems?.map((item: OrderItem) => (
             <ProductList
               key={item.id}
-              quantity={item.quantity}
-              totalPrice={item.price}
-              {...item.product}
+              {...item}
             />
           ))}
         </div>

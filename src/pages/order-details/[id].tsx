@@ -81,9 +81,7 @@ const OrderDetails = () => {
           {order.orderItems.map((item: OrderItem) => {
             return (
               <ProductList
-                quantity={item.quantity}
-                totalPrice={item.price}
-                {...item.product}
+                {...item}
               />
             );
           })}

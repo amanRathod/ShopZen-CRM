@@ -93,7 +93,7 @@ const Product: NextPage = () => {
 
     dispatch({
       type: GlobalState.CART_ADD_ITEM,
-      payload: { ...product, quantity },
+      payload: { ...product, quantity, productId: product.id },
     });
   };
 
