@@ -7,6 +7,7 @@ import Image from 'next/image';
 
 type Props = {
   quantity: number;
+  totalPrice: number;
 } & Product;
 
 const ProductList: React.FC<Props> = ({
@@ -14,7 +15,7 @@ const ProductList: React.FC<Props> = ({
   image,
   name,
   description,
-  price,
+  totalPrice,
   quantity,
 }) => {
   return (
@@ -31,7 +32,7 @@ const ProductList: React.FC<Props> = ({
       <div className="md:pl-3 w-3/4 flex-col">
         <div className="flex justify-between py-4">
           <H4 className=" text-gray-800">{name}</H4>
-          <H4 className="text-gray-800">{formatMoney(price)}</H4>
+          <H4 className="text-gray-800">{formatMoney(totalPrice)}</H4>
         </div>
 
         <P className="hidden md:block text-gray-600">{description}</P>

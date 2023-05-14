@@ -117,7 +117,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
               <Menu.Item>
                 <LinkedItem
                   className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
-                  href="/orders"
+                  href="/order-history"
                 >
                   Orders
                 </LinkedItem>
