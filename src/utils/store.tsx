@@ -5,6 +5,7 @@ import { GlobalState, PaymentMethod } from './constants';
 
 export type CartItem = {
   quantity: number;
+  product_id: string;
 } & Product;
 
 const initialState = {

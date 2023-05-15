@@ -18,20 +18,8 @@ import { formatMoney } from '@utils/formatter';
 import CounterInput from '@common/components/elements/form/CounterInput';
 import { useAuth } from '@lib/auth';
 import { GlobalState, PaymentMethod } from '@utils/constants';
-
-type SummaryField = {
-  field: string;
-  value: string;
-};
-
-const SummaryInfoField = ({ field, value }: SummaryField) => {
-  return (
-    <div className="flex items-center justify-between pt-5">
-      <P className="text-gray-800">{field}</P>
-      <P className="text-gray-800">{value}</P>
-    </div>
-  );
-};
+import { PriceInfoField } from '@common/components/elements/List';
+import Tag from '@common/components/elements/Tag';
 
 const Cart = () => {
   const { user } = useAuth();
@@ -62,10 +50,10 @@ const Cart = () => {
     dispatch({
       type: GlobalState.SAVE_ORDER,
       payload: {
-        totalPrice: totalPrice + 50,
+        totalPrice: totalPrice,
         totalQuantity,
-        paymentMethod: PaymentMethod.CARD, 
-      }
+        paymentMethod: PaymentMethod.CARD,
+      },
     });
 
     router.push('/checkout');
@@ -87,7 +75,7 @@ const Cart = () => {
 
     dispatch({
       type: GlobalState.CART_ADD_ITEM,
-      payload: { ...product, quantity },
+      payload: { ...product, quantity, productId: product.id },
     });
   };
 
@@ -103,7 +91,7 @@ const Cart = () => {
     } else {
       dispatch({
         type: GlobalState.CART_ADD_ITEM,
-        payload: { ...product, quantity },
+        payload: { ...product, quantity, productId: product.id },
       });
     }
   };
@@ -174,20 +162,22 @@ const Cart = () => {
             <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
               <div>
                 <H1 className=" text-gray-800">Summary</H1>
-                <div className="pt-10">
-                  <SummaryInfoField
+                <div className="pt-10 space-y-4">
+                  <PriceInfoField
                     field={`Subtotal (${totalQuantity} items)`}
                     value={formatMoney(totalPrice)}
                   />
-                  <SummaryInfoField field="Shipping" value={formatMoney(0)} />
-                  <SummaryInfoField field="Tax" value={formatMoney(50)} />
+                  <PriceInfoField field="Shipping" value={formatMoney(0)}>
+                    <Tag className="rounded-none">FREE</Tag>
+                  </PriceInfoField>
+                  <PriceInfoField field="Tax" value={formatMoney(0)} />
                 </div>
               </div>
               <div>
                 <div className="flex items-center pb-6 justify-between pt-20">
                   <H3 className="text-gray-800">Total</H3>
                   <H3 className="text-gray-800">
-                    {formatMoney(totalPrice + 50)}
+                    {formatMoney(totalPrice)}
                   </H3>
                 </div>
                 <TertiaryButton

@@ -16,8 +16,10 @@ export type Order = {
 } & TableEntity
 
 export type OrderItem = {
-  image: string;
   price: number;
   quantity: number;
-  product: Product;
+  productId: string;
+  name: string;
+  description: string;
+  image: string;
 } & TableEntity
