@@ -176,13 +176,11 @@ const Cart = () => {
               <div>
                 <div className="flex items-center pb-6 justify-between pt-20">
                   <H3 className="text-gray-800">Total</H3>
-                  <H3 className="text-gray-800">
-                    {formatMoney(totalPrice)}
-                  </H3>
+                  <H3 className="text-gray-800">{formatMoney(totalPrice)}</H3>
                 </div>
                 <TertiaryButton
                   onClick={handleCheckout}
-                  className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800"
+                  className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800"
                 >
                   Checkout
                 </TertiaryButton>
@@ -199,7 +197,7 @@ const Cart = () => {
           </P>
           <TertiaryButton
             onClick={() => Router.push('/')}
-            className="text-base leading-none w-64 py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 mt-10"
+            className="text-base leading-none w-64 py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 mt-10"
           >
             Continue Shopping
           </TertiaryButton>

@@ -19,16 +19,14 @@ const OrderHistory: NextPage = () => {
     false
   );
 
-  if (isLoading) return <InlineLoader />;
-  if (!data.orders) return <div>No order history</div>;
-
+  if (isLoading || !data.orders) return <InlineLoader />;
   const { orders } = data;
 
   return (
     <>
       {orders.map((order: Order) => (
-        <div className="border-2 w-full bg-primary-100 mb-10">
-          <div className="flex lg:flex-row flex-col justify-between p-6 bg-primary-300">
+        <div className="border-2 w-full bg-gray-50 mb-10">
+          <div className="flex lg:flex-row flex-col justify-between p-6 bg-gray-100">
             <div className="lg:flex items-center">
               <OrderInfoField
                 field="Order Date"
@@ -50,13 +48,13 @@ const OrderHistory: NextPage = () => {
             <div className="flex justify-around">
               <LinkedItem
                 href={`/order-details/${order.id}`}
-                className="text-tertiary-600  hover:text-tertiary-800  hover:underline"
+                className="text-primary-600  hover:text-primary-800  hover:underline"
               >
                 View order details
               </LinkedItem>
               <LinkedItem
                 href="#"
-                className="ml-4 text-tertiary-600  hover:text-tertiary-800  hover:underline"
+                className="ml-4 text-primary-600  hover:text-primary-800  hover:underline"
               >
                 Invoice
               </LinkedItem>
@@ -65,10 +63,7 @@ const OrderHistory: NextPage = () => {
           <Divider />
 
           {order?.orderItems?.map((item: OrderItem) => (
-            <ProductList
-              key={item.id}
-              {...item}
-            />
+            <ProductList key={item.id} {...item} />
           ))}
         </div>
       ))}

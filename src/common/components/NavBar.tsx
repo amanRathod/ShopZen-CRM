@@ -34,7 +34,6 @@ const Navbar: React.FC<Props> = ({ className }) => {
     setCartItemsCount(
       cart.cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0)
     );
-    
   }, [cart.cartItems, user]);
 
   const submitHandler = (e: any) => {
@@ -46,7 +45,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
   return (
     <div
       className={clsx(
-        'relative flex items-center justify-between h-16 px-4 bg-primary-50 shadow shadow-gray-300',
+        'relative flex items-center justify-between h-16 px-4 bg-white shadow shadow-gray-300',
         className
       )}
     >
@@ -66,14 +65,14 @@ const Navbar: React.FC<Props> = ({ className }) => {
         className="max-w-md mx-auto w-full justify-center sm:flex"
         onSubmit={submitHandler}
       >
-        <div className="relative flex items-center h-10 border border-gray-200 rounded-lg focus-within:shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 bg-white ">
+        <div className="relative flex items-center h-10 border border-gray-200 rounded-lg focus-within:shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 bg-white ">
           <input
             className="h-full w-full outline-none text-sm px-3 py-2 placeholder-gray-400 text-gray-700"
             type="text"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search Products"
           />
-          <button className="py-2 px-4 hover:bg-primary-300">
+          <button className="py-2 px-4 hover:bg-gray-200">
             <SearchIcon className="w-6 h-6 text-gray-300"></SearchIcon>
           </button>
         </div>
@@ -88,7 +87,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
         >
           Cart
           {cartItemsCount > 0 && (
-            <span className="ml-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-secondary-600 text-white">
+            <span className="ml-1 inline-flex items-center px-2 py-1 rounded-full text-xs font-bold bg-primary-600 text-white">
               {cartItemsCount}
             </span>
           )}
@@ -96,7 +95,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
 
         {user ? (
           <Menu as="div" className="relative inline-block">
-            <Menu.Button className="overflow-hidden rounded-full border-2 border-gray-400 focus:outline-none focus:border-secondary-600">
+            <Menu.Button className="overflow-hidden rounded-full border-2 border-gray-400 focus:outline-none focus:border-primary-600">
               <img
                 src={
                   user.image ||
@@ -105,10 +104,10 @@ const Navbar: React.FC<Props> = ({ className }) => {
                 className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-gray-200"
               />
             </Menu.Button>
-            <Menu.Items className="absolute right-0 w-56 origin-top-right bg-primary-200 rounded shadow-lg ">
-              <Menu.Item >
+            <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white rounded shadow-lg ">
+              <Menu.Item>
                 <LinkedItem
-                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
                   href="/profile"
                 >
                   Profile
@@ -116,7 +115,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
               </Menu.Item>
               <Menu.Item>
                 <LinkedItem
-                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
                   href="/order-history"
                 >
                   Orders
@@ -126,7 +125,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
                 <LinkedItem
                   href="#"
                   onClick={logout}
-                  className="flex p-2 hover:bg-gray-200 hover:text-secondary-600"
+                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
                 >
                   Logout
                 </LinkedItem>

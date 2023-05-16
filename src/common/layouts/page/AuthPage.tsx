@@ -19,7 +19,7 @@ const AuthPage: React.FC<Props> = ({ pageTitle, title, text, children }) => {
             src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682423840/ShopZen/logo-transparent-svg_y8ascp.svg"
             alt="Workflow"
           />
-          <H2 className="mt-6 text-3xl font-extrabold text-center text-primary-900">
+          <H2 className="mt-6 text-3xl font-extrabold text-center text-gray-700">
             {title}
           </H2>
           {text && (

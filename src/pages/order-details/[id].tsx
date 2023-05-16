@@ -70,20 +70,16 @@ const OrderDetails = () => {
           <div className="flex justify-between py-4 lg:py-0">
             <LinkedItem
               href="#"
-              className="lg:ml-4 text-tertiary-600  hover:text-tertiary-800  hover:underline"
+              className="lg:ml-4 text-primary-600  hover:text-primary-800  hover:underline"
             >
               Invoice
             </LinkedItem>
           </div>
         </div>
 
-        <div className="border-2 w-full bg-primary-100 mb-10">
+        <div className="border-2 w-full bg-gray-50 mb-10">
           {order.orderItems.map((item: OrderItem) => {
-            return (
-              <ProductList
-                {...item}
-              />
-            );
+            return <ProductList {...item} />;
           })}
         </div>
 
@@ -125,7 +121,7 @@ const OrderDetails = () => {
               <H4 className="text-gray-600">{formatMoney(totalPrice)}</H4>
             </div>
             <div className="pt-1 md:pt-4  xl:pt-8 space-y-6 md:space-y-8">
-              <TertiaryButton className="w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800">
+              <TertiaryButton className="w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800">
                 Track Your Order
               </TertiaryButton>
             </div>

@@ -42,7 +42,7 @@ const ProductList: React.FC<Props> = ({
           <div className="border-l-2 border-gray-200 h-8 ml-2"></div>
           <LinkedItem
             href={`/product/${productId}`}
-            className="ml-2 text-tertiary-600  hover:text-tertiary-800  hover:underline"
+            className="ml-2 text-primary-600  hover:text-primary-800  hover:underline"
           >
             View Product
           </LinkedItem>
