@@ -3,12 +3,18 @@ import LinkedItem from "@elements/LinkedItem";
 import AuthPage from "@layouts/page/AuthPage";
 import Form from '@components/form';
 import Input from '@elements/form/Input';
+import { useMutation } from "@lib/react-query";
+import { endpoint } from "@utils/constants/endpoints";
+import { showSuccessAlert } from "@utils/alert";
+import { Response } from "@common/types";
 
 const forgotPasswordSchema = y.object().shape({
    email: y.string().email("Invalid email").required("Email is required"),
  });
  
  const ForgotPassword = () => {
+
+  const { mutateAsync } = useMutation(endpoint.auth.forgotPassword);
  
    return (
      <AuthPage
@@ -22,6 +28,14 @@ const forgotPasswordSchema = y.object().shape({
          initialValues={{
            email: "",
          }}
+         onSubmit={async (data, reset) => {
+          const { message }: Response = await mutateAsync(data);
+
+          if (message) {
+            showSuccessAlert("Password Reset Initiated", message);
+            reset();
+          }
+        }}
          submitButton={{ title: "Send Reset Link", className: "w-full" }}
        >
          <Input name="email" label="Email" type="email" required />
