@@ -99,10 +99,10 @@ const Cart = () => {
   return (
     <>
       {cart.cartItems.length > 0 ? (
-        <div className="flex md:flex-row flex-col justify-between">
-          <div className="lg:w-1/2 md:w-8/12 w-full md:pl-10 pl-4 pr-10 md:pr-4 bg-white overflow-y-auto overflow-x-hidden h-screen">
+        <div className="flex sm:flex-row flex-col justify-between">
+          <div className="lg:w-1/2 md:w-8/12 w-full bg-white overflow-y-auto overflow-x-hidden sm:h-screen">
             <LinkedItem
-              className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+              className="flex items-center text-gray-500 hover:text-primary-600 cursor-pointer"
               href="/"
             >
               <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
@@ -158,7 +158,7 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="lg:w-96 md:w-8/12 w-full bg-gray-100 h-full">
+          <div className="lg:w-96 md:w-4/12 w-full bg-gray-100 h-full">
             <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
               <div>
                 <H1 className=" text-gray-800">Summary</H1>

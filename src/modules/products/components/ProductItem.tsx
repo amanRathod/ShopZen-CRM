@@ -39,7 +39,7 @@ const ProductItem: React.FC<Props> = ({
 
     dispatch({
       type: GlobalState.CART_ADD_ITEM,
-      payload: { id, name, description, price, image, quantity, productId: id },
+      payload: { id, name, description, price, image, stock, quantity, productId: id },
     });
   };
 
