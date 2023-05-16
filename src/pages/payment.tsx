@@ -154,8 +154,6 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
               payload: {...payment},
             })
 
-            console.log(state.cart);
-            
             router.push('/');
           }}
           submitButton={{
