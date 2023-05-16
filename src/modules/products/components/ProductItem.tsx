@@ -6,6 +6,10 @@ import { PrimaryButton } from '@elements/button';
 import { ShoppingCartIcon } from '@heroicons/react/outline';
 import LinkedItem from '@elements/LinkedItem';
 import { formatMoney } from '@utils/formatter';
+import { useContext } from 'react';
+import { StoreContext } from '@utils/store';
+import { showInfoAlert } from '@utils/alert';
+import { GlobalState } from '@utils/constants';
 
 type Props = {} & Product;
 
@@ -14,30 +18,55 @@ const ProductItem: React.FC<Props> = ({
   image,
   name,
   price,
+  description,
+  stock,
 }) => {
+  const { state, dispatch }: any = useContext(StoreContext);
+
+  const addToCart = () => {
+    const existItem = state.cart.cartItems.find(
+      (item: Product) => item.id === id
+    );
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    if (quantity > stock) {
+      showInfoAlert(
+        'Sorry, this product is out of stock!',
+        'Please try again later!'
+      );
+      return;
+    }
+
+    dispatch({
+      type: GlobalState.CART_ADD_ITEM,
+      payload: { id, name, description, price, image, quantity, productId: id },
+    });
+  };
+
   return (
-    <Card className="max-w-sm w-full p-0 sm:p-0 md:p-0 bg-white border border-gray-200 hover:bg-gray-100 overflow-hidden">
+    <Card className="w-72 bg-white duration-500 hover:scale-105 hover:shadow-xl">
       <LinkedItem href={`/product/${id}`}>
         <Image
           src={image}
           alt={name}
-          className="rounded-t-lg cursor-pointer transition duration-300 ease-in-out hover:scale-110"
-          width={600}
-          height={600}
+          className='rounded-t-lg bg-gray-100 cursor-pointer'
+          // className="h-80 w-72 object-cover rounded-t-lg bg-gray-100 cursor-pointer"
+          width={500}
+          height={500}
         />
       </LinkedItem>
 
-      <div className="p-5">
+      <div className="px-4 py-3 w-72">
         <LinkedItem href={`/product/${id}`}>
           <H5 className="tracking-tight text-gray-900 cursor-pointer">
             {name}
           </H5>
         </LinkedItem>
         <div className="flex items-center justify-between mt-2.5">
-          <span className="text-3xl font-bold text-gray-900">{formatMoney(price)}</span>
-          <PrimaryButton
-            Icon={ShoppingCartIcon}
-          />
+          <span className="text-2xl font-semibold text-gray-900">
+            {formatMoney(price)}
+          </span>
+          <PrimaryButton Icon={ShoppingCartIcon} onClick={addToCart} />
         </div>
       </div>
     </Card>

@@ -8,6 +8,7 @@ import InlineLoader from '@common/components/elements/loader/InlineLoader';
 import Pagination, { OnPageChangeCallback } from '@components/pagination';
 import { PAGE_SIZES } from '@utils/constants';
 import { useQuery } from '@lib/react-query';
+import GridContainer from '@common/components/elements/GridContainer';
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
   const { isLoading, error, data, refetch } = useQuery(
     endpoint.product.getProductPagination(currentPage, pageSize),
     ['products', `${currentPage}`],
-    {}, 
+    {},
     false,
     true
   );
@@ -45,15 +46,11 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 sm:gap-x-6 lg:gap-x-8 gap-y-6 sm:gap-y-10 lg:gap-y-12 lg:mt-12 mt-10">
+      <GridContainer>
         {products?.map((product: Product) => (
-          <ProductItem
-            key={product.id}
-            {...product}
-            // onSelect={handleOnSelectToggle}
-          />
+          <ProductItem key={product.id} {...product} />
         ))}
-      </div>
+      </GridContainer>
       <Pagination
         currentPage={currentPage}
         pageCount={pageCount}

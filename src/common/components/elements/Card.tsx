@@ -10,7 +10,7 @@ const Card: React.FC<Props> = ({ className, children }) => {
   return (
     <div
       className={clsx(
-        "p-3 sm:p-4 bg-white rounded-lg shadow-md overflow-y-auto",
+        " bg-white rounded-lg shadow-md overflow-y-auto",
         className
       )}
     >

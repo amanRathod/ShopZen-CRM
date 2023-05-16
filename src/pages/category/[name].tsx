@@ -1,5 +1,8 @@
+import GridContainer from '@common/components/elements/GridContainer';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
-import Pagination, { OnPageChangeCallback } from '@common/components/pagination';
+import Pagination, {
+  OnPageChangeCallback,
+} from '@common/components/pagination';
 import { Product } from '@common/types/product';
 import asPortalPage from '@hoc/asPortalPage';
 import { useQuery } from '@lib/react-query';
@@ -24,11 +27,11 @@ const ProductByCategory: NextPage = () => {
     {},
     false,
     true
-    );
-    
-    useEffect(() => {
-      refetch();
-    }, [currentPage, pageSize]);
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [currentPage, pageSize]);
 
   if (isLoading) {
     return <InlineLoader />;
@@ -48,17 +51,13 @@ const ProductByCategory: NextPage = () => {
     setPageSize(newPageSize);
   };
 
-
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <GridContainer>
         {products?.map((product: Product) => (
-          <ProductItem
-            key={product.id}
-            {...product}
-          />
+          <ProductItem key={product.id} {...product} />
         ))}
-      </div>
+      </GridContainer>
       <Pagination
         currentPage={currentPage}
         pageCount={pageCount}
