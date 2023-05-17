@@ -8,11 +8,11 @@ import { NextPage } from "next";
 
 const Checkout: NextPage = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between space-x-16">
-      <div className="flex flex-col md:w-1/2">
+    <div className="flex flex-col lg:flex-row justify-between space-x-16">
+      <div className="flex flex-col lg:w-1/2">
         <ShippingDetails/>
       </div>
-      <div className="flex flex-col md:w-1/2">
+      <div className="flex flex-col lg:w-1/2">
         <OrderSummary />
       </div>
     </div>

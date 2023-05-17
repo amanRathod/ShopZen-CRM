@@ -98,7 +98,7 @@ const ShippingDetails: React.FC<Props> = ({
         <div className="flex flex-col md:mt-10 mt-4">
           <H2>Shipping Details</H2>
           <LinkedItem
-            className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+            className="flex items-center text-gray-500 hover:text-primary-600 cursor-pointer"
             href="/cart"
           >
             <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />

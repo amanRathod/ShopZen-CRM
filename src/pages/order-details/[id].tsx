@@ -16,6 +16,7 @@ import {
 } from '@elements/List';
 import Tag from '@elements/Tag';
 import LinkedItem from '@common/components/elements/LinkedItem';
+import { withAuth } from '@common/hoc/withAuth';
 
 const OrderDetails = () => {
   const router = useRouter();
@@ -132,4 +133,4 @@ const OrderDetails = () => {
   );
 };
 
-export default asPortalPage('Order Details')(OrderDetails);
+export default asPortalPage('Order Details')(withAuth()(OrderDetails));

@@ -9,6 +9,7 @@ import InlineLoader from '@common/components/elements/loader/InlineLoader';
 import { Order, OrderItem } from '@common/types/order';
 import { formatDate, formatMoney } from '@utils/formatter';
 import { OrderInfoField } from '@common/components/elements/List';
+import { withAuth } from '@common/hoc/withAuth';
 
 const OrderHistory: NextPage = () => {
   const { data, isLoading } = useQuery<{ orders: Order }>(
@@ -71,4 +72,4 @@ const OrderHistory: NextPage = () => {
   );
 };
 
-export default asPortalPage('Order History')(OrderHistory);
+export default asPortalPage('Order History')(withAuth()(OrderHistory));
