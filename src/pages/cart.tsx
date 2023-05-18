@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import LinkedItem from '@elements/LinkedItem';
 import { H1, H3, H4, P } from '@elements/Text';
 import asPortalPage from '@hoc/asPortalPage';
-import { showInfoAlert, showSuccessAlert } from '@utils/alert';
+import { showInfoAlert } from '@utils/alert';
 import { CartItem, StoreContext } from '@utils/store';
 import {
   ArrowNarrowLeftIcon,
@@ -110,7 +110,10 @@ const Cart = () => {
             </LinkedItem>
             {cart.cartItems.map((item: CartItem) => (
               <div className="md:flex items-center mt-4 py-8 border-b border-gray-200">
-                <div className="h-full w-1/4">
+                <LinkedItem
+                  href={`/product/${item.id}`}
+                  className="h-full w-1/4"
+                >
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -118,9 +121,11 @@ const Cart = () => {
                     width={600}
                     height={600}
                   />
-                </div>
+                </LinkedItem>
                 <div className="md:pl-3 md:w-3/4">
-                  <H4 className=" text-gray-800">{item.name}</H4>
+                  <LinkedItem href={`/product/${item.id}`}>
+                    <H4 className=" text-gray-800">{item.name}</H4>
+                  </LinkedItem>
                   <P className="flex flex-row items-center mt-2">
                     {item.stock > 0 ? (
                       <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
@@ -180,7 +185,7 @@ const Cart = () => {
                 </div>
                 <TertiaryButton
                   onClick={handleCheckout}
-                  className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800"
+                  className="w-full py-3 border"
                 >
                   Checkout
                 </TertiaryButton>
@@ -192,12 +197,12 @@ const Cart = () => {
         <div className="flex flex-col items-center justify-center">
           <ShoppingCartIcon className="w-60 h-60 text-gray-800" />
           <H3 className="text-gray-800 pt-10">Your cart is empty</H3>
-          <P className="text-gray-600 pt-5">
+          <H4 className="text-gray-600 pt-5">
             Looks like you haven't added anything to your cart yet.
-          </P>
+          </H4>
           <TertiaryButton
             onClick={() => Router.push('/')}
-            className="text-base leading-none w-64 py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 mt-10"
+            className="w-64 py-5 border mt-10"
           >
             Continue Shopping
           </TertiaryButton>

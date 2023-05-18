@@ -10,10 +10,11 @@ import { showSuccessAlert } from '@utils/alert';
 import { withAuth } from '@common/hoc/withAuth';
 import { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '@utils/store';
-import axios from 'axios';
 import { RequestType, useMutation } from '@lib/react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
+import { TertiaryButton } from '@common/components/elements/button';
+import axios from '@lib/axios';
 
 type Props = {
   payment?: Payments;
@@ -55,11 +56,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   const { cart } = state;
   const { shippingAddress, paymentMethod } = cart;
 
-  const { mutateAsync, isLoading } = useMutation(
-    endpoint.order.add,
-    RequestType.Post,
-    'order'
-  );
+  const { mutateAsync, isLoading } = useMutation(endpoint.order.add);
 
   if (isLoading) return <InlineLoader />;
 
@@ -67,18 +64,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
     state.cart.orderItems = state.cart.cartItems;
     delete state.cart.cartItems;
 
-    const token = localStorage.getItem('token');
     // const data = await mutateAsync(state.cart);
-
-    const data = await axios.post(
-      'http://localhost:8080/api/checkout/purchase',
-      state.cart,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const data = await axios.post(endpoint.order.add, state.cart);
 
     dispatch({
       type: GlobalState.CART_CLEAR_AFTER_PAYMENT,
@@ -211,12 +198,14 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
         </Form> */}
 
         <div className="flex justify-center">
-          <button
-            className="bg-primary-600 text-white px-4 py-2 rounded hover:bg-primary-500 focus:outline-none focus:bg-primary-500"
+          <TertiaryButton
+            className="px-10 py-3 rounded"
+            Icon={CreditCardIcon}
+            loading={isLoading}
             onClick={handlePayment}
           >
             PAY NOW
-          </button>
+          </TertiaryButton>
         </div>
       </div>
     </div>

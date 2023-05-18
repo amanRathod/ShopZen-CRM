@@ -1,17 +1,22 @@
-import Divider from '@common/components/elements/Divider';
-import asPortalPage from '@common/hoc/asPortalPage';
 import { NextPage } from 'next';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import ProductList from '@modules/products/components/ProductList';
 import { useQuery } from '@lib/react-query';
+import Divider from '@elements/Divider';
+import { withAuth } from '@hoc/withAuth';
+import asPortalPage from '@hoc/asPortalPage';
+import LinkedItem from '@elements/LinkedItem';
+import { OrderInfoField } from '@elements/List';
 import { endpoint } from '@utils/constants/endpoints';
-import InlineLoader from '@common/components/elements/loader/InlineLoader';
 import { Order, OrderItem } from '@common/types/order';
+import InlineLoader from '@elements/loader/InlineLoader';
 import { formatDate, formatMoney } from '@utils/formatter';
-import { OrderInfoField } from '@common/components/elements/List';
-import { withAuth } from '@common/hoc/withAuth';
+import ProductList from '@modules/products/components/ProductList';
+import { TruckIcon } from '@heroicons/react/outline';
+import { H4, P } from '@common/components/elements/Text';
+import { TertiaryButton } from '@common/components/elements/button';
+import { Router, useRouter } from 'next/router';
 
 const OrderHistory: NextPage = () => {
+  const router = useRouter();
   const { data, isLoading } = useQuery<{ orders: Order }>(
     endpoint.order.getAll,
     '',
@@ -22,6 +27,23 @@ const OrderHistory: NextPage = () => {
 
   if (isLoading || !data.orders) return <InlineLoader />;
   const { orders } = data;
+
+  if (!data.orders) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <TruckIcon className="w-80 h-80 text-gray-800" />
+        <H4 className="text-gray-600 pt-5">
+          Looks like you haven't placed any orders yet!
+        </H4>
+        <TertiaryButton
+          onClick={() => router.push('/')}
+          className="w-64 py-5 border mt-10"
+        >
+          Order Now
+        </TertiaryButton>
+      </div>
+    );
+  }
 
   return (
     <>

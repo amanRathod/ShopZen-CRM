@@ -10,6 +10,7 @@ import { useContext } from 'react';
 import { StoreContext } from '@utils/store';
 import { showInfoAlert } from '@utils/alert';
 import { GlobalState } from '@utils/constants';
+import { showSuccessToast } from '@utils/toast';
 
 type Props = {} & Product;
 
@@ -41,6 +42,8 @@ const ProductItem: React.FC<Props> = ({
       type: GlobalState.CART_ADD_ITEM,
       payload: { id, name, description, price, image, stock, quantity, productId: id },
     });
+
+    showSuccessToast("Product added to cart!")
   };
 
   return (

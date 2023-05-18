@@ -1,10 +1,8 @@
-import asPortalPage from "@common/hoc/asPortalPage";
-import { withAuth } from "@common/hoc/withAuth";
-import { useQuery } from "@lib/react-query";
+import { NextPage } from "next";
+import asPortalPage from "@hoc/asPortalPage";
+import { withAuth } from "@hoc/withAuth";
 import OrderSummary from "@modules/order/OrderSummary";
 import ShippingDetails from "@modules/order/ShippingDetails";
-import { endpoint } from "@utils/constants/endpoints";
-import { NextPage } from "next";
 
 const Checkout: NextPage = () => {
   return (

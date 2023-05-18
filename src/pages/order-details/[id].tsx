@@ -15,8 +15,8 @@ import {
   PriceInfoField,
 } from '@elements/List';
 import Tag from '@elements/Tag';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import { withAuth } from '@common/hoc/withAuth';
+import LinkedItem from '@elements/LinkedItem';
+import { withAuth } from '@hoc/withAuth';
 
 const OrderDetails = () => {
   const router = useRouter();
@@ -122,7 +122,7 @@ const OrderDetails = () => {
               <H4 className="text-gray-600">{formatMoney(totalPrice)}</H4>
             </div>
             <div className="pt-1 md:pt-4  xl:pt-8 space-y-6 md:space-y-8">
-              <TertiaryButton className="w-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800">
+              <TertiaryButton className="w-full">
                 Track Your Order
               </TertiaryButton>
             </div>

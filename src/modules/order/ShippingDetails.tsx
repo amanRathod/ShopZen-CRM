@@ -1,18 +1,18 @@
+import * as y from 'yup';
+import { useRouter } from 'next/router';
+import { useQuery } from '@lib/react-query';
 import React, { useContext, useEffect, useState } from 'react';
+import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import { H2, P } from '@elements/Text';
 import { Address } from '@appTypes/address';
-import * as y from 'yup';
 import Form from '@components/form';
 import Input from '@elements/form/Input';
 import ListInput from '@elements/form/ListInput';
-import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import { useRouter } from 'next/router';
-import { useQuery } from '@lib/react-query';
+import Checkbox from '@elements/form/Checkbox';
+import LinkedItem from '@elements/LinkedItem';
 import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
-import Checkbox from '@common/components/elements/form/Checkbox';
 import { StoreContext } from '@utils/store';
 import { GlobalState } from '@utils/constants';
 

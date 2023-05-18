@@ -95,7 +95,7 @@ export const TertiaryButton: typeof Button = ({
   return (
     <Button
       className={clsx(
-        'bg-primary-600 hover:bg-primary-700 shadow-primary-300/20 text-white font-semibold',
+        'bg-primary-600 hover:bg-primary-700 shadow-primary-300/20 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800',
         className
       )}
       hoverClassName={clsx('hover:shadow-primary-600/30', hoverClassName)}

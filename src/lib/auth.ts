@@ -12,7 +12,6 @@ interface Error {
   error: string[];
 }
 
-
 const authConfig = {
   loadUser,
   loginFn,
@@ -36,8 +35,6 @@ async function loadUser(): Promise<User> {
 
   // @ts-ignore: allow null user
   if (!token) return null;
-
-  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const data = await axios
     .get(endpoint.customer.profile)
@@ -81,9 +78,10 @@ async function registerFn(credentials: RegisterCredentials): Promise<User> {
     .then(({ data }) => {
       return handleUserResponse(data, 201);
     })
-    .catch(({ error }) => {
+    .catch((ex) => {
       storage.clearToken();
-      showErrorAlert("Registration Unsuccessful", error);
+      const { error, message} = ex;
+      showErrorAlert(error, message);
     });
 }
 
