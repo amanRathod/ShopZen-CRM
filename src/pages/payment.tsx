@@ -10,10 +10,11 @@ import { showSuccessAlert } from '@utils/alert';
 import { withAuth } from '@common/hoc/withAuth';
 import { useContext, useEffect, useState } from 'react';
 import { StoreContext } from '@utils/store';
-import axios from 'axios';
 import { RequestType, useMutation } from '@lib/react-query';
 import { endpoint } from '@utils/constants/endpoints';
 import InlineLoader from '@common/components/elements/loader/InlineLoader';
+import { TertiaryButton } from '@common/components/elements/button';
+import axios from '@lib/axios';
 
 type Props = {
   payment?: Payments;
@@ -55,7 +56,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
   const { cart } = state;
   const { shippingAddress, paymentMethod } = cart;
 
-  const { mutateAsync, isLoading } = useMutation(endpoint.order.add, RequestType.Post, "order");
+  const { mutateAsync, isLoading } = useMutation(endpoint.order.add);
 
   if (isLoading) return <InlineLoader />;
 
@@ -63,14 +64,8 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
     state.cart.orderItems = state.cart.cartItems;
     delete state.cart.cartItems;
 
-    const token = localStorage.getItem('token');
     // const data = await mutateAsync(state.cart);
-
-    const data = await axios.post('http://localhost:8080/api/checkout/purchase', state.cart, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-        }
-        });
+    const data = await axios.post(endpoint.order.add, state.cart);
 
     dispatch({
       type: GlobalState.CART_CLEAR_AFTER_PAYMENT,
@@ -93,14 +88,13 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
       type: GlobalState.SAVE_PAYMENT_METHOD,
       payload: selectedPaymentMethod,
     });
-
   }, [paymentMethod, shippingAddress, selectedPaymentMethod]);
 
   return (
     <div className="min-w-screen  flex items-center justify-center mt-20">
       <div className="w-full mx-auto rounded-lg bg-white border shadow-lg p-5 text-gray-700 max-w-lg">
         <div className="w-full pt-1 pb-5">
-          <CreditCardIcon className="bg-tertiary-600 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg" />
+          <CreditCardIcon className="bg-primary-600 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg" />
         </div>
 
         <div className="mb-10">
@@ -112,7 +106,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             <label className="flex items-center cursor-pointer">
               <input
                 type="radio"
-                className="form-radio h-5 w-5 text-tertiary-600"
+                className="form-radio h-5 w-5 text-primary-600"
                 name="type"
                 id="type1"
                 checked={selectedPaymentMethod == PaymentMethod.CARD}
@@ -128,7 +122,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             <label className="flex items-center cursor-pointer">
               <input
                 type="radio"
-                className="form-radio h-5 w-5 text-tertiary-600"
+                className="form-radio h-5 w-5 text-primary-600"
                 name="type"
                 id="type2"
                 checked={selectedPaymentMethod == PaymentMethod.STRIPE}
@@ -141,7 +135,7 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
             </label>
           </div>
         </div>
-      {/* TODO: ADD Payment Form*/}
+        {/* TODO: ADD Payment Form*/}
         {/* <Form
           schema={paymentSchema}
           initialValues={payment}
@@ -204,12 +198,14 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
         </Form> */}
 
         <div className="flex justify-center">
-          <button
-            className="bg-tertiary-600 text-white px-4 py-2 rounded hover:bg-tertiary-500 focus:outline-none focus:bg-tertiary-500"
+          <TertiaryButton
+            className="px-10 py-3 rounded"
+            Icon={CreditCardIcon}
+            loading={isLoading}
             onClick={handlePayment}
           >
             PAY NOW
-          </button>
+          </TertiaryButton>
         </div>
       </div>
     </div>

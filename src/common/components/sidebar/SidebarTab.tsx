@@ -54,8 +54,8 @@ const SidebarTab: React.FC<Props> = ({
               hasItems ? () => setItemsVisible(!itemsVisible) : undefined
             }
             className={clsx(
-              "flex items-center p-3 pl-4 font-bold text-gray-500 hover:bg-gray-200 hover:text-secondary-600 flex-1 transition-all text-md cursor-pointer select-none",
-              isCurrentRoute && "text-secondary-600",
+              "flex items-center p-3 pl-4 font-bold text-gray-500 hover:bg-gray-200 hover:text-primary-600 flex-1 transition-all text-md cursor-pointer select-none",
+              isCurrentRoute && "text-primary-600",
               className
             )}
           >
@@ -85,10 +85,10 @@ const SidebarTab: React.FC<Props> = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="py-1 ml-8 rounded-md bg-primary-100">
+          <div className="py-1 ml-8 rounded-md bg-gray-50">
             {items.map((item: any) => (
               // eslint-disable-next-line react/jsx-key
-              <SidebarTab {...item} className="text-primary-700 text-sm text-normal" />
+              <SidebarTab {...item} className="text-gray-400 text-sm text-normal" />
             ))}
           </div>
         </Transition>

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import LinkedItem from '@elements/LinkedItem';
 import { H1, H3, H4, P } from '@elements/Text';
 import asPortalPage from '@hoc/asPortalPage';
-import { showInfoAlert, showSuccessAlert } from '@utils/alert';
+import { showInfoAlert } from '@utils/alert';
 import { CartItem, StoreContext } from '@utils/store';
 import {
   ArrowNarrowLeftIcon,
@@ -99,10 +99,10 @@ const Cart = () => {
   return (
     <>
       {cart.cartItems.length > 0 ? (
-        <div className="flex md:flex-row flex-col justify-between">
-          <div className="lg:w-1/2 md:w-8/12 w-full md:pl-10 pl-4 pr-10 md:pr-4 bg-white overflow-y-auto overflow-x-hidden h-screen">
+        <div className="flex sm:flex-row flex-col justify-between">
+          <div className="lg:w-1/2 md:w-8/12 w-full bg-white overflow-y-auto overflow-x-hidden sm:h-screen">
             <LinkedItem
-              className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+              className="flex items-center text-gray-500 hover:text-primary-600 cursor-pointer"
               href="/"
             >
               <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
@@ -110,7 +110,10 @@ const Cart = () => {
             </LinkedItem>
             {cart.cartItems.map((item: CartItem) => (
               <div className="md:flex items-center mt-4 py-8 border-b border-gray-200">
-                <div className="h-full w-1/4">
+                <LinkedItem
+                  href={`/product/${item.id}`}
+                  className="h-full w-1/4"
+                >
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -118,9 +121,11 @@ const Cart = () => {
                     width={600}
                     height={600}
                   />
-                </div>
+                </LinkedItem>
                 <div className="md:pl-3 md:w-3/4">
-                  <H4 className=" text-gray-800">{item.name}</H4>
+                  <LinkedItem href={`/product/${item.id}`}>
+                    <H4 className=" text-gray-800">{item.name}</H4>
+                  </LinkedItem>
                   <P className="flex flex-row items-center mt-2">
                     {item.stock > 0 ? (
                       <CheckCircleIcon className="text-green-500 h-4 w-4 mr-1 mt-1" />
@@ -158,7 +163,7 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="lg:w-96 md:w-8/12 w-full bg-gray-100 h-full">
+          <div className="lg:w-96 md:w-4/12 w-full bg-gray-100 h-full">
             <div className="flex flex-col md:h-screen px-14 py-20 justify-between overflow-y-auto">
               <div>
                 <H1 className=" text-gray-800">Summary</H1>
@@ -176,13 +181,11 @@ const Cart = () => {
               <div>
                 <div className="flex items-center pb-6 justify-between pt-20">
                   <H3 className="text-gray-800">Total</H3>
-                  <H3 className="text-gray-800">
-                    {formatMoney(totalPrice)}
-                  </H3>
+                  <H3 className="text-gray-800">{formatMoney(totalPrice)}</H3>
                 </div>
                 <TertiaryButton
                   onClick={handleCheckout}
-                  className="text-base leading-none w-full py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800"
+                  className="w-full py-3 border"
                 >
                   Checkout
                 </TertiaryButton>
@@ -194,12 +197,12 @@ const Cart = () => {
         <div className="flex flex-col items-center justify-center">
           <ShoppingCartIcon className="w-60 h-60 text-gray-800" />
           <H3 className="text-gray-800 pt-10">Your cart is empty</H3>
-          <P className="text-gray-600 pt-5">
+          <H4 className="text-gray-600 pt-5">
             Looks like you haven't added anything to your cart yet.
-          </P>
+          </H4>
           <TertiaryButton
             onClick={() => Router.push('/')}
-            className="text-base leading-none w-64 py-5 border focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 mt-10"
+            className="w-64 py-5 border mt-10"
           >
             Continue Shopping
           </TertiaryButton>

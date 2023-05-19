@@ -1,16 +1,22 @@
-import Divider from '@common/components/elements/Divider';
-import asPortalPage from '@common/hoc/asPortalPage';
 import { NextPage } from 'next';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import ProductList from '@modules/products/components/ProductList';
 import { useQuery } from '@lib/react-query';
+import Divider from '@elements/Divider';
+import { withAuth } from '@hoc/withAuth';
+import asPortalPage from '@hoc/asPortalPage';
+import LinkedItem from '@elements/LinkedItem';
+import { OrderInfoField } from '@elements/List';
 import { endpoint } from '@utils/constants/endpoints';
-import InlineLoader from '@common/components/elements/loader/InlineLoader';
 import { Order, OrderItem } from '@common/types/order';
+import InlineLoader from '@elements/loader/InlineLoader';
 import { formatDate, formatMoney } from '@utils/formatter';
-import { OrderInfoField } from '@common/components/elements/List';
+import ProductList from '@modules/products/components/ProductList';
+import { TruckIcon } from '@heroicons/react/outline';
+import { H4, P } from '@common/components/elements/Text';
+import { TertiaryButton } from '@common/components/elements/button';
+import { Router, useRouter } from 'next/router';
 
 const OrderHistory: NextPage = () => {
+  const router = useRouter();
   const { data, isLoading } = useQuery<{ orders: Order }>(
     endpoint.order.getAll,
     '',
@@ -19,16 +25,31 @@ const OrderHistory: NextPage = () => {
     false
   );
 
-  if (isLoading) return <InlineLoader />;
-  if (!data.orders) return <div>No order history</div>;
-
+  if (isLoading || !data.orders) return <InlineLoader />;
   const { orders } = data;
+
+  if (!data.orders) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full">
+        <TruckIcon className="w-80 h-80 text-gray-800" />
+        <H4 className="text-gray-600 pt-5">
+          Looks like you haven't placed any orders yet!
+        </H4>
+        <TertiaryButton
+          onClick={() => router.push('/')}
+          className="w-64 py-5 border mt-10"
+        >
+          Order Now
+        </TertiaryButton>
+      </div>
+    );
+  }
 
   return (
     <>
       {orders.map((order: Order) => (
-        <div className="border-2 w-full bg-primary-100 mb-10">
-          <div className="flex lg:flex-row flex-col justify-between p-6 bg-primary-300">
+        <div className="border-2 w-full bg-gray-50 mb-10">
+          <div className="flex lg:flex-row flex-col justify-between p-6 bg-gray-100">
             <div className="lg:flex items-center">
               <OrderInfoField
                 field="Order Date"
@@ -50,13 +71,13 @@ const OrderHistory: NextPage = () => {
             <div className="flex justify-around">
               <LinkedItem
                 href={`/order-details/${order.id}`}
-                className="text-tertiary-600  hover:text-tertiary-800  hover:underline"
+                className="text-primary-600  hover:text-primary-800  hover:underline"
               >
                 View order details
               </LinkedItem>
               <LinkedItem
                 href="#"
-                className="ml-4 text-tertiary-600  hover:text-tertiary-800  hover:underline"
+                className="ml-4 text-primary-600  hover:text-primary-800  hover:underline"
               >
                 Invoice
               </LinkedItem>
@@ -65,10 +86,7 @@ const OrderHistory: NextPage = () => {
           <Divider />
 
           {order?.orderItems?.map((item: OrderItem) => (
-            <ProductList
-              key={item.id}
-              {...item}
-            />
+            <ProductList key={item.id} {...item} />
           ))}
         </div>
       ))}
@@ -76,4 +94,4 @@ const OrderHistory: NextPage = () => {
   );
 };
 
-export default asPortalPage('Order History')(OrderHistory);
+export default asPortalPage('Order History')(withAuth()(OrderHistory));

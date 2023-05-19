@@ -58,7 +58,7 @@ const Button: React.FC<Props> = ({
         )}
         disabled={!clickable}
       >
-        {loading && <InlineLoader className="mr-2 text-white!" />}
+        {loading && <InlineLoader className="mr-2 text-white" />}
 
         {Icon && <Icon className={clsx('w-5 h-5', text && 'mr-2')} />}
 
@@ -78,10 +78,10 @@ export const PrimaryButton: typeof Button = ({
   return (
     <Button
       className={clsx(
-        'bg-secondary-100 shadow-secondary-300/30 text-secondary-600 font-semibold',
+        'bg-transparent hover:bg-primary-600 shadow-primary-300/30 text-primary-600 hover:text-white border hover:border-transparent border-primary-600 font-semibold',
         className
       )}
-      hoverClassName={clsx('hover:shadow-secondary-600/30', hoverClassName)}
+      hoverClassName={clsx('hover:shadow-primary-600/30', hoverClassName)}
       {...rest}
     />
   );
@@ -95,10 +95,10 @@ export const TertiaryButton: typeof Button = ({
   return (
     <Button
       className={clsx(
-        'bg-tertiary-600 hover:bg-tertiary-700 shadow-tertiary-300/20 text-white font-semibold',
+        'bg-primary-600 hover:bg-primary-700 shadow-primary-300/20 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-800',
         className
       )}
-      hoverClassName={clsx('hover:shadow-tertiary-600/30', hoverClassName)}
+      hoverClassName={clsx('hover:shadow-primary-600/30', hoverClassName)}
       {...rest}
     />
   );

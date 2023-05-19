@@ -5,13 +5,14 @@ import { storage } from "@utils/storage";
 import { showSuccessToast } from "@utils/toast";
 import axios from "@lib/axios";
 import { initReactQueryAuth } from "react-query-auth";
+import InlineLoader from "@elements/loader/InlineLoader";
+import React from "react";
 
 interface Error {
   statusCode: number;
   message: string[];
   error: string[];
 }
-
 
 const authConfig = {
   loadUser,
@@ -27,8 +28,7 @@ export const { AuthProvider, useAuth } = initReactQueryAuth<
   null
 >({
   ...authConfig,
-  // @ts-ignore: expects a JSX element providing FC
-  // LoaderComponent: InlineLoader,
+  LoaderComponent: () => React.createElement(InlineLoader),
 });
 
 async function loadUser(): Promise<User> {
@@ -36,8 +36,6 @@ async function loadUser(): Promise<User> {
 
   // @ts-ignore: allow null user
   if (!token) return null;
-
-  // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   const data = await axios
     .get(endpoint.customer.profile)
@@ -60,7 +58,7 @@ function handleUserResponse(response: any, statusCode: number) {
   else showSuccessToast("Login successful!");
 
   storage.setToken(accessToken);
-  return user; // User is undefined
+  return user;
 }
 
 async function loginFn(credentials: LoginCredentials): Promise<User> {
@@ -81,9 +79,10 @@ async function registerFn(credentials: RegisterCredentials): Promise<User> {
     .then(({ data }) => {
       return handleUserResponse(data, 201);
     })
-    .catch(({ error }) => {
+    .catch((ex) => {
       storage.clearToken();
-      showErrorAlert("Registration Unsuccessful", error);
+      const { error, message} = ex;
+      showErrorAlert(error, message);
     });
 }
 

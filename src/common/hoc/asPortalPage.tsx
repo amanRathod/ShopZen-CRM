@@ -1,5 +1,3 @@
-import { ReactElement } from "react";
-import { NextPageWithLayout } from "@appTypes/.";
 import PortalPage from "@layouts/page/PortalPage";
 import { NextPage } from "next";
 

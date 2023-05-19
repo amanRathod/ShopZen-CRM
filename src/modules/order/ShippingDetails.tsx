@@ -1,18 +1,18 @@
+import * as y from 'yup';
+import { useRouter } from 'next/router';
+import { useQuery } from '@lib/react-query';
 import React, { useContext, useEffect, useState } from 'react';
+import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import { H2, P } from '@elements/Text';
 import { Address } from '@appTypes/address';
-import * as y from 'yup';
 import Form from '@components/form';
 import Input from '@elements/form/Input';
 import ListInput from '@elements/form/ListInput';
-import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import { useRouter } from 'next/router';
-import { useQuery } from '@lib/react-query';
+import Checkbox from '@elements/form/Checkbox';
+import LinkedItem from '@elements/LinkedItem';
 import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
-import Checkbox from '@common/components/elements/form/Checkbox';
 import { StoreContext } from '@utils/store';
 import { GlobalState } from '@utils/constants';
 
@@ -98,7 +98,7 @@ const ShippingDetails: React.FC<Props> = ({
         <div className="flex flex-col md:mt-10 mt-4">
           <H2>Shipping Details</H2>
           <LinkedItem
-            className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+            className="flex items-center text-gray-500 hover:text-primary-600 cursor-pointer"
             href="/cart"
           >
             <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />

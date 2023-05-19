@@ -1,11 +1,18 @@
-import clsx from "clsx";
-import React, { forwardRef, PropsWithoutRef } from "react";
-import { useField, useFormikContext } from "formik";
-import ErrorText from "@elements/form//ErrorText";
-import { EyeIcon } from "@heroicons/react/outline";
+import clsx from 'clsx';
+import React, { forwardRef, PropsWithoutRef } from 'react';
+import { useField, useFormikContext } from 'formik';
+import ErrorText from '@elements/form//ErrorText';
+import { EyeIcon } from '@heroicons/react/outline';
 
-interface Props extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
-  type?: "text" | "password" | "email" | "number" | "url" | "radio" | "checkbox";
+interface Props extends PropsWithoutRef<JSX.IntrinsicElements['input']> {
+  type?:
+    | 'text'
+    | 'password'
+    | 'email'
+    | 'number'
+    | 'url'
+    | 'radio'
+    | 'checkbox';
   name: string;
   label?: string;
   inputClassName?: string;
@@ -32,7 +39,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
             htmlFor={id}
             className="block mb-1 text-left text-sm font-medium text-gray-700"
           >
-            {label} {inputProps.required && "*"}
+            {label} {inputProps.required && '*'}
           </label>
         )}
 
@@ -45,10 +52,10 @@ const Input = forwardRef<HTMLInputElement, Props>(
             ref={ref}
             onBlur={handleBlur}
             className={clsx(
-              "block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none outline-none sm:text-sm",
+              'block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none outline-none sm:text-sm',
               !inputProps.disabled &&
                 !inputProps.readOnly &&
-                "ring-tertiary-300 focus:ring",
+                'ring-primary-300 focus:ring',
               inputClassName
             )}
           />
@@ -60,5 +67,5 @@ const Input = forwardRef<HTMLInputElement, Props>(
   }
 );
 
-Input.displayName = "Input"; 
+Input.displayName = 'Input';
 export default Input;
