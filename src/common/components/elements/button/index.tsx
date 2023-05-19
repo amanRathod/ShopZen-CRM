@@ -58,7 +58,7 @@ const Button: React.FC<Props> = ({
         )}
         disabled={!clickable}
       >
-        {loading && <InlineLoader className="mr-2 text-white!" />}
+        {loading && <InlineLoader className="mr-2 text-white" />}
 
         {Icon && <Icon className={clsx('w-5 h-5', text && 'mr-2')} />}
 

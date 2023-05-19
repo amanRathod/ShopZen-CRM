@@ -5,6 +5,8 @@ import { storage } from "@utils/storage";
 import { showSuccessToast } from "@utils/toast";
 import axios from "@lib/axios";
 import { initReactQueryAuth } from "react-query-auth";
+import InlineLoader from "@elements/loader/InlineLoader";
+import React from "react";
 
 interface Error {
   statusCode: number;
@@ -26,8 +28,7 @@ export const { AuthProvider, useAuth } = initReactQueryAuth<
   null
 >({
   ...authConfig,
-  // @ts-ignore: expects a JSX element providing FC
-  // LoaderComponent: InlineLoader,
+  LoaderComponent: () => React.createElement(InlineLoader),
 });
 
 async function loadUser(): Promise<User> {
@@ -57,7 +58,7 @@ function handleUserResponse(response: any, statusCode: number) {
   else showSuccessToast("Login successful!");
 
   storage.setToken(accessToken);
-  return user; // User is undefined
+  return user;
 }
 
 async function loginFn(credentials: LoginCredentials): Promise<User> {

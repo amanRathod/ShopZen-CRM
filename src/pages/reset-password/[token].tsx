@@ -56,7 +56,7 @@ const ResetPassword = ({ token }: any) => {
             router.replace('/login');
           }
         }}
-        submitButton={{ title: 'Update Password' }}
+        submitButton={{ title: 'Update Password', className: 'w-full' }}
       >
         <Input
           name="password"
