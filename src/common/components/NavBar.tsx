@@ -3,7 +3,6 @@ import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
-  UserAddIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
@@ -15,9 +14,24 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@lib/auth';
 import { getDummyPicture } from '@utils';
 import { Menu } from '@headlessui/react';
+import { Popover } from '@headlessui/react';
 
 type Props = {
   className?: string;
+};
+
+const UserMenuItem = ({ link, action, menuName }: any) => {
+  return (
+    <Menu.Item>
+      <LinkedItem
+        className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
+        href={link}
+        onClick={link ? undefined : action}
+      >
+        {menuName}
+      </LinkedItem>
+    </Menu.Item>
+  );
 };
 
 const Navbar: React.FC<Props> = ({ className }) => {
@@ -65,13 +79,13 @@ const Navbar: React.FC<Props> = ({ className }) => {
         className="max-w-md mx-auto w-full justify-center sm:flex"
         onSubmit={submitHandler}
       >
-        <div className="relative flex items-center h-10 border border-gray-200 rounded-lg focus-within:shadow-md focus:ring-2 focus:ring-offset-2 focus:ring-primary-800 bg-white ">
+        <div className="relative flex items-center h-10 border border-gray-200 focus:border-primary-400 focus:ring focus:ring-primary-400 rounded-lg focus-within:shadow-md bg-white ">
           <input
             className="h-full w-full outline-none text-sm px-3 py-2 placeholder-gray-400 text-gray-700"
             type="text"
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search Products"
-          />
+            />
           <button className="py-2 px-4 hover:bg-gray-200">
             <SearchIcon className="w-6 h-6 text-gray-300"></SearchIcon>
           </button>
@@ -105,31 +119,9 @@ const Navbar: React.FC<Props> = ({ className }) => {
               />
             </Menu.Button>
             <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white rounded shadow-lg ">
-              <Menu.Item>
-                <LinkedItem
-                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
-                  href="/profile"
-                >
-                  Profile
-                </LinkedItem>
-              </Menu.Item>
-              <Menu.Item>
-                <LinkedItem
-                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
-                  href="/order-history"
-                >
-                  Orders
-                </LinkedItem>
-              </Menu.Item>
-              <Menu.Item>
-                <LinkedItem
-                  href="#"
-                  onClick={logout}
-                  className="flex p-2 hover:bg-gray-200 hover:text-primary-600"
-                >
-                  Logout
-                </LinkedItem>
-              </Menu.Item>
+              <UserMenuItem link="/profile" menuName="Profile" />
+              <UserMenuItem link="/order-history" menuName="Orders" />
+              <UserMenuItem menuName="Logout" action={logout} link="" />
             </Menu.Items>
           </Menu>
         ) : (
@@ -142,6 +134,38 @@ const Navbar: React.FC<Props> = ({ className }) => {
             Login
           </PrimaryButton>
         )}
+      </div>
+      <div className="sm:hidden">
+        <Menu as="div" className="relative inline-block">
+          <Menu.Button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              className="w-6 h-6 text-gray-500 hover:text-gray-900 cursor-pointer"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+              />
+            </svg>
+          </Menu.Button>
+          <Menu.Items className="mx-w-auto absolute right-0 w-56 origin-top-right bg-white rounded shadow-lg ">
+            <UserMenuItem link="/cart" menuName="Cart" />
+            {user ? (
+              <>
+                <UserMenuItem link="/profile" menuName="Profile" />
+                <UserMenuItem link="/order-history" menuName="Orders" />
+                <UserMenuItem menuName="Logout" action={logout} link="" />
+              </>
+            ) : (
+              <UserMenuItem link="/login" menuName="Login" />
+            )}
+          </Menu.Items>
+        </Menu>
       </div>
     </div>
   );

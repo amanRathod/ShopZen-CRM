@@ -9,6 +9,8 @@ import Pagination, { OnPageChangeCallback } from '@components/pagination';
 import { PAGE_SIZES } from '@utils/constants';
 import { useQuery } from '@lib/react-query';
 import GridContainer from '@common/components/elements/GridContainer';
+import { H4, P } from '@common/components/elements/Text';
+import { CameraIcon } from '@heroicons/react/outline';
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,20 +46,37 @@ const Home: NextPage = () => {
     setPageSize(newPageSize);
   };
 
+  console.log('prop', products);
+  // console.log(products.length);
+
   return (
     <>
-      <GridContainer>
-        {products?.map((product: Product) => (
-          <ProductItem key={product.id} {...product} />
-        ))}
-      </GridContainer>
-      <Pagination
-        currentPage={currentPage}
-        pageCount={pageCount}
-        pageSize={pageSize}
-        handlePageChange={handlePageChange}
-        handlePageSizeChange={handlePageSizeChange}
-      />
+      {products != null ? (
+        <>
+          <GridContainer>
+            {products?.map((product: Product) => (
+              <ProductItem key={product.id} {...product} />
+            ))}
+          </GridContainer>
+          <Pagination
+            currentPage={currentPage}
+            pageCount={pageCount}
+            pageSize={pageSize}
+            handlePageChange={handlePageChange}
+            handlePageSizeChange={handlePageSizeChange}
+          />
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full">
+          <CameraIcon className="w-80 h-80 text-gray-800" />
+          <H4>
+            No products found. <br />
+          </H4>
+          <P className="text-center">
+            We are sorry, but we could not find any products.
+          </P>
+        </div>
+      )}
     </>
   );
 };
