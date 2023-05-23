@@ -13,7 +13,7 @@ import LinkedItem from '@elements/LinkedItem';
 import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
-import { StoreContext } from '@utils/store';
+import { CartState, StoreContext } from '@utils/store';
 import { GlobalState } from '@utils/constants';
 
 type Props = {
@@ -52,7 +52,7 @@ const ShippingDetails: React.FC<Props> = ({
   shippingAddress = initialShippingAddress,
 }) => {
   const router = useRouter();
-  const { state, dispatch }: any = useContext(StoreContext);
+  const { state, dispatch } = useContext<CartState>(StoreContext);
   const [currentCountryCode, setCurrentCountryCode] = useState('IN');
 
   const { data } = useQuery(

@@ -1,94 +1,30 @@
 import { NextPage } from 'next';
-import * as y from 'yup';
 import asPortalPage from '@hoc/asPortalPage';
 import { CreditCardIcon } from '@heroicons/react/solid';
-import { H4 } from '@common/components/elements/Text';
-import { GlobalState, Months, PaymentMethod, Years } from '@utils/constants';
-import { Payments } from '@common/types/payment';
-import { useRouter } from 'next/router';
-import { showSuccessAlert } from '@utils/alert';
+import { H4} from '@elements/Text';
+import { GlobalState, PaymentMethod, Years } from '@utils/constants';
 import { withAuth } from '@common/hoc/withAuth';
 import { useContext, useEffect, useState } from 'react';
-import { StoreContext } from '@utils/store';
-import { RequestType, useMutation } from '@lib/react-query';
-import { endpoint } from '@utils/constants/endpoints';
-import InlineLoader from '@common/components/elements/loader/InlineLoader';
-import { TertiaryButton } from '@common/components/elements/button';
-import axios from '@lib/axios';
+import { CartState, StoreContext } from '@utils/store';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentForm from '@modules/payment/PaymentForm';
+import getStripe from '@lib/getStripe';
+import CashOnDelivery from '@modules/payment/CashOnDelivery';
 
-type Props = {
-  payment?: Payments;
-};
+const stripePromise = getStripe();
 
-const paymentSchema = y.object().shape({
-  fullName: y.string().required('Name on card is required'),
-  cardNumber: y
-    .string()
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .min(16, 'Card number must be of 16 digits')
-    .max(16, 'Card number must be of 16 digits')
-    .required('Card number is required'),
-  month: y.string().required('Expiry month is required'),
-  year: y.string().required('Expiry year is required'),
-  cvv: y
-    .string()
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .min(3, 'CVV must be of 3 digits')
-    .max(3, 'CVV must be of 3 digits')
-    .required('CVV is required'),
-});
-
-const initialPayment = {
-  fullName: '',
-  cardNumber: '',
-  month: '',
-  year: '',
-  cvv: '',
-};
-
-const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
-  const router = useRouter();
+const Payment: NextPage = () => {
+  const { dispatch } = useContext<CartState>(StoreContext);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    PaymentMethod.CARD
+    PaymentMethod.STRIPE
   );
 
-  const { state, dispatch }: any = useContext(StoreContext);
-  const { cart } = state;
-  const { shippingAddress, paymentMethod } = cart;
-
-  const { mutateAsync, isLoading } = useMutation(endpoint.order.add);
-
-  if (isLoading) return <InlineLoader />;
-
-  const handlePayment = async () => {
-    state.cart.orderItems = state.cart.cartItems;
-    delete state.cart.cartItems;
-
-    // const data = await mutateAsync(state.cart);
-    const data = await axios.post(endpoint.order.add, state.cart);
-
-    dispatch({
-      type: GlobalState.CART_CLEAR_AFTER_PAYMENT,
-    });
-
-    showSuccessAlert(
-      'Payment Successful',
-      'Your order has been placed successfully!'
-    );
-
-    router.push('/');
-  };
-
   useEffect(() => {
-    if (!shippingAddress) {
-      router.push('/cart');
-    }
-
     dispatch({
       type: GlobalState.SAVE_PAYMENT_METHOD,
       payload: selectedPaymentMethod,
     });
-  }, [paymentMethod, shippingAddress, selectedPaymentMethod]);
+  }, [selectedPaymentMethod]);
 
   return (
     <div className="min-w-screen  flex items-center justify-center mt-20">
@@ -103,26 +39,26 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
 
         <div className="mb-3 flex -mx-2">
           <div className="px-2">
-            <label className="flex items-center cursor-pointer">
+            <label className="flex items-center">
               <input
                 type="radio"
-                className="form-radio h-5 w-5 text-primary-600"
+                className="form-radio h-5 w-5 text-primary-600 cursor-pointer"
                 name="type"
                 id="type1"
-                checked={selectedPaymentMethod == PaymentMethod.CARD}
-                onChange={() => setSelectedPaymentMethod(PaymentMethod.CARD)}
+                checked={selectedPaymentMethod == PaymentMethod.COD}
+                onChange={() => setSelectedPaymentMethod(PaymentMethod.COD)}
               />
               <img
-                src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938998/ShopZen/ShopZen_paymentlogo2_hki2qk-c_scale_h_65_w_273_dmj7ar.jpg"
-                className="h-8 ml-3"
-              />
+                src="https://res.cloudinary.com/di9zvktdc/image/upload/v1684813181/ShopZen/8123531_smmvcn.png"
+                className="h-12 w-16"
+                />
             </label>
           </div>
           <div className="px-2">
-            <label className="flex items-center cursor-pointer">
+            <label className="flex items-center">
               <input
                 type="radio"
-                className="form-radio h-5 w-5 text-primary-600"
+                className="form-radio h-5 w-5 text-primary-600 cursor-pointer"
                 name="type"
                 id="type2"
                 checked={selectedPaymentMethod == PaymentMethod.STRIPE}
@@ -130,83 +66,19 @@ const Payment: NextPage<Props> = ({ payment = initialPayment }) => {
               />
               <img
                 src="https://res.cloudinary.com/di9zvktdc/image/upload/v1682938494/ShopZen/2560px-Stripe_Logo__revised_2016.svg_vaubnt.png"
-                className="h-8 ml-2"
+                className="h-12 w-16"
               />
             </label>
           </div>
         </div>
-        {/* TODO: ADD Payment Form*/}
-        {/* <Form
-          schema={paymentSchema}
-          initialValues={payment}
-          onSubmit={async (payment) => {
-            payment.cvc = `${payment.cvv}`,
-            payment.cardNumber = `${payment.cardNumber}`,
 
-            dispatch({
-              type: 'SAVE_PAYMENT_METHOD',
-              payload: {...payment},
-            })
-
-            router.push('/');
-          }}
-          submitButton={{
-            title: 'PAY NOW',
-            Icon: LockClosedIcon,
-            className: 'w-full',
-          }}
-        >
-          <Input
-            label="Name on Card"
-            type="text"
-            placeholder="John Doe"
-            name="fullName"
-            required
+        <Elements stripe={stripePromise}>
+          <PaymentForm
+            isStripeFormVisible={selectedPaymentMethod === PaymentMethod.STRIPE}
           />
+        </Elements>
 
-          <Input
-            label="Card Number"
-            type="number"
-            placeholder="0000 0000 0000 0000"
-            name="cardNumber"
-            required
-          />
-
-          <Form.Row>
-            <ListInput
-              options={Months}
-              name="month"
-              label="Expiry Month"
-              required
-            />
-            <ListInput
-              options={Years}
-              name="year"
-              label="Expiry Year"
-              required
-            />
-          </Form.Row>
-
-          <Input
-            label="CVC"
-            type="number"
-            placeholder="000"
-            name="cvc"
-            className="w-1/2"
-            required
-          />
-        </Form> */}
-
-        <div className="flex justify-center">
-          <TertiaryButton
-            className="px-10 py-3 rounded"
-            Icon={CreditCardIcon}
-            loading={isLoading}
-            onClick={handlePayment}
-          >
-            PAY NOW
-          </TertiaryButton>
-        </div>
+        <CashOnDelivery isCODVisible={selectedPaymentMethod === PaymentMethod.COD}/>
       </div>
     </div>
   );

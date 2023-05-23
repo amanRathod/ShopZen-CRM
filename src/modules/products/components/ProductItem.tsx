@@ -7,7 +7,7 @@ import { ShoppingCartIcon } from '@heroicons/react/outline';
 import LinkedItem from '@elements/LinkedItem';
 import { formatMoney } from '@utils/formatter';
 import { useContext } from 'react';
-import { StoreContext } from '@utils/store';
+import { CartState, StoreContext } from '@utils/store';
 import { showInfoAlert } from '@utils/alert';
 import { GlobalState } from '@utils/constants';
 import { showSuccessToast } from '@utils/toast';
@@ -22,10 +22,10 @@ const ProductItem: React.FC<Props> = ({
   description,
   stock,
 }) => {
-  const { state, dispatch }: any = useContext(StoreContext);
+  const { state, dispatch } = useContext<CartState>(StoreContext);
 
   const addToCart = () => {
-    const existItem = state.cart.cartItems.find(
+    const existItem = state.cart.orderItems.find(
       (item: Product) => item.id === id
     );
     const quantity = existItem ? existItem.quantity + 1 : 1;
@@ -53,7 +53,6 @@ const ProductItem: React.FC<Props> = ({
           src={image}
           alt={name}
           className='rounded-t-lg bg-gray-100 cursor-pointer'
-          // className="h-80 w-72 object-cover rounded-t-lg bg-gray-100 cursor-pointer"
           width={500}
           height={500}
         />

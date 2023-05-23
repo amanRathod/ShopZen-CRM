@@ -46,9 +46,6 @@ const Home: NextPage = () => {
     setPageSize(newPageSize);
   };
 
-  console.log('prop', products);
-  // console.log(products.length);
-
   return (
     <>
       {products != null ? (

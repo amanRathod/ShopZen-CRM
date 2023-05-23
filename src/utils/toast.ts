@@ -10,7 +10,7 @@ type Props = {
 const showToast = ({ title, icon }: Props) => {
   const Toast = Swal.mixin({
     toast: true,
-    position: "top-end",
+    position: "top-right",
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,

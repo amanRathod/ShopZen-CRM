@@ -9,6 +9,7 @@ const nextConfig = {
   },
   env: {
     SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 }
 

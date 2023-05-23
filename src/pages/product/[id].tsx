@@ -3,17 +3,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import ErrorBox from '@elements/ErrorBox';
 import asPortalPage from '@hoc/asPortalPage';
-import data from '@utils/data';
-import { PrimaryButton, TertiaryButton } from '@elements/button';
+import { TertiaryButton } from '@elements/button';
 import { useContext, useState } from 'react';
 import {
   CheckCircleIcon,
-  CheckIcon,
   StarIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
 import { H2, H3, P } from '@elements/Text';
-import { StoreContext } from '@utils/store';
+import { CartState, StoreContext } from '@utils/store';
 import { Product } from '@appTypes/product';
 import { showInfoAlert } from '@utils/alert';
 import Divider from '@elements/Divider';
@@ -21,12 +19,12 @@ import { endpoint } from '@utils/constants/endpoints';
 import { useQuery } from '@lib/react-query';
 import InlineLoader from '@elements/loader/InlineLoader';
 import { formatMoney } from '@utils/formatter';
-import CounterInput from '@common/components/elements/form/CounterInput';
+import CounterInput from '@elements/form/CounterInput';
 import { GlobalState } from '@utils/constants';
 import { showSuccessToast } from '@utils/toast';
 
 const Product: NextPage = () => {
-  const { state, dispatch }: any = useContext(StoreContext);
+  const { state, dispatch } = useContext<CartState>(StoreContext);
   const [count, setCount] = useState(1);
 
   const router = useRouter();
@@ -79,7 +77,7 @@ const Product: NextPage = () => {
   };
 
   const addToCart = () => {
-    const existItem = state.cart.cartItems.find(
+    const existItem = state.cart.orderItems.find(
       (item: Product) => item.id === product.id
     );
     const quantity = existItem ? existItem.quantity + count : count;
@@ -97,7 +95,7 @@ const Product: NextPage = () => {
       payload: { ...product, quantity, productId: product.id },
     });
 
-    showSuccessToast("Product added to cart!")
+    showSuccessToast('Product added to cart!');
   };
 
   const removeFromCart = () => {

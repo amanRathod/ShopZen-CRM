@@ -9,12 +9,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import MobileSidebar from './sidebar/MobileSidebar';
 import LinkedItem from './elements/LinkedItem';
 import { PrimaryButton } from './elements/button';
-import { CartItem, StoreContext } from '@utils/store';
+import { Action, CartState, OrderItem, State, StoreContext } from '@utils/store';
 import { useRouter } from 'next/router';
 import { useAuth } from '@lib/auth';
 import { getDummyPicture } from '@utils';
 import { Menu } from '@headlessui/react';
-import { Popover } from '@headlessui/react';
 
 type Props = {
   className?: string;
@@ -41,14 +40,14 @@ const Navbar: React.FC<Props> = ({ className }) => {
 
   const { user, logout } = useAuth();
   const router = useRouter();
-  const { state }: any = useContext(StoreContext);
+  const { state } = useContext<CartState>(StoreContext);
   const { cart } = state;
 
   useEffect(() => {
     setCartItemsCount(
-      cart.cartItems.reduce((a: number, c: CartItem) => a + c.quantity, 0)
+      cart.orderItems.reduce((a: number, c: OrderItem) => a + c.quantity, 0)
     );
-  }, [cart.cartItems, user]);
+  }, [cart.orderItems, user]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();
