@@ -1,40 +1,52 @@
 import Cookies from 'js-cookie';
 import { Product } from '@appTypes/product';
-import { createContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { GlobalState, PaymentMethod } from './constants';
+import { Address } from '@common/types/address';
 
-export type CartItem = {
+export type OrderItem = {
   quantity: number;
   product_id: string;
 } & Product;
 
-const initialState = {
+type Order = {
+  totalPrice: number;
+  paymentMethod: string;
+  totalQuantity: number;
+};
+
+export type Action = {
+  type: string;
+  payload: any;
+};
+
+export type State = {
+  cart: {
+    orderItems: OrderItem[];
+    order: Order;
+    shippingAddress: Address;
+    billingAddress: Address;
+  };
+};
+
+const initialState: State = {
   cart: (() => {
     const cartCookie = Cookies.get('cart');
     if (cartCookie) {
       return JSON.parse(cartCookie);
     } else {
       return {
-        cartItems: [],
-        shippingAddress: {},
-        billingAddress: {},
-        order: {},
+        orderItems: [] as OrderItem[],
+        shippingAddress: {} as Address,
+        billingAddress: {} as Address,
+        order: {} as Order,
       };
     }
   })(),
 };
 
-export const StoreContext = createContext(initialState);
-
-type Action = {
-  type: string;
-  payload: any;
-};
-
-type State = {
-  cart: {
-    cartItems: any[];
-  };
+const updateCartInCookies = (cart: State['cart']) => {
+  Cookies.set('cart', JSON.stringify(cart));
 };
 
 const reducer = (state: State, action: Action) => {
@@ -42,53 +54,60 @@ const reducer = (state: State, action: Action) => {
   switch (type) {
     case GlobalState.CART_ADD_ITEM: {
       const newItem = payload;
-      const existItem = state.cart.cartItems.find(
+      const existItem = state.cart.orderItems.find(
         (item) => item.id === newItem.id
       );
 
-      const cartItems = existItem
-        ? state.cart.cartItems.map((item) =>
+      const orderItems = existItem
+        ? state.cart.orderItems.map((item) =>
             item.id === existItem.id ? newItem : item
           )
-        : [...state.cart.cartItems, newItem];
+        : [...state.cart.orderItems, newItem];
 
-      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
+      updateCartInCookies({ ...state.cart, orderItems });
       return {
         ...state,
-        cart: { ...state.cart, cartItems },
+        cart: { ...state.cart, orderItems },
       };
     }
 
     case GlobalState.CART_REMOVE_ITEM: {
-      const cartItems = state.cart.cartItems.filter(
+      const orderItems = state.cart.orderItems.filter(
         (item: Product) => item.id !== payload.id
       );
 
-      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
+      updateCartInCookies({ ...state.cart, orderItems });
       return {
         ...state,
-        cart: { ...state.cart, cartItems },
+        cart: { ...state.cart, orderItems },
       };
     }
 
     case GlobalState.CART_CLEAR_ITEMS: {
-      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      updateCartInCookies({ ...state.cart, orderItems: [] });
       return {
         ...state,
-        cart: { ...state.cart, cartItems: [] },
+        cart: { ...state.cart, orderItems: [] },
       };
     }
 
     case GlobalState.CART_CLEAR_AFTER_PAYMENT: {
-      Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems: [] }));
+      updateCartInCookies({
+        ...state.cart,
+        orderItems: [] as OrderItem[],
+        shippingAddress: {} as Address,
+        billingAddress: {} as Address,
+        order: {} as Order,
+      });
+
       return {
         ...state,
         cart: {
           ...state.cart,
-          cartItems: [],
-          shippingAddress: {},
-          billingAddress: {},
-          order: {}
+          orderItems: [] as OrderItem[],
+          shippingAddress: {} as Address,
+          billingAddress: {} as Address,
+          order: {} as Order,
         },
       };
     }
@@ -108,7 +127,10 @@ const reducer = (state: State, action: Action) => {
     case GlobalState.SAVE_PAYMENT_METHOD:
       return {
         ...state,
-        cart: { ...state.cart, paymentMethod: payload },
+        cart: {
+          ...state.cart,
+          order: { ...state.cart.order, paymentMethod: payload },
+        },
       };
 
     case GlobalState.SAVE_ORDER:
@@ -116,18 +138,32 @@ const reducer = (state: State, action: Action) => {
         ...state,
         cart: { ...state.cart, order: payload },
       };
-      
+
     default:
       return state;
   }
 };
 
-const StoreProvider = ({ children }: any) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const value: any = { state, dispatch };
+export type CartState = { state: State; dispatch: React.Dispatch<Action> };
+
+export const StoreContext = createContext<{ state: State; dispatch: React.Dispatch<Action> }>({
+  state: initialState,
+  dispatch: () => {}
+});
+
+const StoreProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer<React.Reducer<State, Action>>(
+    reducer,
+    initialState
+  );
+
+  const contextValue = {
+    state,
+    dispatch
+  };
 
   return (
-    <StoreContext.Provider value={value}>{children}</StoreContext.Provider>
+    <StoreContext.Provider value={contextValue}>{children}</StoreContext.Provider>
   );
 };
 

@@ -6,7 +6,7 @@ import LinkedItem from '@elements/LinkedItem';
 import { H1, H3, H4, P } from '@elements/Text';
 import asPortalPage from '@hoc/asPortalPage';
 import { showInfoAlert } from '@utils/alert';
-import { CartItem, StoreContext } from '@utils/store';
+import { OrderItem, CartState, StoreContext } from '@utils/store';
 import {
   ArrowNarrowLeftIcon,
   CheckCircleIcon,
@@ -24,16 +24,16 @@ import Tag from '@common/components/elements/Tag';
 const Cart = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const { state, dispatch }: any = useContext(StoreContext);
+  const { state, dispatch } = useContext<CartState>(StoreContext);
   const { cart } = state;
-  const { cartItems } = cart;
+  const { orderItems } = cart;
 
-  const totalPrice = cartItems.reduce(
-    (a: number, c: CartItem) => a + c.price * c.quantity,
+  const totalPrice = orderItems.reduce(
+    (a: number, c: OrderItem) => a + c.price * c.quantity,
     0
   );
-  const totalQuantity = cartItems.reduce(
-    (a: number, c: CartItem) => a + c.quantity,
+  const totalQuantity = orderItems.reduce(
+    (a: number, c: OrderItem) => a + c.quantity,
     0
   );
 
@@ -52,16 +52,16 @@ const Cart = () => {
       payload: {
         totalPrice: totalPrice,
         totalQuantity,
-        paymentMethod: PaymentMethod.CARD,
+        paymentMethod: PaymentMethod.COD,
       },
     });
 
     router.push('/checkout');
   };
 
-  const addToCart = (product: CartItem) => {
-    const existItem = state.cart.cartItems.find(
-      (item: CartItem) => item.id === product.id
+  const addToCart = (product: OrderItem) => {
+    const existItem = state.cart.orderItems.find(
+      (item: OrderItem) => item.id === product.id
     );
 
     const quantity = existItem ? existItem.quantity + 1 : 1;
@@ -79,9 +79,9 @@ const Cart = () => {
     });
   };
 
-  const removeFromCart = (product: CartItem) => {
-    const existItem = state.cart.cartItems.find(
-      (item: CartItem) => item.id === product.id
+  const removeFromCart = (product: OrderItem) => {
+    const existItem = state.cart.orderItems.find(
+      (item: OrderItem) => item.id === product.id
     );
 
     const quantity = existItem ? existItem.quantity - 1 : 0;
@@ -98,7 +98,7 @@ const Cart = () => {
 
   return (
     <>
-      {cart.cartItems.length > 0 ? (
+      {cart.orderItems.length > 0 ? (
         <div className="flex sm:flex-row flex-col justify-between">
           <div className="lg:w-1/2 md:w-8/12 w-full bg-white overflow-y-auto overflow-x-hidden sm:h-screen">
             <LinkedItem
@@ -108,7 +108,7 @@ const Cart = () => {
               <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
               <P>Continue to Shopping</P>
             </LinkedItem>
-            {cart.cartItems.map((item: CartItem) => (
+            {cart.orderItems.map((item: OrderItem) => (
               <div className="md:flex items-center mt-4 py-8 border-b border-gray-200">
                 <LinkedItem
                   href={`/product/${item.id}`}

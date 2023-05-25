@@ -4,6 +4,7 @@ export const Brand = {
  };
 
 export const PAGE_SIZES = [10, 20, 30, 40, 50];
+export const STRIPE_AMOUNT = 100;
 
 export const Months = [
   { value: "01", label: "01 - January" },
@@ -32,7 +33,7 @@ export const Years = [
 ];
 
 export const PaymentMethod = {
-  COD: "Cash On Delivery",
+  COD: "Cash",
   CARD: "Card",
   PAYPAL: "PayPal",
   STRIPE: "Stripe",
@@ -49,3 +50,28 @@ export const GlobalState = {
   CLEAR_ORDER: "CLEAR_ORDER",
   CART_CLEAR_AFTER_PAYMENT: "CART_CLEAR_AFTER_PAYMENT",
 };
+
+export const CARD_OPTIONS = {
+  iconStyle: 'solid' as const,
+  style: {
+    base: {
+      iconColor: '#8898AA',
+      color: 'black',
+      fontWeight: 300,
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSize: '19px',
+      '::placeholder': {
+        color: ' #a0aec0'
+      }
+    },
+    invalid: {
+      iconColor: '#e85746',
+      color: '#e85746'
+    }
+  },
+  classes: {
+    focus: 'is-focused',
+    empty: 'is-empty'
+  },
+  hidePostalCode: true
+}

@@ -2,10 +2,11 @@ import { TableEntity } from ".";
 
 export type Address = {
   fullName: string;
+  mobile: string;
   street: string;
   zipCode: string;
   city: string;
-  state: State;
+  state: string;
   country: string;
 } & TableEntity;
 
