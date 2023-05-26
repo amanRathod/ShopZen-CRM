@@ -2,13 +2,13 @@ import Divider from '@common/components/elements/Divider';
 import LinkedItem from '@common/components/elements/LinkedItem';
 import { H2, H3, H4, H5, P } from '@common/components/elements/Text';
 import { formatMoney } from '@utils/formatter';
-import { CartItem, StoreContext } from '@utils/store';
+import { CartState, OrderItem, StoreContext } from '@utils/store';
 import Image from 'next/image';
 import { useContext } from 'react';
 
 type OrderInfoField = {
   field: string;
-  value: string;
+  value: string | number;
 };
 
 const OrderInfoField = ({ field, value }: OrderInfoField) => {
@@ -21,15 +21,15 @@ const OrderInfoField = ({ field, value }: OrderInfoField) => {
 };
 
 const OrderSummary = () => {
-  const { state }: any = useContext(StoreContext);
-  const { cartItems } = state.cart;
+  const { state } = useContext<CartState>(StoreContext);
+  const { orderItems } = state.cart;
 
-  const totalPrice = cartItems.reduce(
-    (a: number, c: CartItem) => a + c.price * c.quantity,
+  const totalPrice = orderItems.reduce(
+    (a: number, c: OrderItem) => a + c.price * c.quantity,
     0
   );
-  const totalItems = cartItems.reduce(
-    (a: number, c: CartItem) => a + c.quantity,
+  const totalQuantity = orderItems.reduce(
+    (a: number, c: OrderItem) => a + c.quantity,
     0
   );
 
@@ -38,7 +38,7 @@ const OrderSummary = () => {
       <div className="flex flex-col">
         <div className="flex flex-col md:mt-10 mt-4">
           <H2>Order Summary</H2>
-          {cartItems.map((item: CartItem) => (
+          {orderItems.map((item: OrderItem) => (
             <div
               key={item.id}
               className="flex flex-row justify-between items-center mt-4 py-2 border-b border-gray-200"
@@ -64,7 +64,7 @@ const OrderSummary = () => {
             </div>
           ))}
 
-          <OrderInfoField field="Total Items" value={totalItems} />
+          <OrderInfoField field="Total Items" value={totalQuantity} />
           <OrderInfoField
             field="Total Charges"
             value={formatMoney(totalPrice)}

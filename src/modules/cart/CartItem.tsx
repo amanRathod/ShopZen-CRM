@@ -2,11 +2,7 @@
 type Props = {}
 
 const CartItem: React.FC<Props> = () => {
-  return (
-    <div>
-        
-    </div>
-  );
+  return null;
 }
 
 export default CartItem;

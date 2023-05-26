@@ -1,14 +1,14 @@
-import clsx from "clsx";
-import React from "react";
+import clsx from 'clsx';
+import React from 'react';
 
 type Props = {
   className?: string;
 };
 
-const InlineLoader: React.FC<Props> = ({ className = "" }) => {
+const InlineLoader: React.FC<Props> = ({ className = '' }) => {
   return (
     <svg
-      className={clsx("w-5 h-5 text-accent animate-spin", className)}
+      className={clsx('w-5 h-5 text-primary-600 animate-spin', className)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

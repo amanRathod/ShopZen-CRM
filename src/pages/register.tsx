@@ -1,7 +1,7 @@
 import Form from '@components/form';
 import AuthPage from '@layouts/page/AuthPage';
 import * as y from 'yup';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Input from '@elements/form/Input';
 import LinkedItem from '@elements/LinkedItem';
 import { useAuth } from '@lib/auth';
@@ -19,8 +19,12 @@ const registerSchema = y.object().shape({
 });
 
 const Register = () => {
-  const { register } = useAuth();
+  const { user, register, refetchUser } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    if (user) router.replace("/");
+  }, [user]);
 
   return (
     <AuthPage pageTitle="Login" title="Register your account">
@@ -35,9 +39,8 @@ const Register = () => {
         }}
         onSubmit={async (data) => {
           delete data.confirmPassword;
-          const user = await register(data);
-
-          if (user) router.push('/');
+          await register(data);
+          await refetchUser();
         }}
         submitButton={{ title: 'Sign Up', className: 'w-full' }}
       >

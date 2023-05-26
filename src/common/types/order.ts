@@ -8,17 +8,18 @@ export type Order = {
   totalPrice: number;
   totalQuantity: number;
   status: string;
-  dateCreated: Date;
-  lastUpdated: Date;
-  customer: User;
+  dateCreated: string;
+  orderNumber: string;
   orderItems: OrderItem[];
   billingAddress: Address;
   shippingAddress: Address;
 } & TableEntity
 
 export type OrderItem = {
-  imageUrl: string;
   price: number;
   quantity: number;
-  product: Product;
+  productId: string;
+  name: string;
+  description: string;
+  image: string;
 } & TableEntity

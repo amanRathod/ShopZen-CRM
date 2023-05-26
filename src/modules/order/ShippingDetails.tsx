@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import * as y from 'yup';
+import { useRouter } from 'next/router';
+import { useQuery } from '@lib/react-query';
+import React, { useContext, useEffect, useState } from 'react';
+import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
 import { H2, P } from '@elements/Text';
 import { Address } from '@appTypes/address';
-import * as y from 'yup';
 import Form from '@components/form';
 import Input from '@elements/form/Input';
 import ListInput from '@elements/form/ListInput';
-import { ArrowNarrowLeftIcon, LockClosedIcon } from '@heroicons/react/outline';
-import LinkedItem from '@common/components/elements/LinkedItem';
-import { useRouter } from 'next/router';
-import { useQuery } from '@lib/react-query';
+import Checkbox from '@elements/form/Checkbox';
+import LinkedItem from '@elements/LinkedItem';
 import { endpoint } from '@utils/constants/endpoints';
 import { Country } from '@appTypes/address';
 import { State } from '@appTypes/address';
-import Checkbox from '@common/components/elements/form/Checkbox';
+import { CartState, StoreContext } from '@utils/store';
+import { GlobalState } from '@utils/constants';
 
 type Props = {
   shippingAddress?: Address;
@@ -50,6 +52,7 @@ const ShippingDetails: React.FC<Props> = ({
   shippingAddress = initialShippingAddress,
 }) => {
   const router = useRouter();
+  const { state, dispatch } = useContext<CartState>(StoreContext);
   const [currentCountryCode, setCurrentCountryCode] = useState('IN');
 
   const { data } = useQuery(
@@ -95,7 +98,7 @@ const ShippingDetails: React.FC<Props> = ({
         <div className="flex flex-col md:mt-10 mt-4">
           <H2>Shipping Details</H2>
           <LinkedItem
-            className="flex items-center text-gray-500 hover:text-gray-600 cursor-pointer"
+            className="flex items-center text-gray-500 hover:text-primary-600 cursor-pointer"
             href="/cart"
           >
             <ArrowNarrowLeftIcon className="w-5 h-5 mr-1" />
@@ -108,6 +111,16 @@ const ShippingDetails: React.FC<Props> = ({
             onSubmit={async (shippingAddress, reset) => {
               shippingAddress.zipCode = shippingAddress.zipCode.toString();
               shippingAddress.mobile = shippingAddress.mobile.toString();
+
+              dispatch({
+                type: GlobalState.SAVE_SHIPPING_ADDRESS,
+                payload: { ...shippingAddress },
+              });
+
+              dispatch({
+                type: GlobalState.SAVE_BILLING_ADDRESS,
+                payload: { ...shippingAddress },
+              });
 
               await router.push('/payment');
               return;
@@ -158,7 +171,10 @@ const ShippingDetails: React.FC<Props> = ({
 
               <ListInput options={states} name="state" label="State" required />
             </Form.Row>
-            <Checkbox name="billingAddress" label="Billing address is the same as shipping address" />
+            <Checkbox
+              name="billingAddress"
+              label="Billing address is the same as shipping address"
+            />
           </Form>
         </div>
       </div>

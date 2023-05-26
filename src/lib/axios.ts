@@ -1,13 +1,19 @@
-import Axios, { AxiosRequestConfig } from "axios";
+import Axios, { AxiosRequestConfig, HeadersDefaults } from "axios";
 import { storage } from "@utils/storage";
 
 // Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+type headers = {
+  'Content-Type': string;
+  Accept: string;
+  Authorization: string;
+};
 
 const axios = Axios.create({
   baseURL: process.env.SERVER_BASE_URL,
   headers: {
     "Content-Type": "application/json",
-  },
+  }as headers & HeadersDefaults,
 });
 
 axios.interceptors.response.use(

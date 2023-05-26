@@ -37,13 +37,12 @@ export const endpoint = {
   },
 
   order: {
-    get: (id: string) => `/api/order/${id}`,
-    add: "/api/order",
-    getAll: "/api/order",
-    update: (id: string) => `/api/order/${id}`,
-    filter: (values: {}) => `/api/order/?${new URLSearchParams(values)}`,
-    orderById: (id: string) => `/api/order/user/${id}`,
-    getByUserEmail: (email: string) => `/api/orders/search/findByCustomerEmailOrderByDateCreatedDesc?email=${email}`,
+    get: (id: string) => `/api/v1/order/${id}`,
+    getAll: "/api/v1/order",
+    add: "/api/v1/checkout/purchase",
+    payment: "/api/v1/checkout/payment-intent",
+    update: (id: string) => `/api/v1/order/${id}`,
+    filter: (values: {}) => `/api/v1/order/?${new URLSearchParams(values)}`,
   },
 
   country: {

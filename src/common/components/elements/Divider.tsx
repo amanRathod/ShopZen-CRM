@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Divider: React.FC<Props> = ({ className }) => {
-  return <hr className={clsx("h-px border-none bg-primary-500", className)} />;
+  return <hr className={clsx("h-px border-none bg-gray-200", className)} />;
 };
 
 export default Divider;

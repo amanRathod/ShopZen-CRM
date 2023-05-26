@@ -3,28 +3,28 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import ErrorBox from '@elements/ErrorBox';
 import asPortalPage from '@hoc/asPortalPage';
-import data from '@utils/data';
-import { PrimaryButton, TertiaryButton } from '@elements/button';
+import { TertiaryButton } from '@elements/button';
 import { useContext, useState } from 'react';
 import {
   CheckCircleIcon,
-  CheckIcon,
   StarIcon,
   XCircleIcon,
 } from '@heroicons/react/outline';
 import { H2, H3, P } from '@elements/Text';
-import { StoreContext } from '@utils/store';
+import { CartState, StoreContext } from '@utils/store';
 import { Product } from '@appTypes/product';
-import { showInfoAlert, showWarningAlert } from '@utils/alert';
+import { showInfoAlert } from '@utils/alert';
 import Divider from '@elements/Divider';
 import { endpoint } from '@utils/constants/endpoints';
 import { useQuery } from '@lib/react-query';
 import InlineLoader from '@elements/loader/InlineLoader';
 import { formatMoney } from '@utils/formatter';
-import CounterInput from '@common/components/elements/form/CounterInput';
+import CounterInput from '@elements/form/CounterInput';
+import { GlobalState } from '@utils/constants';
+import { showSuccessToast } from '@utils/toast';
 
 const Product: NextPage = () => {
-  const { state, dispatch }: any = useContext(StoreContext);
+  const { state, dispatch } = useContext<CartState>(StoreContext);
   const [count, setCount] = useState(1);
 
   const router = useRouter();
@@ -77,7 +77,7 @@ const Product: NextPage = () => {
   };
 
   const addToCart = () => {
-    const existItem = state.cart.cartItems.find(
+    const existItem = state.cart.orderItems.find(
       (item: Product) => item.id === product.id
     );
     const quantity = existItem ? existItem.quantity + count : count;
@@ -90,11 +90,16 @@ const Product: NextPage = () => {
       return;
     }
 
-    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+    dispatch({
+      type: GlobalState.CART_ADD_ITEM,
+      payload: { ...product, quantity, productId: product.id },
+    });
+
+    showSuccessToast('Product added to cart!');
   };
 
   const removeFromCart = () => {
-    dispatch({ type: 'CART_REMOVE_ITEM', payload: product.id });
+    dispatch({ type: GlobalState.CART_REMOVE_ITEM, payload: product.id });
   };
 
   const { name, description, price, image, stock } = product;
@@ -122,7 +127,7 @@ const Product: NextPage = () => {
               <StarIcon className="fill-yellow-400 h-6 w-8" />
               <StarIcon className="h-6 w-8" />
             </div>
-            <P className=" focus:ring-2 focus:ring-primary-800 text-primary-800 hover:underline hover:text-primary-900 duration-100 cursor-pointer">
+            <P className=" focus:ring-2 focus:ring-gray-600 text-gray-600 hover:underline hover:text-gray-700 duration-100 cursor-pointer">
               22 reviews
             </P>
           </div>
@@ -159,7 +164,7 @@ const Product: NextPage = () => {
 
             <TertiaryButton
               className={
-                `focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-tertiary-800 font-medium text-base leading-4 w-full py-5 lg:mt-12 mt-6` +
+                `font-medium w-full py-3  mt-6` +
                 (stock > 0 ? '' : ' cursor-not-allowed')
               }
               onClick={addToCart}

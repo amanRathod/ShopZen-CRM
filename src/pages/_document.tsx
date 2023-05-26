@@ -3,7 +3,7 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 class MyDocument extends Document {
   render() {
     return (
-      <Html className="h-full bg-primary-50">
+      <Html className="h-full bg-white">
         <Head>
           <link rel="icon" href="https://res.cloudinary.com/di9zvktdc/image/upload/v1682476848/ShopZen/shopZen-miniLogo.png" />
         </Head>

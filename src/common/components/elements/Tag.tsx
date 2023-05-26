@@ -10,7 +10,7 @@ const Tag: Component<TextProps> = ({ className, children, title }) => {
   return (
     <P
       className={clsx(
-        "inline-block capitalize bg-gray-300 rounded-full px-3 py-1 !text-sm cursor-default",
+        "inline-block capitalize bg-gray-200  rounded-full px-3 py-1 !text-sm cursor-default",
         className
       )}
       title={title}
