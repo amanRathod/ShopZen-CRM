@@ -80,7 +80,7 @@ const OrderHistory: NextPage = () => {
           <Divider />
 
           {order?.orderItems?.map((item: OrderItem) => (
-            <ProductList key={item.id} {...item} />
+            <ProductList key={item.id} {...item} status={order.status} />
           ))}
         </div>
       ))}

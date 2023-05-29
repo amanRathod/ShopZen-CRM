@@ -43,8 +43,8 @@ const shippingAddressSchema = y.object().shape({
   country: y.string().required('Country is required'),
   zipCode: y
     .string()
-    .length(6, 'Zip Code must be of 6 digits')
-    .required('Zip code is required'),
+    .length(6, 'Pin Code must be of 6 digits')
+    .required('Pin code is required'),
 });
 
 const initialShippingAddress = {
@@ -246,9 +246,11 @@ const ShippingDetails: React.FC<Props> = ({
                 <Input name="city" label="City" placeholder="City" required />
 
                 <Input
+                  type="number"
                   name="zipCode"
-                  label="Zip Code"
-                  placeholder="Zip Code"
+                  label="Pin Code"
+                  placeholder="Pin Code"
+                  inputClassName="arrows-none"
                   required
                 />
               </Form.Row>

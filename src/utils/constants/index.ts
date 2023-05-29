@@ -39,6 +39,17 @@ export const PaymentMethod = {
   STRIPE: "Stripe",
 }
 
+export const OrderStatus = {
+  CREATED: "CREATED",
+  PENDING: "PENDING",
+  PROCESSING: "PROCESSING",
+  SHIPPED: "SHIPPED",
+  DELIVERED: "DELIVERED",
+  CANCELLED: "CANCELLED",
+  REFUNDED: "REFUNDED",
+  RETURNED: "RETURNED",
+}
+
 export const GlobalState = {
   CART_ADD_ITEM: "CART_ADD_ITEM",
   CART_REMOVE_ITEM: "CART_REMOVE_ITEM",

@@ -52,6 +52,7 @@ const OrderDetails = () => {
     dateCreated,
     orderTrackingNumber,
     totalPrice,
+    status,
   } = order;
 
   return (
@@ -80,7 +81,7 @@ const OrderDetails = () => {
 
         <div className="border-2 w-full bg-gray-50 mb-10">
           {order.orderItems.map((item: OrderItem) => {
-            return <ProductList {...item} />;
+            return <ProductList {...item} status={status}/>;
           })}
         </div>
 

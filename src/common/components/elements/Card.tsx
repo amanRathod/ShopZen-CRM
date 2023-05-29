@@ -4,6 +4,7 @@ import React from "react";
 type Props = {
   className?: string;
   children?: React.ReactNode;
+  onClick?: () => void;
 };
 
 const Card: React.FC<Props> = ({ className, children }) => {
