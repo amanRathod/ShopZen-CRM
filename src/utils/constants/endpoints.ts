@@ -21,6 +21,10 @@ export const endpoint = {
     filter: (values: {}) => `api/v1/customer/?${new URLSearchParams(values)}`,
   },
 
+  address: {
+    getUserAddress: "api/v1/customer/address",
+  },
+
   product: {
     get: (id: string) => `/api/products/${id}`,
     getAll: "/api/products",

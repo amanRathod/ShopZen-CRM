@@ -9,7 +9,7 @@ export type Order = {
   totalQuantity: number;
   status: string;
   dateCreated: string;
-  orderNumber: string;
+  paymentMethod: string;
   orderItems: OrderItem[];
   billingAddress: Address;
   shippingAddress: Address;
