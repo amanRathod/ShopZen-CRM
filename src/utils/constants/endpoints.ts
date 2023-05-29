@@ -23,6 +23,7 @@ export const endpoint = {
 
   address: {
     getUserAddress: "api/v1/customer/address",
+    update: (id: string) => `api/v1/customer/address/${id}`,
   },
 
   product: {
