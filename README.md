@@ -1,39 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [Shopzen](https://shop-zen-crm.vercel.app/)
+
+Shopzen is an ecommerce project built using Spring Boot as the backend framework and Next.js as the frontend framework. It aims to provide a seamless shopping experience for Gen-Z users, allowing them to browse and purchase products online, as well as make payments using Stripe.
+ 
+## Features
+  - User registration and authentication
+  - Product catalog browsing and searching
+  - Product filtering and sorting options
+  - Add products to cart and manage cart items
+  - Checkout process with integrated Stripe payment
+  - Order history and tracking
+  - User profile management
+  - Search functionality with pagination support
+  - Responsive and user-friendly design optimized for Gen-Z users
+
+## Technologies Used
+  ### Backend
+   - Java 11
+   - Spring Boot
+   - Spring MVC
+   - Spring Security
+   - Hibernate
+   - PostgreSQL
+   - Stripe API for payment processing
+
+  ### Frontend
+   - Next.js (React framework with TypeScript)
+   - HTML/CSS/JavaScript
+   - Tailwind CSS for styling
+
 
 ## Getting Started
 
-First, run the development server:
+To set up and run the project locally, follow these steps:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+   1. Clone the backend repository: git clone https://github.com/amanRathod/ShopZen-BE.git
+   2. Install the required dependencies and tools.
+   3. Configure the backend server connection and database settings.
+   4. Run the backend Spring Boot application.
+   5. Clone the frontend repository: git clone https://github.com/amanRathod/ShopZen-CRM.git
+   6. Install the required dependencies: npm install
+   7. Configure the backend server URL in the frontend code.
+   8. Run the frontend application: npm run dev
+   9. Access the application in your web browser at http://localhost:3000.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+   10. Sign up for an account or log in if you already have one.
+   11. Browse the product catalog, filter and sort products based on preferences.
+   12. Use the search bar to find specific products by name or keyword.
+   13. Pagination allows you to navigate through the search results.
+   14. Add desired products to the cart.
+   15. Proceed to checkout, enter shipping and payment details.
+   16. Complete the payment using Stripe integration.
+   17. View order history and track order status.
+   18. Manage user profile, including address and payment information.
+   19. Enjoy a seamless shopping experience tailored for Gen-Z users.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Backend Application
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+  - Backend Repository: [Shopzen Backend](https://github.com/amanRathod/ShopZen-BE)
+  - Backend Deployment: [Azure Deployment](https://shopzen.azurewebsites.net/)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Frontend Application
 
-## Learn More
+  - Frontend Repository: [Shopzen Frontend](https://github.com/amanRathod/ShopZen-CRM)
+  - Frontend Deployment: [Vercel Deployment](https://shop-zen-crm.vercel.app/)
 
-To learn more about Next.js, take a look at the following resources:
+## Linear.app Branch Management
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Used Linear.app to manage our project's Git branches. Linear.app provides an intuitive interface for tracking and organizing tasks, and it seamlessly integrates with Git repositories.
+   
+## API Documentation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The API documentation for the Shopzen backend can be found at [API Documentation](https://documenter.getpostman.com/view/15820246/2s93m911HN).
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# ShopZen-CRM
+We welcome contributions from the open-source community. If you find any issues or have suggestions for improvements, please submit a pull request or open an issue in the GitHub repository.
