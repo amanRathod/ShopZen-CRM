@@ -13,6 +13,15 @@ Shopzen is an ecommerce project built using Spring Boot as the backend framework
   - Search functionality with pagination support
   - Responsive and user-friendly design optimized for Gen-Z users
 
+## Website Screenshots
+- [**Homepage**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429153/ShopZen/screenshot/HomePage_d8twvx.png)
+- [**Shopping Cart**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429145/ShopZen/screenshot/Cart_epfmvx.png)
+- [**Checkout**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429147/ShopZen/screenshot/Checkout_adw5hr.png)
+- [**Payment Checkout**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429141/ShopZen/screenshot/Payment_wzh84u.png)
+- [**Order History**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429150/ShopZen/screenshot/OrderHistory_vq7t0z.png)
+- [**Order Details**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429145/ShopZen/screenshot/OrderDetail_xsqjzr.png)
+- [**Profile**](https://res.cloudinary.com/di9zvktdc/image/upload/v1685429141/ShopZen/screenshot/Profile_kxuoyk.png)
+
 ## Technologies Used
   ### Backend
    - Java 11
