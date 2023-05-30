@@ -21,7 +21,11 @@ export default function Custom404() {
               Oops! Looks like you followed a bad link. If you think this is a
               problem with us, please tell us.
             </P>
-            <TertiaryButton Icon={ChevronLeftIcon} className="mx-4 h-10 w-44">
+            <TertiaryButton
+              Icon={ChevronLeftIcon}
+              className="mx-4 h-10 w-44"
+              href="/"
+            >
               Go Back Home
             </TertiaryButton>
           </div>

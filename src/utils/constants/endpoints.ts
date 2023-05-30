@@ -2,7 +2,7 @@ export const endpoint = {
   auth: {
     register: "/api/v1/auth/register",
     login: "/api/v1/auth/login",
-    logout: "/api/v1/auth/logout",
+    logout: "/api/v1/customer/logout",
     forgotPassword: "/api/v1/auth/forgot-password",
     resetPassword: "/api/v1/auth/reset-password",
   },
@@ -19,6 +19,12 @@ export const endpoint = {
     getAll: "api/v1/customer",
     update: (id: string) => `api/v1/customer${id}`,
     filter: (values: {}) => `api/v1/customer/?${new URLSearchParams(values)}`,
+  },
+
+  address: {
+    get: "api/v1/customer/address",
+    update: (id: string) => `api/v1/address/${id}`,
+    add: "/api/v1/address",
   },
 
   product: {

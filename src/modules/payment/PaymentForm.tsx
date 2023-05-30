@@ -24,7 +24,6 @@ const PaymentForm = ({ isStripeFormVisible }: PaymentFormProps) => {
   const elements = useElements();
   const router = useRouter();
   const { user } = useAuth();
-  console.log('user', user);
 
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useContext<CartState>(StoreContext);
@@ -40,7 +39,7 @@ const PaymentForm = ({ isStripeFormVisible }: PaymentFormProps) => {
       card: elements?.getElement(CardElement)!,
       billing_details: {
         name: shippingAddress.fullName,
-        phone: shippingAddress.mobile,
+        phone: shippingAddress.phone,
         email: user?.email,
         address: {
           line1: shippingAddress.street,
@@ -111,9 +110,10 @@ const PaymentForm = ({ isStripeFormVisible }: PaymentFormProps) => {
       }
 
       const { data } = await placeOrder();
+      setLoading(false);
+
       if (!data) {
         setCardErrorMessage(data.message);
-        setLoading(false);
         return;
       }
 
@@ -127,7 +127,6 @@ const PaymentForm = ({ isStripeFormVisible }: PaymentFormProps) => {
         'Your order has been placed successfully!'
       );
 
-      setLoading(false);
       router.push('/');
     } catch (error) {
       setLoading(false);

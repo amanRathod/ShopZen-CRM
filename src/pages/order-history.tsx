@@ -17,13 +17,7 @@ import { Router, useRouter } from 'next/router';
 
 const OrderHistory: NextPage = () => {
   const router = useRouter();
-  const { data, isLoading } = useQuery<{ orders: Order }>(
-    endpoint.order.getAll,
-    '',
-    {},
-    false,
-    false
-  );
+  const { data, isLoading } = useQuery(endpoint.order.getAll, 'orders', {}, true);
 
   if (isLoading || !data.orders) return <InlineLoader />;
   const { orders } = data;
@@ -86,7 +80,7 @@ const OrderHistory: NextPage = () => {
           <Divider />
 
           {order?.orderItems?.map((item: OrderItem) => (
-            <ProductList key={item.id} {...item} />
+            <ProductList key={item.id} {...item} status={order.status} />
           ))}
         </div>
       ))}

@@ -1,11 +1,14 @@
 import { TableEntity } from ".";
+import { Address } from "./address";
 
 export type User = {
   email: string;
   firstName: string;
   lastName?: string;
-  role: "ADMIN" | "CUSTOMER";
+  role: string;
   image?: string;
+  primaryAddress?: Address;
+  addresses?: Address[];
 } & TableEntity;
 
 export type LoginCredentials = {

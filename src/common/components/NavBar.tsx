@@ -3,6 +3,7 @@ import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
+  UserAddIcon,
 } from '@heroicons/react/outline';
 import clsx from 'clsx';
 import React, { useContext, useEffect, useState } from 'react';
@@ -114,7 +115,7 @@ const Navbar: React.FC<Props> = ({ className }) => {
                   user.image ||
                   getDummyPicture(`${user.firstName} ${user.lastName}`)
                 }
-                className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-gray-200"
+                className="inline-block h-[2.375rem] w-[2.375rem] rounded-full ring-2 ring-primary-600"
               />
             </Menu.Button>
             <Menu.Items className="absolute right-0 w-56 origin-top-right bg-white rounded shadow-lg ">
