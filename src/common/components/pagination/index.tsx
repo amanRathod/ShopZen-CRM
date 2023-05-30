@@ -55,7 +55,7 @@ const Pagination: React.FC<Props> = ({
         nextLinkClassName={
           'block w-full h-full outline-none focus:outline-none'
         }
-        activeClassName={'bg-blue-600 text-white border'}
+        activeClassName={'bg-primary-600 shadow-primary-400 text-white border'}
         breakClassName={'text-gray-500 inline-block mx-2'}
         disabledClassName={'text-gray-400 inline-block mx-2'}
         previousLabel={'← Previous'}

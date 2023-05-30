@@ -17,6 +17,7 @@ import {
 import Tag from '@elements/Tag';
 import LinkedItem from '@elements/LinkedItem';
 import { withAuth } from '@hoc/withAuth';
+import { showInfoAlert } from '@utils/alert';
 
 const OrderDetails = () => {
   const router = useRouter();
@@ -81,7 +82,7 @@ const OrderDetails = () => {
 
         <div className="border-2 w-full bg-gray-50 mb-10">
           {order.orderItems.map((item: OrderItem) => {
-            return <ProductList {...item} status={status}/>;
+            return <ProductList {...item} status={status} />;
           })}
         </div>
 
@@ -123,7 +124,13 @@ const OrderDetails = () => {
               <H4 className="text-gray-600">{formatMoney(totalPrice)}</H4>
             </div>
             <div className="pt-1 md:pt-4  xl:pt-8 space-y-6 md:space-y-8">
-              <TertiaryButton className="w-full">
+              <TertiaryButton
+                className="w-full"
+                onClick={() => showInfoAlert(
+                  'Your order is on the way!',
+                  'We will send you an email with your tracking number.'
+                )}
+              >
                 Track Your Order
               </TertiaryButton>
             </div>
