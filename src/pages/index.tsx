@@ -11,6 +11,7 @@ import { useQuery } from '@lib/react-query';
 import GridContainer from '@common/components/elements/GridContainer';
 import { H4, P } from '@common/components/elements/Text';
 import { CameraIcon } from '@heroicons/react/outline';
+import Notification from '@common/components/Notification';
 
 const Home: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,6 +75,7 @@ const Home: NextPage = () => {
           </P>
         </div>
       )}
+      <Notification />
     </>
   );
 };
