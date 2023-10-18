@@ -6,6 +6,7 @@ class MyDocument extends Document {
       <Html className="h-full bg-white">
         <Head>
           <link rel="icon" href="https://res.cloudinary.com/di9zvktdc/image/upload/v1682476848/ShopZen/shopZen-miniLogo.png" />
+
         </Head>
         <body className="h-full">
           <Main />
